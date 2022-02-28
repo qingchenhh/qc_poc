@@ -30,7 +30,7 @@ if (strstr($str, 'Clash')) {
 	echo $poc;
 } else {
 	// echo "哎呀呀！这是Clash的配置文件啦。不能用浏览器直接访问。";
-  header('Refresh:3;url=clash://install-config?url=http://127.0.0.1/clash.php');
+  header('url=clash://install-config?url=http://127.0.0.1/clash.php');
 }
 
 ?>
