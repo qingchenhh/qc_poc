@@ -4,7 +4,7 @@
 
 然后就频频出现有人刷这个Spring Cloud Function SPEL的“假”0day。
 
-在拿到真0day的exp的情况下就抓头看看这个“假”0day。
+在拿到真0day的exp的情况下就转头看看这个“假”0day。
 
 还是那句话。辣鸡。大佬看着辣眼睛请绕过。
 
