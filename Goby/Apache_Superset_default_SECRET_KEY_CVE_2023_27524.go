@@ -33,7 +33,7 @@ func init() {
         "uri": "/api/v1/database/1",
         "follow_redirect": true,
         "header": {
-          "Cookie": "session=eyJfdXNlcl9pZCI6MSwidXNlcl9pZCI6MX0.ZEo--Q.imbCp_QaDbdE266Q8Bqd8BZreGY"
+          "Cookie": "session=eyJfdXNlcl9pZCI6MSwidXNlcl9pZCI6MX0.ZE5_mg.FvYyXJsdj5DrpNpJngoA7efRanc"
         },
         "data_type": "text",
         "data": ""
@@ -66,7 +66,7 @@ func init() {
         "uri": "/api/v1/database/1",
         "follow_redirect": true,
         "header": {
-          "Cookie": "session=eyJfdXNlcl9pZCI6MSwidXNlcl9pZCI6MX0.ZEo_ag.c1zZy9SlwKHrU4RCA2eWZlYtKWM"
+          "Cookie": "session=eyJfdXNlcl9pZCI6MSwidXNlcl9pZCI6MX0.ZE5_tw.b6454ql-fyJMBqIk6qiq_E0SPgI"
         },
         "data_type": "text",
         "data": ""
@@ -99,7 +99,7 @@ func init() {
         "uri": "/api/v1/database/1",
         "follow_redirect": true,
         "header": {
-          "Cookie": "session=eyJfdXNlcl9pZCI6MSwidXNlcl9pZCI6MX0.ZEpEfA.I3s4WBNKYVrQ8vPN9K_o0qvcuRc"
+          "Cookie": "session=eyJfdXNlcl9pZCI6MSwidXNlcl9pZCI6MX0.ZE5_4Q.s2kzYxXp6-8I632vtgoiuQJ81us"
         },
         "data_type": "text",
         "data": ""
@@ -132,7 +132,40 @@ func init() {
         "uri": "/api/v1/database/1",
         "follow_redirect": true,
         "header": {
-          "Cookie": "session=eyJfdXNlcl9pZCI6MSwidXNlcl9pZCI6MX0.ZEo-5A.TCWJ9S4blxdFOvVHdbZZXoC-oLw"
+          "Cookie": "session=eyJfdXNlcl9pZCI6MSwidXNlcl9pZCI6MX0.ZE5__Q.JluJC6WODfntxW5n_mpQnq1g_8Y"
+        },
+        "data_type": "text",
+        "data": ""
+      },
+      "ResponseTest": {
+        "type": "group",
+        "operation": "AND",
+        "checks": [
+          {
+            "type": "item",
+            "variable": "$code",
+            "operation": "==",
+            "value": "200",
+            "bz": ""
+          },
+          {
+            "type": "item",
+            "variable": "$body",
+            "operation": "contains",
+            "value": "\"database_name\"",
+            "bz": ""
+          }
+        ]
+      },
+      "SetVariable": []
+    },
+    {
+      "Request": {
+        "method": "GET",
+        "uri": "/api/v1/database/1",
+        "follow_redirect": true,
+        "header": {
+          "Cookie": "session=eyJfdXNlcl9pZCI6MSwidXNlcl9pZCI6MX0.ZE6ALw.jJ_52EMd2iBxx000oy64mwlAX3I"
         },
         "data_type": "text",
         "data": ""
