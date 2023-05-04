@@ -31,7 +31,7 @@ func init() {
       "Request": {
         "method": "GET",
         "uri": "/api/v1/database/1",
-        "follow_redirect": true,
+        "follow_redirect": false,
         "header": {
           "Cookie": "session=eyJfdXNlcl9pZCI6MSwidXNlcl9pZCI6MX0.ZE5_mg.FvYyXJsdj5DrpNpJngoA7efRanc"
         },
@@ -64,7 +64,7 @@ func init() {
       "Request": {
         "method": "GET",
         "uri": "/api/v1/database/1",
-        "follow_redirect": true,
+        "follow_redirect": false,
         "header": {
           "Cookie": "session=eyJfdXNlcl9pZCI6MSwidXNlcl9pZCI6MX0.ZE5_tw.b6454ql-fyJMBqIk6qiq_E0SPgI"
         },
@@ -97,7 +97,7 @@ func init() {
       "Request": {
         "method": "GET",
         "uri": "/api/v1/database/1",
-        "follow_redirect": true,
+        "follow_redirect": false,
         "header": {
           "Cookie": "session=eyJfdXNlcl9pZCI6MSwidXNlcl9pZCI6MX0.ZE5_4Q.s2kzYxXp6-8I632vtgoiuQJ81us"
         },
@@ -129,10 +129,43 @@ func init() {
     {
       "Request": {
         "method": "GET",
-        "uri": "/api/v1/database/1",
-        "follow_redirect": true,
+        "uri": "/superset/welcome/",
+        "follow_redirect": false,
         "header": {
           "Cookie": "session=eyJfdXNlcl9pZCI6MSwidXNlcl9pZCI6MX0.ZE5__Q.JluJC6WODfntxW5n_mpQnq1g_8Y"
+        },
+        "data_type": "text",
+        "data": ""
+      },
+      "ResponseTest": {
+        "type": "group",
+        "operation": "AND",
+        "checks": [
+          {
+            "type": "item",
+            "variable": "$code",
+            "operation": "==",
+            "value": "200",
+            "bz": ""
+          },
+          {
+            "type": "item",
+            "variable": "$body",
+            "operation": "contains",
+            "value": "Superset",
+            "bz": ""
+          }
+        ]
+      },
+      "SetVariable": []
+    },
+    {
+      "Request": {
+        "method": "GET",
+        "uri": "/api/v1/database/1",
+        "follow_redirect": false,
+        "header": {
+          "Cookie": "session=eyJfdXNlcl9pZCI6MSwidXNlcl9pZCI6MX0.ZE6ALw.jJ_52EMd2iBxx000oy64mwlAX3I"
         },
         "data_type": "text",
         "data": ""
@@ -162,8 +195,107 @@ func init() {
     {
       "Request": {
         "method": "GET",
-        "uri": "/api/v1/database/1",
-        "follow_redirect": true,
+        "uri": "/superset/welcome/",
+        "follow_redirect": false,
+        "header": {
+          "Cookie": "session=eyJfdXNlcl9pZCI6MSwidXNlcl9pZCI6MX0.ZE5_tw.b6454ql-fyJMBqIk6qiq_E0SPgI"
+        },
+        "data_type": "text",
+        "data": ""
+      },
+      "ResponseTest": {
+        "type": "group",
+        "operation": "AND",
+        "checks": [
+          {
+            "type": "item",
+            "variable": "$code",
+            "operation": "==",
+            "value": "200",
+            "bz": ""
+          },
+          {
+            "type": "item",
+            "variable": "$body",
+            "operation": "contains",
+            "value": "Superset",
+            "bz": ""
+          }
+        ]
+      },
+      "SetVariable": []
+    },
+    {
+      "Request": {
+        "method": "GET",
+        "uri": "/superset/welcome/",
+        "follow_redirect": false,
+        "header": {
+          "Cookie": "session=eyJfdXNlcl9pZCI6MSwidXNlcl9pZCI6MX0.ZE5_mg.FvYyXJsdj5DrpNpJngoA7efRanc"
+        },
+        "data_type": "text",
+        "data": ""
+      },
+      "ResponseTest": {
+        "type": "group",
+        "operation": "AND",
+        "checks": [
+          {
+            "type": "item",
+            "variable": "$code",
+            "operation": "==",
+            "value": "200",
+            "bz": ""
+          },
+          {
+            "type": "item",
+            "variable": "$body",
+            "operation": "contains",
+            "value": "Superset",
+            "bz": ""
+          }
+        ]
+      },
+      "SetVariable": []
+    },
+    {
+      "Request": {
+        "method": "GET",
+        "uri": "/superset/welcome/",
+        "follow_redirect": false,
+        "header": {
+          "Cookie": "session=eyJfdXNlcl9pZCI6MSwidXNlcl9pZCI6MX0.ZE5_4Q.s2kzYxXp6-8I632vtgoiuQJ81us"
+        },
+        "data_type": "text",
+        "data": ""
+      },
+      "ResponseTest": {
+        "type": "group",
+        "operation": "AND",
+        "checks": [
+          {
+            "type": "item",
+            "variable": "$code",
+            "operation": "==",
+            "value": "200",
+            "bz": ""
+          },
+          {
+            "type": "item",
+            "variable": "$body",
+            "operation": "contains",
+            "value": "Superset",
+            "bz": ""
+          }
+        ]
+      },
+      "SetVariable": []
+    },
+    {
+      "Request": {
+        "method": "GET",
+        "uri": "/superset/welcome/",
+        "follow_redirect": false,
         "header": {
           "Cookie": "session=eyJfdXNlcl9pZCI6MSwidXNlcl9pZCI6MX0.ZE6ALw.jJ_52EMd2iBxx000oy64mwlAX3I"
         },
@@ -185,7 +317,7 @@ func init() {
             "type": "item",
             "variable": "$body",
             "operation": "contains",
-            "value": "\"database_name\"",
+            "value": "Superset",
             "bz": ""
           }
         ]
