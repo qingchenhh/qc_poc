@@ -30,9 +30,11 @@ func init() {
     {
       "Request": {
         "method": "POST",
-        "uri": "/mobile/plugin/%20/browser.js",
-        "follow_redirect": true,
-        "header": {},
+        "uri": "/mobile/plugin/%20/browser.jsp",
+        "follow_redirect": false,
+        "header": {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
         "data_type": "text",
         "data": "isDis=1&browserTypeId=269&keyword=a%252527%252Bunion%252Bselect%252B35469%25252B11223%25252C%2525271"
       },

