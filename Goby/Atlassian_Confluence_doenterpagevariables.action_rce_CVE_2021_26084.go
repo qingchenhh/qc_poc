@@ -31,7 +31,7 @@ func init() {
       "Request": {
         "method": "POST",
         "uri": "/pages/doenterpagevariables.action",
-        "follow_redirect": true,
+        "follow_redirect": false,
         "header": {
           "Content-Type": "application/x-www-form-urlencoded",
           "Cookie": "JSESSIONID=3E654B6F4ADDF325CA2203596BD0115C",

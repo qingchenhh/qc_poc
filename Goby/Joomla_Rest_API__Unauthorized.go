@@ -33,7 +33,7 @@ func init() {
       "Request": {
         "method": "GET",
         "uri": "/api/index.php/v1/config/application?public=true",
-        "follow_redirect": true,
+        "follow_redirect": false,
         "header": {},
         "data_type": "text",
         "data": ""

