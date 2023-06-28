@@ -1,6 +1,6 @@
 # Goby的POC
 
-**2023年6月20日更新，共226个POC**
+**2023年6月28日更新，共228个POC**
 
 **因为Goby的原因，其中部分POC可能没法用，比如禅道的bypass rce，原因就是goby无法写出client=\`id\`的POC**
 
