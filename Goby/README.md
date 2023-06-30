@@ -8,4 +8,6 @@
 
 **一样的因为url不能带有url编码过的特殊字符。因此Contec SolarView Compact 安全漏洞 CVE-2023-23333漏洞的poc也没法用。**
 
+**本项目停更！！用afrog和nuclei多不好，非要用goby，poc又少又烦，吃相难看，建议kscan或者其他工具（goby也行扫扫端口还是可以的）扫描踢出web端口然后afrog和nuclei扫nday**
+
 还是用人家xray就好，人家内置那么多的poc，反正基本不用自己写，脚本小子就要有脚本小子的觉悟。
