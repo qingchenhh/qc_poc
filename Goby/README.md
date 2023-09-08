@@ -10,6 +10,6 @@
 
 ---
 
-**本项目停更！！用afrog和nuclei多不好，非要用goby，poc又少又烦，吃相难看，建议kscan或者其他工具（goby也行扫扫端口还是可以的）扫描提出web资产然后afrog和nuclei扫nday**
+**本项目停更！！用afrog和nuclei多好，非要用goby，poc又少又烦，吃相难看，建议kscan或者其他工具（goby也行扫扫端口还是可以的）扫描提出web资产然后afrog和nuclei扫nday**
 
 **脚本小子就要有脚本小子的觉悟（afrog、nuclei真香）。**
