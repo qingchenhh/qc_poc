@@ -3,7 +3,7 @@ import sys,re,os
 if len(sys.argv)>=2:
     file = sys.argv[1]
 else:
-    print("请输入文件，python cfmd.py 文件名")
+    print("请输入文件，用法：python 拆分脚本.py 2023年Nday整理.md")
     exit()
 
 # poc_dir = file.replace('.md','')
